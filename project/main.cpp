@@ -3,26 +3,18 @@
 #include "Comando/Comando.h"
 
 int main() {
-    //Jardim jardim(26, 26);
     string cmd;
-    Comando comando;
 
-    //printf("%s\n", comando.executaComando(comando));
 
     cout << "-------------------------------------" << endl;
-    cout << "$~";
+    cout << "$~ ";
     cin >> cmd;
-    cout << "-------------------------------------" << endl;
 
-    /*switch (cmd) {
-        case "executa":
-            comando.executaComando();
-        case "sair": {
+    if ( cmd == "executa" ) {
+        Jardim jardim(10, 10);
 
-        }
-        default:
-            return 0;
-    }*/
+        jardim.imprimir();
+    }
 
     return 0;
 }

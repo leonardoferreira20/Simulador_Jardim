@@ -4,8 +4,9 @@ project(project)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(
-        project main.cpp
-
+        project
+        # MAIN
+        main.cpp
         #SOLO
         Solo/Solo.cpp
         Solo/Solo.h
@@ -15,6 +16,9 @@ add_executable(
         #Jardineiro
         Jardineiro/Jardineiro.cpp
         Jardineiro/Jardineiro.h
+        #Comando
+        Comando/Comando.cpp
+        Comando/Comando.h
         #Settings
         Settings.h
 )

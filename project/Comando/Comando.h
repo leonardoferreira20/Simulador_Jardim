@@ -11,12 +11,11 @@ using namespace std;
 
 class Comando {
     public:
-      Comando();
+        Comando(const string& comando);
 
-      Comando(const string& comando);
-      void executaComando(const string& comando);
+        void executaComando(const string& comando);
 
-      private:
+    private:
         string comando;
 };
 
