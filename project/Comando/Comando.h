@@ -6,17 +6,16 @@
 #define COMANDO_H
 
 #include <string>
+#include "../Jardim/Jardim.h"
 
 using namespace std;
 
 class Comando {
     public:
-        Comando(const string& comando);
-
-        void executaComando(const string& comando);
-
-    private:
-        string comando;
+        static void comandoJardim(Jardim*& jardim, istringstream& iss);
+        static void comandoAvanca(Jardim* jardim, istringstream& iss);
+        static void comandoAjuda();
+        static void comandoFim(bool& ativo);
 };
 
 #endif //COMANDO_H

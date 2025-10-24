@@ -10,18 +10,17 @@ using namespace std;
 Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {}
 
 void Jardim::imprimir() const {
-    std::cout << "   ";
-    for (int c = 0; c < nColunas; c++)
-        std::cout << char('A' + c) << " ";
-    std::cout << std::endl;
-
-    for (int l = 0; l < nLinhas; l++) {
-        std::cout << char('A' + l) << "  ";
-        for (int c = 0; c < nColunas; c++) {
-            //std::cout << grid[l][c].imprimir() << " ";
-        }
-        std::cout << std::endl;
+    cout << endl << "  ";
+    for( int c = 0; c < nColunas; c++ ) {
+        cout << char('A' + c) << " ";
     }
+    cout << endl;
+
+    for ( int l = 0; l < nLinhas; l++ ){
+        cout << char('A' + l) << "  ";
+        cout << endl;
+    }
+    cout << endl;
 }
 
 

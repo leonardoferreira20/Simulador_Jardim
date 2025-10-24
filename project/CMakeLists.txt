@@ -7,18 +7,21 @@ add_executable(
         project
         # MAIN
         main.cpp
-        #SOLO
+        # INTERFACE
+        Interface/Interface.cpp
+        Interface/Interface.h
+        # SOLO
         Solo/Solo.cpp
         Solo/Solo.h
-        #Jardim
+        # JARDIM
         Jardim/Jardim.cpp
         Jardim/Jardim.h
-        #Jardineiro
+        # JARDINEIRO
         Jardineiro/Jardineiro.cpp
         Jardineiro/Jardineiro.h
-        #Comando
+        # COMANDO
         Comando/Comando.cpp
         Comando/Comando.h
-        #Settings
+        # SETTINGS
         Settings.h
 )

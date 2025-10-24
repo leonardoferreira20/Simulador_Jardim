@@ -1,20 +1,11 @@
 #include <iostream>
-#include "Jardim/Jardim.h"
-#include "Comando/Comando.h"
+#include "Interface/Interface.h"
 
 int main() {
-    string cmd;
+    Interface interface;
 
-
-    cout << "-------------------------------------" << endl;
-    cout << "$~ ";
-    cin >> cmd;
-
-    if ( cmd == "executa" ) {
-        Jardim jardim(10, 10);
-
-        jardim.imprimir();
-    }
+    /// UTILIZADO PARA EXECUTAR O PROGRAMA
+    interface.executar();
 
     return 0;
 }

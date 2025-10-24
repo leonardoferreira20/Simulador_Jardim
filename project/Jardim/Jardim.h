@@ -5,8 +5,7 @@
 #ifndef JARDIM_H
 #define JARDIM_H
 
-#include <string>
-#include "../Solo/Solo.h"
+#include <iostream>
 
 using namespace std;
 
