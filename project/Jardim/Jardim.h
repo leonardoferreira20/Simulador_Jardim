@@ -26,7 +26,6 @@ class Jardim {
         //~Jardim();
 
         void imprimir () const;
-        void executaComando(const string& comando);
         void avanca(int n);
         //Solo* getSolo(int linha, int coluna);
     private:

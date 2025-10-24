@@ -35,9 +35,26 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
 
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"
-         << "  jardim <linhas> <colunas>   - cria um novo jardim\n"
-         << "  avanca [n]                  - avança o tempo\n"
-         << "  fim                         - termina o programa\n";
+         << " Criação jardim:\n"
+         << "   > jardim <linhas> <colunas>         - Cria um novo jardim\n"
+         << " Gestão do Tempo:\n"
+         << "   > avanca [n]                        - Avança o tempo\n"
+         << " Listagens:\n"
+         << "   > lplantas                          - Lista todas as plantas existentes no jardim\n"
+         << "   > lplanta <linha> <coluna>          - Mostra informações detalhadas sobre a planta na posição indicada\n"
+         << "   > larea                             - Mostra todas as posições ocupadas (plantas e ferramentas) no jardim\n"
+         << "   > larea                             - Mostra todas as posições ocupadas (plantas e ferramentas) no jardim\n"
+         << "   > lsolo <linha> <coluna> [n]        - Mostra a informação do solo na posição indicada (e nas posições vizinhas, se n for fornecido)\n"
+         << "   > lferr <linha> <coluna> [n]        - Lista todas as ferramentas disponíveis (no solo e no inventário do jardineiro)\n"
+         << " Ações de jardinagem:\n"
+         << "   > planta <linha> <ccoluna> <tipo>   - Planta uma nova planta do tipo indicado na posição especificada (c, r, e, x)\n"
+         << "   > colhe <linha> <coluna>            - Colhe (remove) a planta na posição indicada\n"
+         << " Movimento e posição do jardineiro:\n"
+         << "   > entra <linha> <coluna>            - Coloca o jardineiro dentro do jardim na posição indicada\n"
+         << "   > sai                               - Faz o jardineiro sair do jardim\n"
+         << "   > e, d, c, b                        - Movem o jardineiro uma célula: esquerda, direita, cima, baixo (respetivamente)\n"
+         << " Terminar:\n"
+         << "   fim                                 - Termina o programa\n";
 };
 
 void Comando::comandoFim(bool& ativo){

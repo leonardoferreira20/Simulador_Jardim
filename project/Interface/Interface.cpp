@@ -17,7 +17,7 @@ Interface::~Interface(){
 
 void Interface::executar(){
     string linha;
-    cout << "\nBem-vindo ao simulador de jardim!" << endl << "Escreva 'fim' para sair.\n";
+    cout << "\nBem-vindo ao simulador de jardim!. Escreva 'ajuda' para saber os comandos disponíveis." << endl << "Escreva 'fim' para sair.\n";
 
     while ( ativo ){
         cout << "> ";
