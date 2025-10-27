@@ -36,8 +36,13 @@ void Roseira::agir(Solo& solo) {
 void Roseira::morrer(Solo& solo) {
     viva = false;
     cout << "Uma roseira murchou.\n";
+    solo.removerPlanta();
 }
 
 char Roseira::getSimbolo() const {
     return 'R';
+}
+
+string Roseira::getNome() const{
+    return "Roseira";
 }

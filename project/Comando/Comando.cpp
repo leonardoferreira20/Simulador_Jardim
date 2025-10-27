@@ -35,6 +35,41 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
     jardim->imprimir();
 };
 
+void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
+    int lin, col;
+    char tipo;
+
+    if ( jardim == nullptr ){
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    if (iss >> lin >> col >> tipo) {
+        jardim->planta(lin-1, col-1, tipo);
+    } else {
+        cout << "Uso: planta <linha> <coluna> <tipo>\n";
+    }
+
+    jardim->imprimir();
+};
+
+void Comando::comandoColher(Jardim* jardim, istringstream& iss){
+    int lin, col;
+
+    if ( jardim == nullptr ){
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    if (iss >> lin >> col ) {
+        jardim->colhe(lin, col);
+    } else {
+        cout << "Uso: colhe <linha> <coluna>\n";
+    }
+
+    jardim->imprimir();
+};
+
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"
          << " Criação jardim:\n"
@@ -61,13 +96,4 @@ void Comando::comandoAjuda(){
 void Comando::comandoFim(bool& ativo){
     ativo = false;
     cout << "A terminar o simulador...\n";
-};
-
-void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
-    int lin, col;
-
-    if ( iss >> lin >> col ) {
-        jardim->getSolo(lin,col)->criarPlanta();
-    }
-
 };

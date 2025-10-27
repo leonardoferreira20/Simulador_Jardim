@@ -28,6 +28,13 @@ void Solo::criarPlanta(Planta* p){
     planta = p;
 }
 
+void Solo::removerPlanta() {
+    if ( planta != nullptr ) {
+        delete planta;
+        planta = nullptr;
+    };
+}
+
 Planta* Solo::obterPlanta() const{
     return planta;
 }

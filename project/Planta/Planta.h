@@ -11,6 +11,7 @@
 
 using namespace std;
 
+class Solo;
 /**
  * @class Planta
  * @brief Classe base abstrata que representa uma planta genérica no jardim.
@@ -31,9 +32,10 @@ public:
     virtual ~Planta() = default;
 
     // Métodos abstratos (a serem implementados pelas subclasses)
-    virtual void agir(Solo& solo) = 0;         ///< Comportamento da planta a cada ciclo
-    virtual void morrer(Solo& solo) = 0;       ///< Define o que acontece quando a planta morre
-    virtual char getSimbolo() const = 0;       ///< Retorna o símbolo usado na grelha
+    virtual void agir(Solo& solo) = 0;
+    virtual void morrer(Solo& solo) = 0;
+    virtual char getSimbolo() const = 0;
+    virtual string getNome() const = 0;
 
     // Métodos comuns a todas as plantas
     bool estaViva() const;

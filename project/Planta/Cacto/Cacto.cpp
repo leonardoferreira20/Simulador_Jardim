@@ -31,8 +31,14 @@ void Cacto::agir(Solo& solo){
 void Cacto::morrer(Solo& solo){
     viva = false;
     cout << "Morreu um cacto.\n";
+
+    solo.removerPlanta();
 }
 
 char Cacto::getSimbolo() const{
     return 'C';
+}
+
+string Cacto::getNome() const{
+    return "Cacto";
 }

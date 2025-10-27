@@ -32,6 +32,8 @@ class Jardim {
 
         void imprimir () const;
         void avanca(int n);
+        bool planta(int linha, int coluna, char tipo);
+        bool colhe(int linha, int coluna);
         Solo* getSolo(int linha, int coluna);
 };
 

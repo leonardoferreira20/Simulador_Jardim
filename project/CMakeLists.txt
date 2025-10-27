@@ -9,19 +9,20 @@ add_executable(
         main.cpp
         # INTERFACE
         Interface/Interface.cpp
-        Interface/Interface.h
         # SOLO
         Solo/Solo.cpp
-        Solo/Solo.h
         # JARDIM
         Jardim/Jardim.cpp
-        Jardim/Jardim.h
         # JARDINEIRO
         Jardineiro/Jardineiro.cpp
-        Jardineiro/Jardineiro.h
         # COMANDO
         Comando/Comando.cpp
-        Comando/Comando.h
+        # PLANTA
+        Planta/Planta.cpp
+        # PLANTA - CACTO
+        Planta/Cacto/Cacto.cpp
+        # PLANTA - ROSEIRA
+        Planta/Roseira/Roseira.cpp
         # SETTINGS
         Settings.h
 )

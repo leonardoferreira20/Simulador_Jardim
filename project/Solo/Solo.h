@@ -5,10 +5,12 @@
 #ifndef SOLO_H
 #define SOLO_H
 
-#include <string>
+#include <iostream>
 #include "../Planta/Planta.h"
 
 using namespace std;
+
+class Planta;
 
 class Solo {
     int agua;
@@ -24,6 +26,7 @@ public:
     void retiraNutrientes (int q);
     Planta* obterPlanta() const;
     void criarPlanta(Planta* p);
+    void removerPlanta();
     
     //Ferramenta* getFerramenta() const;
 };
