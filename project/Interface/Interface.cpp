@@ -45,6 +45,12 @@ void Interface::processarComando(const string& linha){
     else if ( cmd == "planta" ) {
         Comando::comandoPlantar(jardim, iss);
     }
+    else if ( cmd == "colhe" ) {
+        Comando::comandoColher(jardim, iss);
+    }
+    else if ( cmd == "lplantas" ) {
+        Comando::comandoListarPlantas(jardim);
+    }
     else if ( cmd == "ajuda" ){
         Comando::comandoAjuda();
     }
@@ -53,5 +59,8 @@ void Interface::processarComando(const string& linha){
     }
     else if ( cmd == "" ){
         return;
+    }
+    else {
+        cout << "O comando inserido não existe!\n" << endl;
     }
 }

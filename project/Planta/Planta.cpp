@@ -17,3 +17,11 @@ void Planta::adicionarAgua(int quant) {
 void Planta::adicionarNutrientes(int quant) {
     nutrientes += quant;
 }
+
+int Planta::obterAgua() {
+    return agua;
+}
+
+int Planta::obterNutrientes() {
+    return nutrientes;
+}

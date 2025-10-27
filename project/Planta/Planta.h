@@ -40,6 +40,8 @@ public:
     // Métodos comuns a todas as plantas
     bool estaViva() const;
     void adicionarAgua(int quant);
+    int obterAgua();
+    int obterNutrientes();
     void adicionarNutrientes(int quant);
 };
 

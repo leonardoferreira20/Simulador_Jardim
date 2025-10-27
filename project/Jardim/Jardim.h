@@ -34,6 +34,7 @@ class Jardim {
         void avanca(int n);
         bool planta(int linha, int coluna, char tipo);
         bool colhe(int linha, int coluna);
+        void listarPlantas();
         Solo* getSolo(int linha, int coluna);
 };
 

@@ -62,13 +62,23 @@ void Comando::comandoColher(Jardim* jardim, istringstream& iss){
     }
 
     if (iss >> lin >> col ) {
-        jardim->colhe(lin, col);
+        jardim->colhe(lin-1, col-1);
     } else {
         cout << "Uso: colhe <linha> <coluna>\n";
     }
 
     jardim->imprimir();
 };
+
+void Comando::comandoListarPlantas(Jardim* jardim) {
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    jardim->listarPlantas();
+    jardim->imprimir();
+}
 
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"

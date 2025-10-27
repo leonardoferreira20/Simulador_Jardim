@@ -17,7 +17,7 @@ class Comando {
         static void comandoJardim(Jardim*& jardim, istringstream& iss);
         static void comandoAvanca(Jardim* jardim, istringstream& iss);
 
-        static void comandoListaPlantas();
+        static void comandoListarPlantas(Jardim* jardim);
         static void comandoListaPlanta();
         static void comandoListarPosicoesOcupadas();
         static void comandoListarInfoSolo();

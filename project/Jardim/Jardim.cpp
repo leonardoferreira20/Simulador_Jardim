@@ -89,19 +89,49 @@ bool Jardim::planta(int linha, int coluna, char tipo) {
 }
 
 bool Jardim::colhe(int linha, int coluna){
+    // Verifica se o jardim foi criado
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
-        cout << "Coordenadas fora do jardim!\n";
+        cout << "Posição inválida (" << linha << ", " << coluna << ").\n";
         return false;
     }
 
     Solo* solo = &grid[linha][coluna];
 
-    if ( solo->obterPlanta() != nullptr ) {
-        Planta* planta = solo->obterPlanta();
-
+    // Verifica se a célula já tem planta
+    if (solo->obterPlanta() != nullptr) {
+        cout << "A planta " << solo->obterPlanta()->getNome() << " foi colhida da posição (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
         solo->removerPlanta();
-        cout << "A planta " << planta->getNome() << " foi colhida na posição (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
+
+void Jardim::listarPlantas() {
+    bool encontrou = false;
+
+    cout << "--------------------------- Lista de plantas no jardim --------------------------- \n";
+    cout << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
+
+    for (int l = 0; l < nLinhas; l++) {
+        for (int c = 0; c < nColunas; c++) {
+            Planta* planta = grid[l][c].obterPlanta();
+            if (planta != nullptr) {
+                encontrou = true;
+                cout << "\t\t| "
+                     << "\t" << planta->getNome()
+                     << "\t| "
+                     << "\t (" << char('a' + l) << ", " << char('a' + c) << ")"
+                     << "\t\t| "
+                     << "\t " << planta->obterAgua()
+                     << "\t\t| "
+                     << "\t\t " << planta->obterNutrientes()
+                     << "\t\t\t|\n";
+            }
+        }
+    }
+    cout << "---------------------------------------------------------------------------------- \n";
+
+    if ( !encontrou ) {
+        cout << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
+    }
+};
