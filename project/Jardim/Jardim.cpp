@@ -135,3 +135,29 @@ void Jardim::listarPlantas() {
         cout << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
     }
 };
+
+void Jardim::listarPlanta(int linha, int coluna) {
+    bool encontrou = false;
+
+    cout << "--------------------------- Lista de plantas no jardim --------------------------- \n";
+    cout << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
+
+    Planta* planta = grid[linha][coluna].obterPlanta();
+    if (planta != nullptr) {
+        encontrou = true;
+        cout << "\t\t| "
+             << "\t" << planta->getNome()
+             << "\t| "
+             << "\t (" << char('a' + linha) << ", " << char('a' + coluna) << ")"
+             << "\t\t| "
+             << "\t " << planta->obterAgua()
+             << "\t\t| "
+             << "\t\t " << planta->obterNutrientes()
+             << "\t\t\t|\n";
+    }
+    cout << "---------------------------------------------------------------------------------- \n";
+
+    if ( !encontrou ) {
+        cout << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
+    }
+};

@@ -80,6 +80,25 @@ void Comando::comandoListarPlantas(Jardim* jardim) {
     jardim->imprimir();
 }
 
+void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
+    int lin, col;
+
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    if ( iss >> lin >> col ){
+        jardim->listarPlanta(lin-1, col-1);
+        jardim->imprimir();
+    }
+    else {
+        cout << "Utilização: \n"
+             << "\t> lplantas                 - Lista todas as plantas existentes no jardim\n"
+             << "\t> lplanta <linha> <coluna> - Mostra informações detalhadas sobre a planta na posição indicada\n";
+    }
+}
+
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"
          << " Criação jardim:\n"
