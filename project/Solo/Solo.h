@@ -6,19 +6,26 @@
 #define SOLO_H
 
 #include <string>
+#include "../Planta/Planta.h"
 
 using namespace std;
 
 class Solo {
-    public:
-        string imprimirSolo ();
+    int agua;
+    int nutrientes;
+    Planta* planta;
+    //Ferramenta* ferramenta;
 
-        void adicionaAgua ();
+public:
+    Solo();
 
-        void retiraAgua ();
-    private:
-        int agua;
-        int nutrientes;
+    void imprimir () const;
+    void adicionaAgua (int q);
+    void retiraNutrientes (int q);
+    Planta* obterPlanta() const;
+    void criarPlanta(Planta* p);
+    
+    //Ferramenta* getFerramenta() const;
 };
 
 

@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+#include "../Solo/Solo.h"
+#include "../Jardineiro/Jardineiro.h"
+
 using namespace std;
 
 /**
@@ -18,21 +21,19 @@ using namespace std;
  * do jardim. Também processa os comandos e controla o avanço temporal da simulação.
  */
 class Jardim {
-    public:
-        // Constructor
-        Jardim(int lin, int col);
+    int nLinhas;
+    int nColunas;
+    Solo** grid;
+    Jardineiro jardineiro;
 
-        // Destrutor
-        //~Jardim();
+    public:
+        Jardim(int lin, int col);
+        ~Jardim();
 
         void imprimir () const;
         void avanca(int n);
-        //Solo* getSolo(int linha, int coluna);
-    private:
-        int nLinhas;
-        int nColunas;
+        Solo* getSolo(int linha, int coluna);
 };
-
 
 
 #endif //JARDIM_H

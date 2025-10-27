@@ -39,7 +39,7 @@ void Interface::processarComando(const string& linha){
         Comando::comandoJardim(jardim, iss);
     }
     else if ( cmd == "avanca" ){
-        //Comando::comandoAvanca(jardim, iss);
+        Comando::comandoAvanca(jardim, iss);
         cout << endl;
     }
     else if ( cmd == "ajuda" ){
