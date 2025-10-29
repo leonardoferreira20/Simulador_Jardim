@@ -1,6 +1,5 @@
-/project/cmake-build-debug
-cmake-build-*/
-CMakeFiles/
+/cmake-build-*/
+/CMakeFiles/
 CMakeCache.txt
 Makefile
 *.cmake
