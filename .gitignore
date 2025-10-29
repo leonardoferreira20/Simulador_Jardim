@@ -1,5 +1,8 @@
 /project/cmake-build-debug
-/project/cmake-build-debug
-*.log
-/project/cmake-build-debug
-/project/cmake-build-debug
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+Makefile
+*.cmake
+*.cbp
+
