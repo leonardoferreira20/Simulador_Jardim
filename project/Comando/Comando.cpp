@@ -38,6 +38,7 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
     iss >> n;
     jardim->avanca(n);
     jardim->imprimir();
+    cout << "Isto é para o Joao remover" << endl;
 };
 
 void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
