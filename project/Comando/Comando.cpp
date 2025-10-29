@@ -12,7 +12,12 @@ using namespace std;
 void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
     int lin, col;
 
-    if ( iss >> lin >> col ){
+    if ( jardim != nullptr ) {
+        cout << "Já se encontra um jardim criado!\n";
+        return;
+    }
+
+    if ( iss >> lin >> col && (lin < 27 && col < 27) && (lin > 0 && col > 0) ) {
         delete jardim;
         jardim = new Jardim(lin, col);
         cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
@@ -98,6 +103,26 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
              << "\t> lplanta <linha> <coluna> - Mostra informações detalhadas sobre a planta na posição indicada\n";
     }
 }
+
+/*void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss) {
+    int lin, col;
+
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    if ( iss >> lin >> col ){
+        jardim->getSolo(lin-1, col-1);
+        //solo->imprimir();
+
+        //jardim->imprimir();
+    }
+    else {
+        cout << "Utilização: \n"
+             << "\t> lsolo <linha> <coluna> [n]     - Lista toda a informação do solo na posição introduzida, caso [n] seja fornecido, indica também nas posições vizinhas\n";
+    }
+}*/
 
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"

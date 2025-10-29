@@ -54,6 +54,9 @@ void Interface::processarComando(const string& linha){
     else if ( cmd == "lplanta" ) {
         Comando::comandoListarPlanta(jardim, iss);
     }
+    /*else if ( cmd == "lsolo" ) {
+        Comando::comandoListarInfoSolo(jardim, iss);
+    }*/
     else if ( cmd == "ajuda" ){
         Comando::comandoAjuda();
     }
