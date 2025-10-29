@@ -1,2 +1,5 @@
 /project/cmake-build-debug
 /project/cmake-build-debug
+*.log
+/project/cmake-build-debug
+/project/cmake-build-debug
