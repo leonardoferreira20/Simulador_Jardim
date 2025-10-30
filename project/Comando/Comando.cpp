@@ -155,6 +155,7 @@ void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
 
     if (jardim == nullptr) {
         cout << "Nao existe jardim para gravar!\n";
+        return;
     }
     if (iss >> nome){
         if (!iss.eof()) {
