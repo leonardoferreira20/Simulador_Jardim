@@ -6,18 +6,22 @@
 #include <sstream>
 #include "../Solo/Solo.h"
 #include "Comando.h"
+#include <filesystem>
 
 using namespace std;
 
 void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
     int lin, col;
 
-    if ( jardim != nullptr ) {
-        cout << "Já se encontra um jardim criado!\n";
-        return;
-    }
-
     if ( iss >> lin >> col && (lin < 27 && col < 27) && (lin > 0 && col > 0) ) {
+        if (!iss.eof()) {
+            cout << "Uso: jardim <linhas> <colunas>\n";
+            return;
+        }
+        if ( jardim != nullptr ) {
+            cout << "Já se encontra um jardim criado!\n";
+            return;
+        }
         delete jardim;
         jardim = new Jardim(lin, col);
         cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
@@ -123,6 +127,83 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
              << "\t> lsolo <linha> <coluna> [n]     - Lista toda a informação do solo na posição introduzida, caso [n] seja fornecido, indica também nas posições vizinhas\n";
     }
 }*/
+
+bool Comando::comandoProcuraFicheiro(string nome){
+    if ((nome.find('.') != string::npos) || (nome.find('/')!= string::npos)) {
+        return false;
+    }
+    std::filesystem::path ficheiro = "Save/" + nome + ".txt";
+    if (exists(ficheiro)) {
+        return true;
+    }
+    return false;
+}
+
+void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
+    string resposta,nome;
+
+    if (jardim == nullptr) {
+        cout << "Nao existe jardim para gravar!\n";
+    }
+    if (iss >> nome){
+        if (!iss.eof()) {
+            cout << "Uso: gravar <nome>\n";
+            return;
+        }
+        if (comandoProcuraFicheiro(nome)) {
+            std::filesystem::path ficheiro = "Save/" + nome + ".txt";
+            cout << "Ficheiro existe! Quer gravar novamente?(s/n)\n";
+            cin >> resposta;
+            if (resposta == "s") {
+                cout << "Comando por implementar dentro de gravar novamente\n";
+            }else if (resposta == "n") {
+                cout << "Nao foi gravado o ficheiro!\n";
+                return;
+            }
+            else {
+                cout << "Comando errado!\n";
+                return;
+            }
+        }else {
+            cout << "Comando por implementar na gravacao nova!\n";
+        }
+    }else cout << "Uso: grava <nome>\n";
+}
+
+void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
+    string nome;
+
+    if (iss >> nome){
+        if (!iss.eof()) {
+            cout << "Uso: recupera <nome>\n";
+            return;
+        }
+        if (comandoProcuraFicheiro(nome)){
+            cout << "Gravacao existente com esse nome! Por implementar comando!" << endl;
+        }else {
+            cout << "Gravação com este nome não existe!\n Nome: " << nome << endl;
+        }
+    }else cout << "Uso: recupera <nome>\n";
+}
+
+void Comando::comandoApaga(Jardim* jardim, istringstream& iss){
+    string nome;
+
+    if (iss >> nome){
+        if (!iss.eof()) {
+            cout << "Uso: apaga <nome>\n";
+            return;
+        }
+        if (comandoProcuraFicheiro(nome)) {
+            cout << "Comando por implementar!\n";
+            cout << "Gravacao com nome: " << nome << " apagada com sucesso!\n" << endl;
+        }else {
+            cout << "Comando por implementar!\n";
+            cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
+        }
+    }else cout << "Uso: apaga <nome>\n";
+    cout << "Funcao por implementar. POO" << endl;
+}
 
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"

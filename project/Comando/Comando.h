@@ -12,6 +12,7 @@ using namespace std;
 
 class Comando {
     public:
+
         static void comandoAjuda();
 
         static void comandoJardim(Jardim*& jardim, istringstream& iss);
@@ -30,7 +31,10 @@ class Comando {
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
-        static void comandoGrava(Jardim* &jardim, istringstream& iss);
+        static bool comandoProcuraFicheiro(string nome);
+        static void comandoGrava(Jardim* jardim, istringstream& iss);
+        static void comandoRecupera(Jardim* jardim, istringstream& iss);
+        static void comandoApaga(Jardim* jardim, istringstream& iss);
         static void comandoFim(bool& ativo);
 };
 

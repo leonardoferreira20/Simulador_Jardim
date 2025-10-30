@@ -63,6 +63,12 @@ void Interface::processarComando(const string& linha){
     else if ( cmd == "grava" ){
         Comando::comandoGrava(jardim, iss);
     }
+    else if ( cmd == "recupera" ){
+        Comando::comandoRecupera(jardim, iss);
+    }
+    else if ( cmd == "apaga" ){
+        Comando::comandoApaga(jardim, iss);
+    }
     else if ( cmd == "fim" ){
         Comando::comandoFim(ativo);
     }
