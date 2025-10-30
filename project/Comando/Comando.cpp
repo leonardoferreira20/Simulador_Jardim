@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
+void Comando::comandoJardim(Jardim*& jardim, istringstream& iss, testeLeonardo){
     int lin, col;
 
     if ( jardim != nullptr ) {
