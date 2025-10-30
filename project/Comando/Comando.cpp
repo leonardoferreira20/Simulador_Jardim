@@ -9,7 +9,7 @@
 
 using namespace std;
 
-void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
+void Comando::comandoJardim(Jardim*& jardim, istringstream& iss, testeJoao){
     int lin, col;
 
     if ( jardim != nullptr ) {
@@ -123,6 +123,15 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
              << "\t> lsolo <linha> <coluna> [n]     - Lista toda a informação do solo na posição introduzida, caso [n] seja fornecido, indica também nas posições vizinhas\n";
     }
 }*/
+
+void comandoGrava(Jardim* &jardim, istringstream& iss){
+    std::string nome;
+
+    if (iss >> nome){
+
+    }else cout << "Introduza apenas <nome> para gravar!\n";
+}
+
 
 void Comando::comandoAjuda(){
     cout << "Comandos disponíveis:\n"

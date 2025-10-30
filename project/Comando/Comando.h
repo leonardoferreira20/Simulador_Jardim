@@ -30,6 +30,7 @@ class Comando {
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
+        static void comandoGrava(Jardim* &jardim, istringstream& iss);
         static void comandoFim(bool& ativo);
 };
 
