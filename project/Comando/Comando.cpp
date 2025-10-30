@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include "../Solo/Solo.h"
 #include "Comando.h"
 #include <filesystem>
@@ -128,6 +129,16 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
     }
 }*/
 
+bool Comando::criaFicheiro( string nome) {
+    std::filesystem::path ficheiro = "Save/" + nome + ".txt";
+    ofstream out(ficheiro);
+    if (!out) {
+        cout << "Erro ao criar o ficheiro: " << ficheiro << "\n";
+        return false;
+    }
+    return true;
+}
+
 bool Comando::comandoProcuraFicheiro(string nome){
     if ((nome.find('.') != string::npos) || (nome.find('/')!= string::npos)) {
         return false;
@@ -165,6 +176,7 @@ void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
                 return;
             }
         }else {
+            if (!criaFicheiro( nome)) cout << "Erro na criacao de ficheiro!\n";
             cout << "Comando por implementar na gravacao nova!\n";
         }
     }else cout << "Uso: grava <nome>\n";
