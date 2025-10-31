@@ -164,6 +164,11 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
     }
 }*/
 
+void Comando::comandoListarFerramenta() {
+    cout << "Funcionalidade por implementar!\n";
+    cout << "Procura ferramentas!\n";
+}
+
 void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
     int lin, col;
 
@@ -232,14 +237,10 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
     cout << "Jardineiro moveu-se para (" << char('A' + lin) << "," << char('A'+ col) << ")\n";
 }
 
-void Comando::comandoCompra(Jardim* jardim,Jardineiro* jardineiro,istringstream& iss) {
+void Comando::comandoCompra(Jardim* jardim,istringstream& iss) {
     string nome;
     if (jardim==nullptr) {
         cout << "Não existe jardim.\n";
-        return;
-    }
-    if (jardineiro==nullptr) {
-        cout << "Jardineiro nao existe.\n";
         return;
     }
     if (!(iss >> nome)) {

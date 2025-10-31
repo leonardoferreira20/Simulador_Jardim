@@ -5,6 +5,8 @@
 #include "Jardim.h"
 #include "../Planta/Cacto/Cacto.h"
 #include "../Planta/Roseira/Roseira.h"
+#include "../Planta/ErvaDaninha/ErvaDaninha.h"
+#include "../Planta/Exotica/Exotica.h"
 #include <iostream>
 
 using namespace std;
@@ -77,8 +79,8 @@ bool Jardim::planta(int linha, int coluna, char tipo) {
     switch (tipo) {
         case 'c': novaPlanta = new Cacto(); break;
         case 'r': novaPlanta = new Roseira(); break;
-        //case 'e': nova = new ErvaDaninha(); break;
-        //case 'x': nova = new Exotica(); break;
+        case 'e': novaPlanta = new ErvaDaninha(); break;
+        case 'x': novaPlanta = new Exotica(); break;
         default:
             cout << "Tipo de planta desconhecido.\n";
         return false;

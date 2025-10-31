@@ -8,13 +8,12 @@
 #include "../Planta.h"
 
 class Roseira: public Planta {
-
-public:
-    Roseira();
-    void agir(Solo& solo) override;
-    void morrer(Solo& solo) override;
-    char getSimbolo() const override;
-    string getNome() const override;
+    public:
+        Roseira();
+        void agir(Solo& solo) override;
+        void morrer(Solo& solo) override;
+        char getSimbolo() const override;
+        string getNome() const override;
 };
 
 

@@ -32,7 +32,7 @@ class Comando {
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
-        static void comandoCompra(Jardim* jardim,Jardineiro* jardineiro,istringstream& iss);
+        static void comandoCompra(Jardim* jardim,istringstream& iss);
 
         static bool validaNomeficheiro(string nome);
         static bool procuraFicheiro(string nome,string pasta);

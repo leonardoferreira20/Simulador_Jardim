@@ -67,6 +67,23 @@ class Settings {
             static const int nova_nutrientes = 5;
             static const int original_nutrientes = 5;
         };
+    class Exotica {
+    public:
+        static const int inicial_agua = 25;
+        static const int inicial_nutrientes = 25;
+        static const int perda_agua = 4;
+        static const int perda_nutrientes = 4;
+        static const int absorcao_agua = 5;
+        static const int absorcao_nutrientes = 8;
+        static const int morre_agua_menor = 1;
+        static const int morre_nutrientes_menor = 1;
+        static const int morre_nutrientes_maior = 199;
+        static const int multiplica_nutrientes_maior = 100;
+        static const int nova_nutrientes = 25;
+        static const int nova_agua_percentagem = 50;
+        static const int original_nutrientes = 100;
+        static const int original_agua_percentagem = 50;
+    };
 };
 
 #endif //SETTINGS_SETTINGS_H

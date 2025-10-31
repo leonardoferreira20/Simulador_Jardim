@@ -33,4 +33,8 @@ add_executable(
         Ferramenta/FerramentaZ/FerramentaZ.h
         Ferramenta/Adubo/Adubo.cpp
         Ferramenta/Adubo/Adubo.h
+        Planta/ErvaDaninha/ErvaDaninha.cpp
+        Planta/ErvaDaninha/ErvaDaninha.h
+        Planta/Exotica/Exotica.cpp
+        Planta/Exotica/Exotica.h
 )
