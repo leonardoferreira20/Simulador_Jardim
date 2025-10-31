@@ -39,3 +39,7 @@ void Jardineiro::setPosicao(int l, int c) {
     linha = l;
     coluna = c;
 }
+
+    Ferramenta* Jardineiro::obterFerramentaNaMao() const {
+    return naMao;
+};

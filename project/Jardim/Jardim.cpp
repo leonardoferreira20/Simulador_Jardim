@@ -24,6 +24,13 @@ Jardim::~Jardim() {
     delete[] grid;
 }
 
+int Jardim::getNumLinhas () const{
+    return nLinhas;
+};
+int Jardim::getNumColunas () const{
+    return nColunas;
+};
+
 void Jardim::imprimir() const {
     cout << endl << "   ";
     for( int c = 0; c < nColunas; c++ ) {
@@ -167,6 +174,10 @@ void Jardim::listarPlanta(int linha, int coluna) {
 
 bool Jardim::posicaoValida(int linha, int coluna) const {
     return linha >= 0 && linha < nLinhas && coluna >= 0 && coluna < nColunas;
+}
+
+Solo* Jardim::getSolo(int linha, int coluna) {
+    return &grid[linha][coluna];
 }
 
 Jardineiro& Jardim::getJardineiro() const{

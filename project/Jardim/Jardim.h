@@ -30,6 +30,9 @@ class Jardim {
         Jardim(int lin, int col);
         ~Jardim();
 
+        int getNumLinhas () const;
+        int getNumColunas () const;
+
         void imprimir () const;
         void avanca(int n);
         bool planta(int linha, int coluna, char tipo);

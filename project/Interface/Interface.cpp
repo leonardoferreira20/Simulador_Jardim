@@ -63,9 +63,12 @@ void Interface::processarComando(const string& linha){
         else if ( cmd == "lplanta" ) {
             Comando::comandoListarPlanta(jardim, iss);
         }
-        /*else if ( cmd == "lsolo" ) {
+        else if ( cmd == "larea" ) {
+            Comando::comandoListarArea(jardim);
+        }
+        else if ( cmd == "lsolo" ) {
             Comando::comandoListarInfoSolo(jardim, iss);
-        }*/
+        }
         else if ( cmd == "lferr" ) {
             Comando::comandoListarFerramenta();
         }
@@ -78,11 +81,15 @@ void Interface::processarComando(const string& linha){
         else if (cmd == "e" || cmd == "d" || cmd == "c" || cmd == "b") {
             Comando::comandoMoverJardim(jardim, cmd[0]);
         }
-        /*
-        else if ( cmd == "compra" ){
-            Comando::comandoCompra(jardim, jardineiro, iss);
+        else if ( cmd == "larga" ) {
+            Comando::comandoLargaFerramenta(jardim);
         }
-        */
+        else if ( cmd == "pega" ) {
+            Comando::comandoPegaFerramenta(jardim, iss);
+        }
+        else if ( cmd == "compra" ){
+            Comando::comandoCompra(jardim, iss);
+        }
         else if ( cmd == "grava" ){
             Comando::comandoGrava(jardim, iss);
         }

@@ -21,8 +21,8 @@ class Comando {
 
         static void comandoListarPlantas(Jardim* jardim);
         static void comandoListarPlanta(Jardim* jardim, istringstream& iss);
-        static void comandoListarPosicoesOcupadas();
-        //static void comandoListarInfoSolo(Jardim* jardim, istringstream& iss);
+        static void comandoListarArea(Jardim* jardim);
+        static void comandoListarInfoSolo(Jardim* jardim, istringstream& iss);
         static void comandoListarFerramenta();
 
         static void comandoEntrarJardim(Jardim* jardim, istringstream& iss);
@@ -32,7 +32,9 @@ class Comando {
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
-        static void comandoCompra(Jardim* jardim,istringstream& iss);
+        static void comandoLargaFerramenta(Jardim* jardim);
+        static void comandoPegaFerramenta(Jardim* jardim, istringstream& iss);
+        static void comandoCompra(Jardim* jardim, istringstream& iss);
 
         static bool validaNomeficheiro(string nome);
         static bool procuraFicheiro(string nome,string pasta);

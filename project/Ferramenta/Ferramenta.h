@@ -13,7 +13,7 @@ class Ferramenta {
 
 public:
     int capacidade;
-    int dose;
+    int unidades;
     int nserie;
 
     Ferramenta();

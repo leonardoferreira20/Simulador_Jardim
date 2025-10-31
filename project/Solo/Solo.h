@@ -27,7 +27,11 @@ public:
     Planta* obterPlanta() const;
     void criarPlanta(Planta* p);
     void removerPlanta();
-    
+    void imprimirDetalhado() const;
+
+    bool temPlanta() const;
+    //bool temFerramenta() const { return ferramenta != nullptr; }
+
     //Ferramenta* getFerramenta() const;
 };
 

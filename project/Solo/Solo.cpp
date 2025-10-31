@@ -47,3 +47,25 @@ void Solo::imprimir() const {
     else
         cout << '.';
 }
+
+
+void Solo::imprimirDetalhado() const {
+    cout << "Água: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
+
+    if (planta != nullptr) {
+        cout << planta->getSimbolo();
+
+        if (planta->estaViva())
+            cout << " (viva)";
+        else
+            cout << " (morta)";
+    } else {
+        cout << "Nenhuma";
+    }
+
+    cout << endl;
+}
+
+bool Solo::temPlanta() const {
+    return planta != nullptr;
+}

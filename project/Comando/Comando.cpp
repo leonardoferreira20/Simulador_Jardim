@@ -118,6 +118,7 @@ void Comando::comandoListarPlantas(Jardim* jardim) {
 
     jardim->listarPlantas();
     jardim->imprimir();
+    cout << endl;
 }
 
 void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
@@ -128,23 +129,25 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
         return;
     }
 
-    if ( iss >> lin >> col ) {
-        if ( jardim->posicaoValida(lin-1, col-1) ) {
-            jardim->listarPlanta(lin-1, col-1);
-            jardim->imprimir();
-        }
-        else {
-            cout << "Posição fora dos limites do jardim.\n";
-        }
-    }
-    else {
+    if (!(iss >> lin >> col)) {
         cout << "Utilização: \n"
              << "\t> lplantas                 - Lista todas as plantas existentes no jardim\n"
              << "\t> lplanta <linha> <coluna> - Mostra informações detalhadas sobre a planta na posição indicada\n";
+        return;
     }
+
+    if ( jardim->posicaoValida(lin-1, col-1) ) {
+        jardim->listarPlanta(lin-1, col-1);
+        jardim->imprimir();
+    }
+    else {
+        cout << "Posição fora dos limites do jardim.\n";
+    }
+
+    cout << endl;
 }
 
-/*void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss) {
+void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss) {
     int lin, col;
 
     if (jardim == nullptr) {
@@ -152,17 +155,61 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
         return;
     }
 
-    if ( iss >> lin >> col ){
-        jardim->getSolo(lin-1, col-1);
-        //solo->imprimir();
+    if (!(iss >> lin >> col)) {
+        cout << "Utilização: \n"
+             << "\t> lsolo <linha> <coluna> [n]\n"
+             << "     Lista toda a informação do solo na posição indicada.\n"
+             << "     Caso [n] seja fornecido, mostra também as posições vizinhas num raio de n.\n";
+        return;
+    }
 
-        //jardim->imprimir();
+    if ( jardim->posicaoValida(lin-1, col-1) ) {
+        Solo* solo = jardim->getSolo(lin - 1, col - 1);
+        if (solo != nullptr)
+            solo->imprimirDetalhado();
+        else
+            cout << "Posição inválida.\n";
     }
     else {
-        cout << "Utilização: \n"
-             << "\t> lsolo <linha> <coluna> [n]     - Lista toda a informação do solo na posição introduzida, caso [n] seja fornecido, indica também nas posições vizinhas\n";
+        cout << "testeeeee.\n";
     }
-}*/
+
+    cout << endl;
+    jardim->imprimir();
+}
+
+void Comando::comandoListarArea(Jardim* jardim) {
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    bool encontrou = false;
+
+    cout << "Posições ocupadas no jardim:\n";
+
+    for (int l = 0; l < jardim->getNumLinhas(); ++l) {
+        for (int c = 0; c < jardim->getNumColunas(); ++c) {
+            Solo* solo = jardim->getSolo(l, c);
+            if (solo != nullptr) {
+                if (solo->temPlanta()) {
+                    Planta* p = solo->obterPlanta();
+                    cout << "  (" << l + 1 << "," << c + 1 << ") - Planta: " << p->getSimbolo() << "\n";
+                    encontrou = true;
+                }
+                /*else if (solo->temFerramenta()) {
+                    Ferramenta* f = solo->obterFerramenta();
+                    cout << "  (" << l + 1 << "," << c + 1 << ") - Ferramenta: "
+                         << f->getSimbolo() << "\n";
+                    encontrou = true;
+                }*/
+            }
+        }
+    }
+
+    if (!encontrou)
+        cout << "  Nenhuma célula ocupada.\n";
+}
 
 void Comando::comandoListarFerramenta() {
     cout << "Funcionalidade por implementar!\n";
@@ -177,7 +224,10 @@ void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
         return;
     }
 
-    iss >> lin >> col;
+    if (!(iss >> lin >> col)) {
+        cout << "Utilização: \n" << "\t> entra <linha> <coluna>\n";
+        return;
+    }
 
     if (!jardim->posicaoValida(lin-1, col-1)) {
         cout << "Posição fora dos limites do jardim.\n";
@@ -237,6 +287,57 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
     cout << "Jardineiro moveu-se para (" << char('A' + lin) << "," << char('A'+ col) << ")\n";
 }
 
+void Comando::comandoLargaFerramenta(Jardim* jardim) {
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    Jardineiro& jardineiro = jardim->getJardineiro();
+
+    if ( !jardineiro.estaDentro() ) {
+        cout << "Erro: o jardineiro está fora do jardim.\n";
+        return;
+    }
+
+    if ( jardineiro.obterFerramentaNaMao() == nullptr ) {
+        cout << "Erro: o jardineiro não nenhuma ferramenta na mão.\n";
+        return;
+    }
+
+    cout << "O jardineiro está prestes a largar a ferramenta.\n";
+    cout << "Funcionalidade não está implementada.\n";
+}
+
+void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss) {
+    int nSerie;
+
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    Jardineiro& jardineiro = jardim->getJardineiro();
+
+    if ( !jardineiro.estaDentro() ) {
+        cout << "Erro: o jardineiro está fora do jardim.\n";
+        return;
+    }
+
+    if ( !(iss >> nSerie) ) {
+        cout << "Uso: pega <n>\n";
+        return;
+    }
+
+    if (jardineiro.obterFerramentaNaMao() != nullptr) {
+        cout << "Erro: o jardineiro já tem uma ferramenta na mão.\n";
+        return;
+    }
+
+    cout << "Procura pela ferramenta com número de série " << nSerie << "...\n";
+    cout << "(Validação concluída — funcionalidade ainda não implementada)\n";
+}
+
 void Comando::comandoCompra(Jardim* jardim,istringstream& iss) {
     string nome;
     if (jardim==nullptr) {
@@ -265,7 +366,6 @@ void Comando::comandoCompra(Jardim* jardim,istringstream& iss) {
     }
     else cout << "Apenas disponivel para compra: <g>,<a>,<t>,<z>.\n";
 }
-
 
 bool Comando::criaFicheiro( string nome) {
     filesystem::path ficheiro = "Save/" + nome + ".txt";
@@ -394,15 +494,19 @@ void Comando::comandoAjuda(){
          << "   > entra <linha> <coluna>            - Coloca o jardineiro dentro do jardim na posição indicada\n"
          << "   > sai                               - Faz o jardineiro sair do jardim\n"
          << "   > e, d, c, b                        - Movem o jardineiro uma célula: esquerda, direita, cima, baixo (respetivamente)\n"
-         << " Ações de jardinagem:\n"
-         << "   > planta <linha> <coluna> <tipo>    - Planta uma nova planta do tipo indicado na posição especificada (c, r, e, x)\n"
-         << "   > colhe <linha> <coluna>            - Colhe (remove) a planta na posição indicada\n"
+         << "   Ações de jardinagem:\n"
+         << "       > planta <linha> <coluna> <tipo> - Planta uma nova planta do tipo indicado na posição especificada (c, r, e, x)\n"
+         << "       > colhe <linha> <coluna>         - Colhe (remove) a planta na posição indicada\n"
+         << "   Ferramentas:\n"
+         << "       > larga                         - Larga a ferramenta que o jardineiro tem atualmente na mão.\n"
+         << "       > pega <n>                      - Pega na ferramenta com número de série n (se estiver na célula ou inventário).\n"
+         << "       > compra <c>                    - Compra uma nova ferramenta do tipo c (ex.: g, a, t, z).\n"
          << " Ficheiros:\n"
          << "   > grava <nome_ficheiro>.txt         - Grava o ficheiro com o nome indicado\n"
          << "   > recupera <nome_ficheiro>.txt      - Abre o ficheiro guardado com o nome indicado\n"
          << "   > apaga <nome_ficheiro>.txt         - Apaga o ficheiro guardado com o nome indicado\n"
          << " Terminar:\n"
-         << "   fim                                 - Termina o programa\n";
+         << "   > fim                               - Termina o programa\n";
 };
 
 void Comando::comandoRunscript(istringstream& iss, Interface& ui) {
@@ -438,7 +542,6 @@ void Comando::comandoRunscript(istringstream& iss, Interface& ui) {
         ui.processarComando(linha);
     }
 }
-
 
 void Comando::comandoFim(bool& ativo){
     ativo = false;
