@@ -35,7 +35,7 @@ void Interface::processarComando(const string& linha){
     for (int i = 0; i < cmd.length(); i++)
         cmd[i] = tolower(cmd[i]);
 
-    if (jardim == nullptr && cmd != "ajuda" && cmd != "") {
+    if (jardim == nullptr && cmd != "ajuda" && cmd != "" && cmd != "fim") {
         if ( cmd == "jardim" ){
             Comando::comandoJardim(jardim, iss);
         }
