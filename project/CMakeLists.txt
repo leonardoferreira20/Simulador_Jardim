@@ -25,4 +25,12 @@ add_executable(
         Planta/Roseira/Roseira.cpp
         # SETTINGS
         Settings.h
+        Ferramenta/Tesoura/Tesoura.cpp
+        Ferramenta/Tesoura/Tesoura.h
+        Ferramenta/Regador/Regador.cpp
+        Ferramenta/Regador/Regador.h
+        Ferramenta/FerramentaZ/FerramentaZ.cpp
+        Ferramenta/FerramentaZ/FerramentaZ.h
+        Ferramenta/Adubo/Adubo.cpp
+        Ferramenta/Adubo/Adubo.h
 )
