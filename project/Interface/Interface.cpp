@@ -69,7 +69,8 @@ void Interface::processarComando(const string& linha){
         else if (cmd == "sai") {
             Comando::comandoSairJardim(jardim);
         }
-        else if ( cmd == "mover" ) {
+        else if (cmd == "e" || cmd == "d" || cmd == "c" || cmd == "b") {
+            Comando::comandoMoverJardim(jardim, cmd[0]);
         }
         else if ( cmd == "grava" ){
             Comando::comandoGrava(jardim, iss);

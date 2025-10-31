@@ -24,7 +24,7 @@ class Jardim {
     int nLinhas;
     int nColunas;
     Solo** grid;
-    Jardineiro jardineiro;
+    Jardineiro* jardineiro;
 
     public:
         Jardim(int lin, int col);
@@ -37,7 +37,7 @@ class Jardim {
         void listarPlantas();
         void listarPlanta(int linha, int coluna);
         Solo* getSolo(int linha, int coluna);
-        Jardineiro getJardineiro() const;
+        Jardineiro& getJardineiro() const;
         bool posicaoValida(int linha, int coluna) const;
 };
 

@@ -14,28 +14,27 @@ using namespace std;
 
 void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
     int lin, col;
+
     if(!(iss >> lin >> col)){
         cout << "Uso: jardim <linhas> <colunas>\n";
         return;
     }
-    else if (!iss.eof()) {
-        cout << "Uso: jardim <linhas> <colunas>\n";
-        return;
-    }
-    else if ( jardim != nullptr ) {
+
+    if ( jardim != nullptr ) {
         cout << "Já se encontra um jardim criado!\n";
         return;
     }
-    else if((lin <= 0 || lin >= 27) || (col <= 0 || col >= 27)){
+
+    if((lin <= 0 || lin >= 27) || (col <= 0 || col >= 27)){
         cout << "Uso: jardim <linhas> <colunas>\n";
         return;
     }
-    else {
-        delete jardim;
-        jardim = new Jardim(lin, col);
-        cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
-        jardim->imprimir();
-    }
+
+    delete jardim;
+    jardim = new Jardim(lin, col);
+    cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
+    jardim->imprimir();
+
 };
 
 void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
@@ -59,13 +58,26 @@ void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
         return;
     }
 
-    if (iss >> lin >> col >> tipo) {
-        jardim->planta(lin-1, col-1, tipo);
-    } else {
-        cout << "Uso: planta <linha> <coluna> <tipo>\n";
+    Jardineiro& jardineiro = jardim->getJardineiro();
+
+    if ( !jardineiro.estaDentro() ) {
+        cout << "Erro: o jardineiro está fora do jardim.\n";
+        return;
     }
 
-    jardim->imprimir();
+    if ( iss >> lin >> col >> tipo ) {
+        if ( jardim->posicaoValida(lin-1, col-1) ) {
+            jardim->planta(lin-1, col-1, tipo);
+            jardim->imprimir();
+        }
+        else {
+            cout << "Posição fora dos limites do jardim.\n";
+        }
+    }
+    else {
+        cout << "Uso: '>planta <linha> <coluna> <tipo>'.\n";
+    }
+
 };
 
 void Comando::comandoColher(Jardim* jardim, istringstream& iss){
@@ -76,13 +88,25 @@ void Comando::comandoColher(Jardim* jardim, istringstream& iss){
         return;
     }
 
-    if (iss >> lin >> col ) {
-        jardim->colhe(lin-1, col-1);
-    } else {
-        cout << "Uso: colhe <linha> <coluna>\n";
+    Jardineiro& jardineiro = jardim->getJardineiro();
+
+    if ( !jardineiro.estaDentro() ) {
+        cout << "Erro: o jardineiro está fora do jardim.\n";
+        return;
     }
 
-    jardim->imprimir();
+    if ( iss >> lin >> col ) {
+        if (jardim->posicaoValida(lin-1, col-1)) {
+            jardim->colhe(lin-1, col-1);
+            jardim->imprimir();
+        }
+        else {
+            cout << "Posição fora dos limites do jardim.\n";
+        }
+
+    }else {
+        cout << "Uso: '>colhe <linha> <coluna>'.\n";
+    }
 };
 
 void Comando::comandoListarPlantas(Jardim* jardim) {
@@ -103,9 +127,14 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
         return;
     }
 
-    if ( iss >> lin >> col ){
-        jardim->listarPlanta(lin-1, col-1);
-        jardim->imprimir();
+    if ( iss >> lin >> col ) {
+        if ( jardim->posicaoValida(lin-1, col-1) ) {
+            jardim->listarPlanta(lin-1, col-1);
+            jardim->imprimir();
+        }
+        else {
+            cout << "Posição fora dos limites do jardim.\n";
+        }
     }
     else {
         cout << "Utilização: \n"
@@ -144,12 +173,12 @@ void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
 
     iss >> lin >> col;
 
-    if (!jardim->posicaoValida(lin, col)) {
+    if (!jardim->posicaoValida(lin-1, col-1)) {
         cout << "Posição fora dos limites do jardim.\n";
         return;
     }
 
-    jardim->getJardineiro().entrar(lin, col);
+    jardim->getJardineiro().entrar(lin-1, col-1);
 }
 
 void Comando::comandoSairJardim(Jardim* jardim) {
@@ -167,31 +196,39 @@ void Comando::comandoSairJardim(Jardim* jardim) {
     jardim->getJardineiro().sair();
 }
 
-void Comando::comandoMoverJardim(Jardim* jardim, istringstream& iss) {
-
+void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
     if (jardim == nullptr) {
         cout << "Erro: ainda não existe um jardim.\n";
         return;
     }
 
-    if (!jardim->getJardineiro().estaDentro()) {
-        cout << "O jardineiro já está fora do jardim.\n";
+    Jardineiro& j = jardim->getJardineiro();
+
+    if (!j.estaDentro()) {
+        cout << "Erro: o jardineiro está fora do jardim.\n";
+        return;
     }
 
-    /*switch (iss.str()) {
-        case 'e':
-            jardim->getJardineiro().entrar(lin, col);
-            break;
-        case 'd':
-            break;
-        case 'f':
-            break;
-        case 'b':
-            break;
-        default:
-            return;
-    }*/
+    int lin = j.getLinha(), col = j.getColuna();
 
+    switch (direcao) {
+        case 'e': col--; break;
+        case 'd': col++; break;
+        case 'c': lin--; break;
+        case 'b': lin++; break;
+        default:
+            cout << "Direção inválida.\n";
+        return;
+    }
+
+    if (!jardim->posicaoValida(lin, col)) {
+        cout << "Movimento inválido: o jardineiro não pode sair do jardim.\n";
+        return;
+    }
+
+    // Por enquanto só mostra através da mensagem, mais tarde irá mostrar no jardim
+    j.setPosicao(lin, col);
+    cout << "Jardineiro moveu-se para (" << char('A' + lin) << "," << char('A'+ col) << ")\n";
 }
 
 bool Comando::criaFicheiro( string nome) {

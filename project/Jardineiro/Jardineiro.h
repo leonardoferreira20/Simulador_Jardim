@@ -14,14 +14,15 @@ class Jardineiro {
 public:
     Jardineiro() : linha(-1), coluna(-1), dentro(false) {}
 
-    bool estaDentro() const { return dentro; }
-    int getLinha() const { return linha; }
-    int getColuna() const { return coluna; }
+    bool estaDentro() const;
+    int getLinha() const;
+    int getColuna() const;
 
     // Por agora só simulamos as ações
     void entrar(int l, int c);
     void sair();
     void mover(char dir);
+    void setPosicao(int l, int c);
 };
 
 #endif //JARDINEIRO_H

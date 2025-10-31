@@ -26,7 +26,7 @@ class Comando {
 
         static void comandoEntrarJardim(Jardim* jardim, istringstream& iss);
         static void comandoSairJardim(Jardim* jardim);
-        static void comandoMoverJardim(Jardim* jardim, istringstream& iss);
+        static void comandoMoverJardim(Jardim* jardim, char direcao);
 
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);

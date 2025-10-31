@@ -10,6 +10,7 @@
 using namespace std;
 
 Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
+    jardineiro = new Jardineiro();
     grid = new Solo*[nLinhas];
     for (int i = 0; i < nLinhas; i++)
         grid[i] = new Solo[nColunas];
@@ -166,6 +167,6 @@ bool Jardim::posicaoValida(int linha, int coluna) const {
     return linha >= 0 && linha < nLinhas && coluna >= 0 && coluna < nColunas;
 }
 
-Jardineiro Jardim::getJardineiro() const{
-    return jardineiro;
+Jardineiro& Jardim::getJardineiro() const{
+    return *jardineiro;
 }
