@@ -31,11 +31,12 @@ class Comando {
         static void comandoPlantar(Jardim* jardim, istringstream& iss);
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
-        static bool comandoProcuraFicheiro(string nome);
+        static bool validaNomeficheiro(string nome);
+        static bool procuraFicheiro(string nome);
         static bool criaFicheiro( string nome);
         static void comandoGrava(Jardim* jardim, istringstream& iss);
         static void comandoRecupera(Jardim* jardim, istringstream& iss);
-        static void comandoApaga(Jardim* jardim, istringstream& iss);
+        static void comandoApaga(istringstream& iss);
         static void comandoFim(bool& ativo);
 };
 

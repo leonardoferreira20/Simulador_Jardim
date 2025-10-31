@@ -14,23 +14,27 @@ using namespace std;
 
 void Comando::comandoJardim(Jardim*& jardim, istringstream& iss){
     int lin, col;
-
-    if ( iss >> lin >> col && (lin < 27 && col < 27) && (lin > 0 && col > 0) ) {
-        if (!iss.eof()) {
-            cout << "Uso: jardim <linhas> <colunas>\n";
-            return;
-        }
-        if ( jardim != nullptr ) {
-            cout << "Já se encontra um jardim criado!\n";
-            return;
-        }
+    if(!(iss >> lin >> col)){
+        cout << "Uso: jardim <linhas> <colunas>\n";
+        return;
+    }
+    else if (!iss.eof()) {
+        cout << "Uso: jardim <linhas> <colunas>\n";
+        return;
+    }
+    else if ( jardim != nullptr ) {
+        cout << "Já se encontra um jardim criado!\n";
+        return;
+    }
+    else if((lin <= 0 || lin >= 27) || (col <= 0 || col >= 27)){
+        cout << "Uso: jardim <linhas> <colunas>\n";
+        return;
+    }
+    else {
         delete jardim;
         jardim = new Jardim(lin, col);
         cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
         jardim->imprimir();
-    }
-    else {
-        cout << "Uso: jardim <linhas> <colunas>\n";
     }
 };
 
@@ -191,7 +195,7 @@ void Comando::comandoMoverJardim(Jardim* jardim, istringstream& iss) {
 }
 
 bool Comando::criaFicheiro( string nome) {
-    std::filesystem::path ficheiro = "Save/" + nome + ".txt";
+    filesystem::path ficheiro = "Save/" + nome + ".txt";
     ofstream out(ficheiro);
     if (!out) {
         cout << "Erro ao criar o ficheiro: " << ficheiro << "\n";
@@ -200,11 +204,16 @@ bool Comando::criaFicheiro( string nome) {
     return true;
 }
 
-bool Comando::comandoProcuraFicheiro(string nome){
+bool Comando::validaNomeficheiro(string nome) {
     if ((nome.find('.') != string::npos) || (nome.find('/')!= string::npos)) {
+        cout << "Nome invalido de ficheiro: " << nome << "\n";
         return false;
     }
-    std::filesystem::path ficheiro = "Save/" + nome + ".txt";
+    return true;
+}
+
+bool Comando::procuraFicheiro(string nome){
+    filesystem::path ficheiro = "Save/" + nome + ".txt";
     if (exists(ficheiro)) {
         return true;
     }
@@ -218,65 +227,75 @@ void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
         cout << "Nao existe jardim para gravar!\n";
         return;
     }
-    if (iss >> nome){
-        if (!iss.eof()) {
-            cout << "Uso: gravar <nome>\n";
+    if (!(iss >> nome)) {
+        cout << "Uso: apaga <nome>\n";
+        return;
+    }
+    if (!iss.eof()) {
+        cout << "Uso: apaga <nome>\n";
+        return;
+    }
+    if (!validaNomeficheiro(nome))
+        return;
+    if (procuraFicheiro(nome)) {
+        filesystem::path ficheiro = "Save/" + nome + ".txt";
+        cout << "Ficheiro existe! Quer gravar novamente?(s/n)\n";
+        cin >> resposta;
+        if (resposta == "s") {
+            cout << "Comando por implementar dentro de gravar novamente\n";
+        }else if (resposta == "n") {
+            cout << "Nao foi gravado o ficheiro!\n";
             return;
         }
-        if (comandoProcuraFicheiro(nome)) {
-            std::filesystem::path ficheiro = "Save/" + nome + ".txt";
-            cout << "Ficheiro existe! Quer gravar novamente?(s/n)\n";
-            cin >> resposta;
-            if (resposta == "s") {
-                cout << "Comando por implementar dentro de gravar novamente\n";
-            }else if (resposta == "n") {
-                cout << "Nao foi gravado o ficheiro!\n";
-                return;
-            }
-            else {
-                cout << "Comando errado!\n";
-                return;
-            }
-        }else {
-            if (!criaFicheiro( nome)) cout << "Erro na criacao de ficheiro!\n";
-            cout << "Comando por implementar na gravacao nova!\n";
+        else {
+            cout << "Comando errado!\n";
+            return;
         }
-    }else cout << "Uso: grava <nome>\n";
+    }else {
+        if (!criaFicheiro( nome)) cout << "Erro na criacao de ficheiro!\n";
+        cout << "Cria Ficheiro! Comando por implementar na gravacao nova!\n";
+    }
 }
 
 void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
     string nome;
-
-    if (iss >> nome){
-        if (!iss.eof()) {
-            cout << "Uso: recupera <nome>\n";
-            return;
-        }
-        if (comandoProcuraFicheiro(nome)){
-            cout << "Gravacao existente com esse nome! Por implementar comando!" << endl;
-        }else {
-            cout << "Gravação com este nome não existe!\n Nome: " << nome << endl;
-        }
-    }else cout << "Uso: recupera <nome>\n";
+    if (!(iss >> nome)) {
+        cout << "Uso: apaga <nome>\n";
+        return;
+    }
+    if (!iss.eof()) {
+        cout << "Uso: recupera <nome>\n";
+        return;
+    }
+    if (!validaNomeficheiro(nome))
+        return;
+    if (procuraFicheiro(nome)){
+        cout << "Gravacao existente com esse nome! Por implementar comando!" << endl;
+    }else {
+        cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
+    }
 }
 
-void Comando::comandoApaga(Jardim* jardim, istringstream& iss){
+void Comando::comandoApaga(istringstream& iss){
     string nome;
-
-    if (iss >> nome){
-        if (!iss.eof()) {
-            cout << "Uso: apaga <nome>\n";
-            return;
-        }
-        if (comandoProcuraFicheiro(nome)) {
-            cout << "Comando por implementar!\n";
+    if (!(iss >> nome)) {
+        cout << "Uso: apaga <nome>\n";
+        return;
+    }
+    if (!iss.eof()) {
+        cout << "Uso: apaga <nome>\n";
+        return;
+    }
+    if (!validaNomeficheiro(nome))
+        return;
+    if (procuraFicheiro(nome)) {
+        filesystem::path ficheiro = "Save/" + nome + ".txt";
+        if (filesystem::remove(ficheiro)) {
             cout << "Gravacao com nome: " << nome << " apagada com sucesso!\n" << endl;
-        }else {
-            cout << "Comando por implementar!\n";
-            cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
         }
-    }else cout << "Uso: apaga <nome>\n";
-    cout << "Funcao por implementar. POO" << endl;
+    }else {
+        cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
+    }
 }
 
 void Comando::comandoAjuda(){

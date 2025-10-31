@@ -35,56 +35,62 @@ void Interface::processarComando(const string& linha){
     for (int i = 0; i < cmd.length(); i++)
         cmd[i] = tolower(cmd[i]);
 
-    if ( cmd == "jardim" ){
-        Comando::comandoJardim(jardim, iss);
-    }
-    else if ( cmd == "avanca" ){
-        Comando::comandoAvanca(jardim, iss);
-        cout << endl;
-    }
-    else if ( cmd == "planta" ) {
-        Comando::comandoPlantar(jardim, iss);
-    }
-    else if ( cmd == "colhe" ) {
-        Comando::comandoColher(jardim, iss);
-    }
-    else if ( cmd == "lplantas" ) {
-        Comando::comandoListarPlantas(jardim);
-    }
-    else if ( cmd == "lplanta" ) {
-        Comando::comandoListarPlanta(jardim, iss);
-    }
-    /*else if ( cmd == "lsolo" ) {
-        Comando::comandoListarInfoSolo(jardim, iss);
-    }*/
-    else if ( cmd == "entra" ) {
-        Comando::comandoEntrarJardim(jardim, iss);
-    }
-    else if (cmd == "sai") {
-        Comando::comandoSairJardim(jardim);
-    }
-    else if ( cmd == "mover" ) {
-
-    }
-    else if ( cmd == "ajuda" ){
-        Comando::comandoAjuda();
-    }
-    else if ( cmd == "grava" ){
-        Comando::comandoGrava(jardim, iss);
-    }
-    else if ( cmd == "recupera" ){
-        Comando::comandoRecupera(jardim, iss);
-    }
-    else if ( cmd == "apaga" ){
-        Comando::comandoApaga(jardim, iss);
-    }
-    else if ( cmd == "fim" ){
-        Comando::comandoFim(ativo);
-    }
-    else if ( cmd == "" ){
-        return;
+    if (jardim == nullptr && cmd != "ajuda") {
+        if ( cmd == "jardim" ){
+            Comando::comandoJardim(jardim, iss);
+        }
+        else {
+            cout << "Comando invalido! Jardim nao iniciado!\n" << "Comandos disponiveis: \n-> jardim <linhas> <colunas> \n-> ajuda\n";
+        }
     }
     else {
-        cout << "O comando inserido não existe!\n" << endl;
+        if ( cmd == "avanca" ){
+            Comando::comandoAvanca(jardim, iss);
+            cout << endl;
+        }
+        else if ( cmd == "planta" ) {
+            Comando::comandoPlantar(jardim, iss);
+        }
+        else if ( cmd == "colhe" ) {
+            Comando::comandoColher(jardim, iss);
+        }
+        else if ( cmd == "lplantas" ) {
+            Comando::comandoListarPlantas(jardim);
+        }
+        else if ( cmd == "lplanta" ) {
+            Comando::comandoListarPlanta(jardim, iss);
+        }
+        /*else if ( cmd == "lsolo" ) {
+            Comando::comandoListarInfoSolo(jardim, iss);
+        }*/
+        else if ( cmd == "entra" ) {
+            Comando::comandoEntrarJardim(jardim, iss);
+        }
+        else if (cmd == "sai") {
+            Comando::comandoSairJardim(jardim);
+        }
+        else if ( cmd == "mover" ) {
+        }
+        else if ( cmd == "grava" ){
+            Comando::comandoGrava(jardim, iss);
+        }
+        else if ( cmd == "recupera" ){
+            Comando::comandoRecupera(jardim, iss);
+        }
+        else if ( cmd == "apaga" ){
+            Comando::comandoApaga(iss);
+        }
+        else if ( cmd == "ajuda" ){
+            Comando::comandoAjuda();
+        }
+        else if ( cmd == "fim" ){
+            Comando::comandoFim(ativo);
+        }
+        else if ( cmd == "" ){
+            return;
+        }
+        else {
+            cout << "Comando invalido!\n" << endl;
+        }
     }
 }
