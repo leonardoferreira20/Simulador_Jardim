@@ -231,6 +231,40 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
     cout << "Jardineiro moveu-se para (" << char('A' + lin) << "," << char('A'+ col) << ")\n";
 }
 
+void Comando::comandoCompra(Jardim* jardim,Jardineiro* jardineiro,istringstream& iss) {
+    string nome;
+    if (jardim==nullptr) {
+        cout << "Não existe jardim.\n";
+        return;
+    }
+    if (jardineiro==nullptr) {
+        cout << "Jardineiro nao existe.\n";
+        return;
+    }
+    if (!(iss >> nome)) {
+        cout << "Uso: compra <c>\n";
+        return;
+    }
+    if (!iss.eof()) {
+        cout << "Uso: apaga <c>\n";
+        return;
+    }
+    if (nome == "g") {
+        cout << "Comando por implementar. Instancia de g ";
+    }
+    else if (nome == "t") {
+        cout << "Comando por implementar. Instancia de t ";
+    }
+    else if (nome == "a") {
+        cout << "Comando por implementar. Instancia de a ";
+    }
+    else if (nome == "z") {
+        cout << "Comando por implementar. Instancia de z ";
+    }
+    else cout << "Apenas disponivel para compra: <g>,<a>,<t>,<z>.\n";
+}
+
+
 bool Comando::criaFicheiro( string nome) {
     filesystem::path ficheiro = "Save/" + nome + ".txt";
     ofstream out(ficheiro);
@@ -249,8 +283,8 @@ bool Comando::validaNomeficheiro(string nome) {
     return true;
 }
 
-bool Comando::procuraFicheiro(string nome){
-    filesystem::path ficheiro = "Save/" + nome + ".txt";
+bool Comando::procuraFicheiro(string nome, string pasta){
+    filesystem::path ficheiro = pasta + "/" + nome + ".txt";
     if (exists(ficheiro)) {
         return true;
     }
@@ -259,6 +293,7 @@ bool Comando::procuraFicheiro(string nome){
 
 void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
     string resposta,nome;
+    string pasta = "Save";
 
     if (jardim == nullptr) {
         cout << "Nao existe jardim para gravar!\n";
@@ -274,8 +309,8 @@ void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
     }
     if (!validaNomeficheiro(nome))
         return;
-    if (procuraFicheiro(nome)) {
-        filesystem::path ficheiro = "Save/" + nome + ".txt";
+    if (procuraFicheiro(nome,pasta)) {
+        filesystem::path ficheiro = pasta + "/" + nome + ".txt";
         cout << "Ficheiro existe! Quer gravar novamente?(s/n)\n";
         cin >> resposta;
         if (resposta == "s") {
@@ -296,6 +331,7 @@ void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
 
 void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
     string nome;
+    string pasta = "Save";
     if (!(iss >> nome)) {
         cout << "Uso: apaga <nome>\n";
         return;
@@ -306,7 +342,7 @@ void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
     }
     if (!validaNomeficheiro(nome))
         return;
-    if (procuraFicheiro(nome)){
+    if (procuraFicheiro(nome,pasta)){
         cout << "Gravacao existente com esse nome! Por implementar comando!" << endl;
     }else {
         cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
@@ -315,6 +351,7 @@ void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
 
 void Comando::comandoApaga(istringstream& iss){
     string nome;
+    string pasta = "Save";
     if (!(iss >> nome)) {
         cout << "Uso: apaga <nome>\n";
         return;
@@ -323,10 +360,14 @@ void Comando::comandoApaga(istringstream& iss){
         cout << "Uso: apaga <nome>\n";
         return;
     }
-    if (!validaNomeficheiro(nome))
+    if (!validaNomeficheiro(nome)) {
         return;
-    if (procuraFicheiro(nome)) {
-        filesystem::path ficheiro = "Save/" + nome + ".txt";
+    }
+    if (!validaNomeficheiro(pasta)) {
+        return;
+    }
+    if (procuraFicheiro(nome,pasta)) {
+        filesystem::path ficheiro = pasta + "/" + nome + ".txt";
         if (filesystem::remove(ficheiro)) {
             cout << "Gravacao com nome: " << nome << " apagada com sucesso!\n" << endl;
         }
@@ -361,6 +402,28 @@ void Comando::comandoAjuda(){
          << " Terminar:\n"
          << "   fim                                 - Termina o programa\n";
 };
+
+void Comando::comandoRunscript(istringstream& iss) {
+    string nome;
+    string pasta = "Script";
+    if (!(iss >> nome)) {
+        cout << "Uso: executa <ficheiro>\n";
+        return;
+    }
+    if (!iss.eof()) {
+        cout << "Uso: executa <ficheiro>\n";
+        return;
+    }
+    if (!validaNomeficheiro(nome)) {
+        return;
+    }
+    if (procuraFicheiro(nome,pasta)){
+        cout << "Ficheio existente com esse nome! Por implementar comando!" << endl;
+    }else {
+        cout << "Ficheiro com nome: " << nome << " nao existe!\n" << endl;
+    }
+}
+
 
 void Comando::comandoFim(bool& ativo){
     ativo = false;

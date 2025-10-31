@@ -39,6 +39,9 @@ void Interface::processarComando(const string& linha){
         if ( cmd == "jardim" ){
             Comando::comandoJardim(jardim, iss);
         }
+        else if ( cmd == "executa" ) {
+            Comando::comandoRunscript(iss);
+        }
         else {
             cout << "Comando invalido! Jardim nao iniciado!\n" << "Comandos disponiveis: \n-> jardim <linhas> <colunas> \n-> ajuda\n";
         }
@@ -72,6 +75,11 @@ void Interface::processarComando(const string& linha){
         else if (cmd == "e" || cmd == "d" || cmd == "c" || cmd == "b") {
             Comando::comandoMoverJardim(jardim, cmd[0]);
         }
+        /*
+        else if ( cmd == "compra" ){
+            Comando::comandoCompra(jardim, jardineiro, iss);
+        }
+        */
         else if ( cmd == "grava" ){
             Comando::comandoGrava(jardim, iss);
         }
