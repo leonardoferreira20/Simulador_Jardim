@@ -9,6 +9,7 @@
 
 #include "../Solo/Solo.h"
 #include "Comando.h"
+#include "../Interface/Interface.h"
 
 using namespace std;
 
@@ -403,8 +404,8 @@ void Comando::comandoAjuda(){
          << "   fim                                 - Termina o programa\n";
 };
 
-void Comando::comandoRunscript(istringstream& iss) {
-    string nome;
+void Comando::comandoRunscript(istringstream& iss, Interface& ui) {
+    string nome, linha;
     string pasta = "Script";
     if (!(iss >> nome)) {
         cout << "Uso: executa <ficheiro>\n";
@@ -418,9 +419,22 @@ void Comando::comandoRunscript(istringstream& iss) {
         return;
     }
     if (procuraFicheiro(nome,pasta)){
-        cout << "Ficheio existente com esse nome! Por implementar comando!" << endl;
+        cout << "Ficheiro com nome: " << nome << " existe!\n" << endl;
     }else {
         cout << "Ficheiro com nome: " << nome << " nao existe!\n" << endl;
+        return;
+    }
+    filesystem::path ficheiro = pasta + "/" + nome + ".txt";
+
+    ifstream abre(ficheiro);
+    if (!abre) {
+        cout << "Erro a abrir ficheiro!";
+        return;
+    }
+    while (getline(abre, linha)) {
+        if (linha.empty()) continue;
+        cout << ">> " << linha << endl;
+        ui.processarComando(linha);
     }
 }
 

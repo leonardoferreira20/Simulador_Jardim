@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include "../Jardim/Jardim.h"
+class Interface;
 
 using namespace std;
 
@@ -39,7 +40,7 @@ class Comando {
         static void comandoGrava(Jardim* jardim, istringstream& iss);
         static void comandoRecupera(Jardim* jardim, istringstream& iss);
         static void comandoApaga(istringstream& iss);
-        static void comandoRunscript(istringstream& iss);
+        static void comandoRunscript(istringstream& iss, Interface& ui);
         static void comandoFim(bool& ativo);
 };
 

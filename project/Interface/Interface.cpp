@@ -35,12 +35,12 @@ void Interface::processarComando(const string& linha){
     for (int i = 0; i < cmd.length(); i++)
         cmd[i] = tolower(cmd[i]);
 
-    if (jardim == nullptr && cmd != "ajuda") {
+    if (jardim == nullptr && cmd != "ajuda" && cmd != "") {
         if ( cmd == "jardim" ){
             Comando::comandoJardim(jardim, iss);
         }
         else if ( cmd == "executa" ) {
-            Comando::comandoRunscript(iss);
+            Comando::comandoRunscript(iss,*this);
         }
         else {
             cout << "Comando invalido! Jardim nao iniciado!\n" << "Comandos disponiveis: \n-> jardim <linhas> <colunas> \n-> ajuda\n";
