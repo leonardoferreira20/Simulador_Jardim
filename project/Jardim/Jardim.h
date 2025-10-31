@@ -37,6 +37,8 @@ class Jardim {
         void listarPlantas();
         void listarPlanta(int linha, int coluna);
         Solo* getSolo(int linha, int coluna);
+        Jardineiro getJardineiro() const;
+        bool posicaoValida(int linha, int coluna) const;
 };
 
 

@@ -5,9 +5,10 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
+
 #include "../Solo/Solo.h"
 #include "Comando.h"
-#include <filesystem>
 
 using namespace std;
 
@@ -129,6 +130,66 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
     }
 }*/
 
+void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
+    int lin, col;
+
+    if (jardim == nullptr) {
+        cout << "Erro: ainda não existe um jardim. Crie-o com 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    iss >> lin >> col;
+
+    if (!jardim->posicaoValida(lin, col)) {
+        cout << "Posição fora dos limites do jardim.\n";
+        return;
+    }
+
+    jardim->getJardineiro().entrar(lin, col);
+}
+
+void Comando::comandoSairJardim(Jardim* jardim) {
+
+    if (jardim == nullptr) {
+        cout << "Erro: ainda não existe um jardim.\n";
+        return;
+    }
+
+    if (!jardim->getJardineiro().estaDentro()) {
+        cout << "O jardineiro já está fora do jardim.\n";
+        return;
+    }
+
+    jardim->getJardineiro().sair();
+}
+
+void Comando::comandoMoverJardim(Jardim* jardim, istringstream& iss) {
+
+    if (jardim == nullptr) {
+        cout << "Erro: ainda não existe um jardim.\n";
+        return;
+    }
+
+    if (!jardim->getJardineiro().estaDentro()) {
+        cout << "O jardineiro já está fora do jardim.\n";
+    }
+
+    /*switch (iss.str()) {
+        case 'e':
+            jardim->getJardineiro().entrar(lin, col);
+            break;
+        case 'd':
+            break;
+        case 'f':
+            break;
+        case 'b':
+            break;
+        default:
+            return;
+    }*/
+
+}
+
 bool Comando::criaFicheiro( string nome) {
     std::filesystem::path ficheiro = "Save/" + nome + ".txt";
     ofstream out(ficheiro);
@@ -237,6 +298,10 @@ void Comando::comandoAjuda(){
          << " Ações de jardinagem:\n"
          << "   > planta <linha> <coluna> <tipo>    - Planta uma nova planta do tipo indicado na posição especificada (c, r, e, x)\n"
          << "   > colhe <linha> <coluna>            - Colhe (remove) a planta na posição indicada\n"
+         << " Ficheiros:\n"
+         << "   > grava <nome_ficheiro>.txt         - Grava o ficheiro com o nome indicado\n"
+         << "   > recupera <nome_ficheiro>.txt      - Abre o ficheiro guardado com o nome indicado\n"
+         << "   > apaga <nome_ficheiro>.txt         - Apaga o ficheiro guardado com o nome indicado\n"
          << " Terminar:\n"
          << "   fim                                 - Termina o programa\n";
 };

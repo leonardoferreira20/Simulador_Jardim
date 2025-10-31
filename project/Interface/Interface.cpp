@@ -57,6 +57,15 @@ void Interface::processarComando(const string& linha){
     /*else if ( cmd == "lsolo" ) {
         Comando::comandoListarInfoSolo(jardim, iss);
     }*/
+    else if ( cmd == "entra" ) {
+        Comando::comandoEntrarJardim(jardim, iss);
+    }
+    else if (cmd == "sai") {
+        Comando::comandoSairJardim(jardim);
+    }
+    else if ( cmd == "mover" ) {
+
+    }
     else if ( cmd == "ajuda" ){
         Comando::comandoAjuda();
     }

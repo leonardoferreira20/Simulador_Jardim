@@ -162,5 +162,10 @@ void Jardim::listarPlanta(int linha, int coluna) {
     }
 };
 
+bool Jardim::posicaoValida(int linha, int coluna) const {
+    return linha >= 0 && linha < nLinhas && coluna >= 0 && coluna < nColunas;
+}
 
-
+Jardineiro Jardim::getJardineiro() const{
+    return jardineiro;
+}
