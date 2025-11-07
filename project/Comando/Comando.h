@@ -36,6 +36,7 @@ class Comando {
         static void comandoPegaFerramenta(Jardim* jardim, istringstream& iss);
         static void comandoCompra(Jardim* jardim, istringstream& iss);
 
+        static bool validaNparametros(const istringstream& iss, int nparametros);
         static bool validaNomeficheiro(string nome);
         static bool procuraFicheiro(string nome,string pasta);
         static bool criaFicheiro( string nome);

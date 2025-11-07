@@ -54,6 +54,11 @@ void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
     int lin, col;
     char tipo;
 
+    if (!validaNparametros(iss,3)) {
+        cout << "Uso: '>planta <linha> <coluna> <tipo>'.\n";
+        return;
+    }
+
     if ( jardim == nullptr ){
         cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
         return;
@@ -376,6 +381,19 @@ bool Comando::criaFicheiro( string nome) {
     }
     return true;
 }
+
+
+bool Comando::validaNparametros(const istringstream& original, int nparametros) {
+    istringstream copia(original.str()); //Não é bem cópia, aqui estou a tribuir um novo istring paraevitar consumir o anterior
+    string aux;
+    int count = -1;
+    while (!copia.eof()) {
+        copia >> aux;
+        count++;
+    }
+    return count == nparametros;
+}
+
 
 bool Comando::validaNomeficheiro(string nome) {
     if ((nome.find('.') != string::npos) || (nome.find('/')!= string::npos)) {
