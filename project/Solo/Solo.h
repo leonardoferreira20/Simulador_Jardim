@@ -20,8 +20,8 @@ class Solo {
 
 public:
     Solo();
-    int getAgua() const {return agua;};
-    int getNutrientes()const {return nutrientes;};
+    int obtemAgua() const {return agua;};
+    int obtemNutrientes()const {return nutrientes;};
     void imprimir () const;
     void modificaAgua (int q){agua += q;}
     void modificaNutrientes (int q){nutrientes += q;}

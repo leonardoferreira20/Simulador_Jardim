@@ -7,19 +7,21 @@
 
 #include <iostream>
 #include "../Solo/Solo.h"
+#include "../Jardim/Jardim.h"
+
 class Solo;
 
 class Ferramenta {
 public:
 
-    Ferramenta();
+    Ferramenta(int cap, int d);
     virtual ~Ferramenta() = default;
     int getCapacidade() const {return capacidade;}
     int getDose() const {return dose;}
     int getNserie() const {return nserie;}
 
     virtual void setDose(int x) {dose=x;};
-    virtual void setNserie() {nserie+= ++contador;};
+    void setNserie() {nserie+= ++contador;};
     virtual void setCapacidade (int x) {capacidade=x;};
     virtual void gastaCapacidade() {capacidade -= dose;};
     // Métodos abstratos (a serem implementados pelas subclasses)

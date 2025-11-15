@@ -3,5 +3,9 @@
 //
 
 #include "Regador.h"
-#include "../../Settings.h"
 #include "../../Solo/Solo.h"
+
+
+Regador::Regador(int cap, int d): Ferramenta(cap,d) {
+
+}

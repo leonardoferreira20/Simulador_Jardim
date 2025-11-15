@@ -26,7 +26,7 @@ void Exotica::agir(Solo& solo) {
     solo.modificaAgua(Settings::Exotica::absorcao_agua);
 
     // Morre se não tiver condições ideais
-    if (solo.getAgua() < Settings::Exotica::morre_agua_menor ||
+    if (solo.obtemAgua() < Settings::Exotica::morre_agua_menor ||
         obtemNutrientesP() < Settings::Exotica::morre_nutrientes_menor ||
         obtemNutrientesP() > Settings::Exotica::morre_nutrientes_maior)
     {
@@ -41,7 +41,7 @@ void Exotica::morrer(Solo& solo) {
 }
 
 char Exotica::getSimbolo() const {
-    return 'E';
+    return 'X';
 }
 
 string Exotica::getNome() const{

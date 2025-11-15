@@ -16,18 +16,18 @@ Cacto::Cacto(int ag, int nut) :Planta(ag,nut){
 
 void Cacto::agir(Solo& solo){
     // Absorve pouca água e nutrientes
-    alteraAgua(solo.getAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
-    solo.modificaAgua (-1*solo.getAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
-    if (solo.getNutrientes()>Settings::Cacto::absorcao_nutrientes) {
+    alteraAgua(solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
+    solo.modificaAgua (-1*solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
+    if (solo.obtemNutrientes()>Settings::Cacto::absorcao_nutrientes) {
         alteraNutrientes (Settings::Cacto::absorcao_nutrientes);
         solo.modificaNutrientes(Settings::Cacto::absorcao_nutrientes);
     }
 
     // Verifica se morre por excesso de água ou falta de nutrientes
-    /*if ( solo.getAgua() > Settings::Cacto::morre_agua_solo_maior ||
-         solo.getNutrientes() < Settings::Cacto::morre_nutrientes_solo_menor ){
+    if ( solo.obtemAgua() > Settings::Cacto::morre_agua_solo_maior ||
+         solo.obtemNutrientes() < Settings::Cacto::morre_nutrientes_solo_menor ) {
         morrer(solo);
-    }*/
+    }
 }
 
 void Cacto::morrer(Solo& solo){

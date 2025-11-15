@@ -3,3 +3,8 @@
 //
 
 #include "Adubo.h"
+
+
+    Adubo::Adubo(int cap, int d):Ferramenta(cap,d) {
+
+    }

@@ -24,13 +24,6 @@ Jardim::~Jardim() {
     delete[] grid;
 }
 
-int Jardim::getNumLinhas () const{
-    return nLinhas;
-};
-int Jardim::getNumColunas () const{
-    return nColunas;
-};
-
 void Jardim::imprimir() const {
     cout << endl << "   ";
     for( int c = 0; c < nColunas; c++ ) {

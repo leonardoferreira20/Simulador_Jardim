@@ -12,6 +12,8 @@
 
 using namespace std;
 
+class Jardineiro;
+
 /**
  * @class Jardim
  *
@@ -30,8 +32,8 @@ class Jardim {
         Jardim(int lin, int col);
         ~Jardim();
 
-        int getNumLinhas () const;
-        int getNumColunas () const;
+        int getNumLinhas () const { return nLinhas; }
+        int getNumColunas () const { return nColunas; }
 
         void imprimir () const;
         void avanca(int n);

@@ -20,6 +20,11 @@ class Settings {
                 static const int capacidade = 100;
                 static const int dose = 10;
         };
+        class VaraEspecial {
+            public:
+                static const int capacidade = 100;
+                static const int dose = 100;
+        };
         class Jardineiro {
             public:
                 static const int max_movimentos = 10;

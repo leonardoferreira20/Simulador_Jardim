@@ -7,6 +7,8 @@
 
 #include "../Ferramenta/Ferramenta.h"
 
+class Ferramenta;
+
 class Jardineiro {
     int linha;
     int coluna;

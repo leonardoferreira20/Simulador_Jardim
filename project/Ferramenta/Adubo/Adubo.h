@@ -6,13 +6,10 @@
 #define ADUBO_H
 
 #include "../Ferramenta.h"
+#include "../../Settings.h"
 
 class Adubo:public Ferramenta {
-    Adubo(){
-        setDose(Settings::Adubo::dose);
-        setCapacidade(Settings::Adubo::capacidade);
-        Ferramenta::setNserie();
-    }
+    explicit Adubo(int cap = Settings::Adubo::capacidade, int d = Settings::Adubo::dose);
 
     void utiliza(Solo& solo) override {solo.modificaAgua(10);};
     char getSimbolo() const override { return 'a'; }

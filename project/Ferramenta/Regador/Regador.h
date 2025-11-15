@@ -6,14 +6,11 @@
 #define REGADOR_H
 
 #include "../Ferramenta.h"
+#include "../../Settings.h"
 
 class Regador: public Ferramenta{
 public:
-    Regador(){
-        setDose(Settings::Regador::dose);
-        setCapacidade(Settings::Regador::capacidade);
-        Ferramenta::setNserie();
-    }
+    explicit Regador(int cap = Settings::Regador::capacidade, int d = Settings::Regador::dose);
 
     void utiliza(Solo& solo) override {solo.modificaAgua(10);};
     char getSimbolo() const override { return 'g'; }

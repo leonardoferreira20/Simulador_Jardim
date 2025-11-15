@@ -27,7 +27,6 @@ class Planta {
     bool viva;
 public:
 
-    Planta();
     Planta(int agua,int nut);
     virtual ~Planta() = default;
 

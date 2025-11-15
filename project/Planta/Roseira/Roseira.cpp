@@ -15,7 +15,7 @@ Roseira::Roseira(int ag, int nut):Planta(ag,nut) {
 
 void Roseira::agir(Solo& solo) {
     // Perde água e nutrientes a cada ciclo
-if (solo.getAgua()>=Settings::Roseira::absorcao_agua && solo.getNutrientes()>=Settings::Roseira::absorcao_nutrientes) {
+if (solo.obtemAgua()>=Settings::Roseira::absorcao_agua && solo.obtemNutrientes()>=Settings::Roseira::absorcao_nutrientes) {
     solo.modificaNutrientes(Settings::Roseira::absorcao_nutrientes*-1);
     solo.modificaAgua(Settings::Roseira::absorcao_agua*-1);
     alteraAgua(Settings::Roseira::perda_agua);
