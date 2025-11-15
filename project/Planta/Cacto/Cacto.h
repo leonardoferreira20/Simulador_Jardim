@@ -10,11 +10,12 @@
 class Cacto : public Planta {
 
 public:
-    Cacto();
+    explicit Cacto(int ag = Settings::Jardim::agua_min,int nut = Settings::Jardim::nutrientes_min);
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;
     string getNome() const override;
+
 };
 
 

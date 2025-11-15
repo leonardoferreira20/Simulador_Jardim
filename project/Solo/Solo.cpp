@@ -6,17 +6,13 @@
 #include <iostream>
 #include "../Planta/Planta.h"
 
-Solo::Solo() : agua(5), nutrientes(5), planta(nullptr)/*, ferramenta(nullptr)*/ {}
+int valoreRandom (int min, int max) {return min + rand() %  (max - min + 1);}
 
-void Solo::adicionaAgua(int q){
-    agua += q;
-    if (agua > 10) agua = 10; // limite máximo
-}
+Solo::Solo() :
+agua(valoreRandom (Settings::Jardim::agua_min,Settings::Jardim::agua_max)),
+nutrientes(valoreRandom(Settings::Jardim::nutrientes_min,Settings::Jardim::nutrientes_max)),
+planta(nullptr)/*, ferramenta(nullptr)*/ {}
 
-void Solo::retiraNutrientes(int q){
-    nutrientes -= q;
-    if (nutrientes < 0) nutrientes = 0;
-}
 
 /*
 Ferramenta* Solo::getFerramenta() const{

@@ -383,8 +383,8 @@ bool Comando::criaFicheiro( string nome) {
 }
 
 
-bool Comando::validaNparametros(const istringstream& original, int nparametros) {
-    istringstream copia(original.str()); //Não é bem cópia, aqui estou a tribuir um novo istring paraevitar consumir o anterior
+bool Comando::validaNparametros(const istringstream& original, int nparametros){
+    istringstream copia(original.str()); //Não é bem cópia, aqui estou a atribuir um novo istring para evitar consumir o anterior
     string aux;
     int count = -1;
     while (!copia.eof()) {

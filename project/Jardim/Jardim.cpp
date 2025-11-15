@@ -132,9 +132,9 @@ void Jardim::listarPlantas() {
                      << "\t| "
                      << "\t (" << char('a' + l) << ", " << char('a' + c) << ")"
                      << "\t\t| "
-                     << "\t " << planta->obterAgua()
+                     << "\t " << planta->obtemAguaP()
                      << "\t\t| "
-                     << "\t\t " << planta->obterNutrientes()
+                     << "\t\t " << planta->obtemNutrientesP()
                      << "\t\t\t|\n";
             }
         }
@@ -160,9 +160,9 @@ void Jardim::listarPlanta(int linha, int coluna) {
              << "\t| "
              << "\t (" << char('a' + linha) << ", " << char('a' + coluna) << ")"
              << "\t\t| "
-             << "\t " << planta->obterAgua()
+             << "\t " << planta->obtemAguaP()
              << "\t\t| "
-             << "\t\t " << planta->obterNutrientes()
+             << "\t\t " << planta->obtemNutrientesP()
              << "\t\t\t|\n";
     }
     cout << "---------------------------------------------------------------------------------- \n";

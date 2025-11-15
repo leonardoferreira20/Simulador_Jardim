@@ -9,7 +9,7 @@
 
 class Roseira: public Planta {
     public:
-        Roseira();
+        explicit Roseira(int ag = Settings::Roseira::inicial_agua, int nut = Settings::Roseira::inicial_nutrientes);
         void agir(Solo& solo) override;
         void morrer(Solo& solo) override;
         char getSimbolo() const override;

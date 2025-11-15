@@ -10,11 +10,17 @@
 class ErvaDaninha : public Planta {
     int instantes;
 public:
-    ErvaDaninha();
+    explicit ErvaDaninha(int ag = Settings::ErvaDaninha::inicial_agua, int nut =Settings::ErvaDaninha::inicial_nutrientes);
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;
     string getNome() const override;
+
+    //Obter
+    int obtemInstantes()const {return instantes;};
+
+    //Modificar
+    void aumentaInst() {instantes++;}
 };
 
 

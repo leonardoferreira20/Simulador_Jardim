@@ -10,7 +10,7 @@
 class Exotica : public Planta {
 
 public:
-    Exotica();
+    explicit Exotica(int ag = Settings::Exotica::inicial_agua, int nut = Settings::Exotica::inicial_nutrientes);
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;

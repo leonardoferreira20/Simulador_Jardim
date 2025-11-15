@@ -4,24 +4,8 @@
 
 #include "Planta.h"
 
-Planta::Planta() : agua(0), nutrientes(0), viva(true) {}
+Planta::Planta(int ag, int nut) : agua(ag), nutrientes(ag), viva(true) {
 
-bool Planta::estaViva() const {
-    return viva;
 }
 
-void Planta::adicionarAgua(int quant) {
-    agua += quant;
-}
 
-void Planta::adicionarNutrientes(int quant) {
-    nutrientes += quant;
-}
-
-int Planta::obterAgua() {
-    return agua;
-}
-
-int Planta::obterNutrientes() {
-    return nutrientes;
-}

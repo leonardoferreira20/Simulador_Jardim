@@ -5,10 +5,22 @@
 #ifndef REGADOR_H
 #define REGADOR_H
 
+#include "../Ferramenta.h"
 
+class Regador: public Ferramenta{
+public:
+    Regador(){
+        setDose(Settings::Regador::dose);
+        setCapacidade(Settings::Regador::capacidade);
+        Ferramenta::setNserie();
+    }
 
-class Regador {
+    void utiliza(Solo& solo) override {solo.modificaAgua(10);};
+    char getSimbolo() const override { return 'g'; }
+    string getNome() const override { return "Regador"; }
 
+    void setDose(int x)override {Ferramenta::setDose(x);};
+    void setCapacidade (int x) override{Ferramenta::setCapacidade(x);};
 };
 
 

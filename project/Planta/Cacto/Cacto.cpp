@@ -10,16 +10,18 @@
 
 using namespace std;
 
-Cacto::Cacto(){
-    agua = Settings::Jardim::agua_min;
-    nutrientes = Settings::Jardim::nutrientes_min;
-    viva = true;
+Cacto::Cacto(int ag, int nut) :Planta(ag,nut){
+
 }
 
 void Cacto::agir(Solo& solo){
     // Absorve pouca água e nutrientes
-    agua += Settings::Cacto::absorcao_agua_percentagem / 10;
-    nutrientes += Settings::Cacto::absorcao_nutrientes;
+    alteraAgua(solo.getAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
+    solo.modificaAgua (-1*solo.getAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
+    if (solo.getNutrientes()>Settings::Cacto::absorcao_nutrientes) {
+        alteraNutrientes (Settings::Cacto::absorcao_nutrientes);
+        solo.modificaNutrientes(Settings::Cacto::absorcao_nutrientes);
+    }
 
     // Verifica se morre por excesso de água ou falta de nutrientes
     /*if ( solo.getAgua() > Settings::Cacto::morre_agua_solo_maior ||
@@ -29,7 +31,7 @@ void Cacto::agir(Solo& solo){
 }
 
 void Cacto::morrer(Solo& solo){
-    viva = false;
+    alteraViva (false);
     cout << "Morreu um cacto.\n";
 
     solo.removerPlanta();

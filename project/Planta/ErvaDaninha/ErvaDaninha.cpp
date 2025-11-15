@@ -8,11 +8,7 @@
 #include "../../Solo/Solo.h"
 
 
-ErvaDaninha::ErvaDaninha() {
-    agua = Settings::ErvaDaninha::inicial_agua;
-    nutrientes = Settings::ErvaDaninha::inicial_nutrientes;
-    instantes = 0;
-    viva = true;
+ErvaDaninha::ErvaDaninha(int ag,int nut):Planta(ag,nut),instantes(0){
 }
 
 void ErvaDaninha::agir(Solo& solo) {
@@ -20,22 +16,22 @@ void ErvaDaninha::agir(Solo& solo) {
     instantes+=1;
 
     // Absorve do solo
-    solo.retiraNutrientes(Settings::ErvaDaninha::absorcao_nutrientes);
-    solo.adicionaAgua(Settings::ErvaDaninha::absorcao_agua);
+    solo.modificaNutrientes((-1)*Settings::ErvaDaninha::absorcao_nutrientes);
+    solo.modificaAgua((-1)*Settings::ErvaDaninha::absorcao_agua);
 
     // Morre
-    if (instantes == Settings::ErvaDaninha::morre_instantes)
+    if (obtemInstantes() == Settings::ErvaDaninha::morre_instantes)
     {
         morrer(solo);
     }
     //Multiplicação
-    if (nutrientes > Settings::ErvaDaninha::multiplica_nutrientes_maior) {
+    if (obtemNutrientesP() > Settings::ErvaDaninha::multiplica_nutrientes_maior) {
 
     }
 }
 
 void ErvaDaninha::morrer(Solo& solo) {
-    viva = false;
+    alteraViva(false);
     cout << "Uma ErvaDaninha murchou.\n";
     solo.removerPlanta();
 }

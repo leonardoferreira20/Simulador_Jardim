@@ -40,7 +40,7 @@ class Settings {
         };
         class Roseira {
             public:
-                static const int inicial_agua = 25;
+                static const int inicial_agua = 5;
                 static const int inicial_nutrientes = 25;
                 static const int perda_agua = 4;
                 static const int perda_nutrientes = 4;

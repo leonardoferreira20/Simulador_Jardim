@@ -10,21 +10,29 @@
 class Solo;
 
 class Ferramenta {
-
 public:
-    int capacidade;
-    int unidades;
-    int nserie;
 
     Ferramenta();
     virtual ~Ferramenta() = default;
+    int getCapacidade() const {return capacidade;}
+    int getDose() const {return dose;}
+    int getNserie() const {return nserie;}
 
+    virtual void setDose(int x) {dose=x;};
+    virtual void setNserie() {nserie+= ++contador;};
+    virtual void setCapacidade (int x) {capacidade=x;};
+    virtual void gastaCapacidade() {capacidade -= dose;};
     // Métodos abstratos (a serem implementados pelas subclasses)
     virtual void utiliza(Solo& solo) = 0;
-    virtual void reduzCapacidade(Solo& solo) = 0;
+    virtual void reduzCapacidade() {capacidade -= dose;}
     virtual char getSimbolo() const = 0;
     virtual string getNome() const = 0;
 
+private:
+    int capacidade;
+    int dose;
+    int nserie=1000;
+    static int contador;
 };
 
 

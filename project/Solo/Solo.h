@@ -20,10 +20,11 @@ class Solo {
 
 public:
     Solo();
-
+    int getAgua() const {return agua;};
+    int getNutrientes()const {return nutrientes;};
     void imprimir () const;
-    void adicionaAgua (int q);
-    void retiraNutrientes (int q);
+    void modificaAgua (int q){agua += q;}
+    void modificaNutrientes (int q){nutrientes += q;}
     Planta* obterPlanta() const;
     void criarPlanta(Planta* p);
     void removerPlanta();

@@ -12,32 +12,30 @@
 
 using namespace std;
 
-Exotica::Exotica() {
-    agua = Settings::Exotica::inicial_agua;
-    nutrientes = Settings::Exotica::inicial_nutrientes;
-    viva = true;
+Exotica::Exotica(int ag, int nut):Planta (ag, nut){
+
 }
 
 void Exotica::agir(Solo& solo) {
     // Perde água e nutrientes a cada ciclo
-    agua -= Settings::Exotica::perda_agua;
-    nutrientes -= Settings::Exotica::perda_nutrientes;
+    alteraAgua((-1)*Settings::Exotica::perda_agua);
+    alteraNutrientes((-1)*Settings::Exotica::perda_nutrientes);
 
     // Absorve do solo
-    solo.retiraNutrientes(Settings::Exotica::absorcao_nutrientes);
-    solo.adicionaAgua(Settings::Exotica::absorcao_agua);
+    solo.modificaNutrientes(Settings::Exotica::absorcao_nutrientes);
+    solo.modificaAgua(Settings::Exotica::absorcao_agua);
 
     // Morre se não tiver condições ideais
-    if (agua < Settings::Exotica::morre_agua_menor ||
-        nutrientes < Settings::Exotica::morre_nutrientes_menor ||
-        nutrientes > Settings::Exotica::morre_nutrientes_maior)
+    if (solo.getAgua() < Settings::Exotica::morre_agua_menor ||
+        obtemNutrientesP() < Settings::Exotica::morre_nutrientes_menor ||
+        obtemNutrientesP() > Settings::Exotica::morre_nutrientes_maior)
     {
         morrer(solo);
     }
 }
 
 void Exotica::morrer(Solo& solo) {
-    viva = false;
+    alteraViva(false);
     cout << "Uma Exotica murchou.\n";
     solo.removerPlanta();
 }

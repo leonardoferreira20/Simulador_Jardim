@@ -22,13 +22,13 @@ class Solo;
  * através dos métodos virtuais puros.
  */
 class Planta {
-
-public:
-    int agua;
-    int nutrientes;
+    int agua=0;
+    int nutrientes=0;
     bool viva;
+public:
 
     Planta();
+    Planta(int agua,int nut);
     virtual ~Planta() = default;
 
     // Métodos abstratos (a serem implementados pelas subclasses)
@@ -38,11 +38,14 @@ public:
     virtual string getNome() const = 0;
 
     // Métodos comuns a todas as plantas
-    bool estaViva() const;
-    void adicionarAgua(int quant);
-    int obterAgua();
-    int obterNutrientes();
-    void adicionarNutrientes(int quant);
+    bool estaViva() const {return viva;};
+    int obtemAguaP()const {return agua;};
+    int obtemNutrientesP()const {return nutrientes;};
+
+    //Metodos para alterar
+    void alteraAgua(int quant) {agua+=quant;};
+    void alteraNutrientes(int quant) {nutrientes+=quant;};
+    void alteraViva(bool v) {viva=v;};
 };
 
 #endif // PLANTA_H

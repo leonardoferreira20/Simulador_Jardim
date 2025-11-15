@@ -3,3 +3,5 @@
 //
 
 #include "Regador.h"
+#include "../../Settings.h"
+#include "../../Solo/Solo.h"
