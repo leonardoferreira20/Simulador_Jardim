@@ -6,11 +6,11 @@
 #include <iostream>
 #include "../Planta/Planta.h"
 
-int valoreRandom (int min, int max) {return min + rand() %  (max - min + 1);}
+int valorRandom (int min, int max) {return min + rand() %  (max - min + 1);}
 
 Solo::Solo() :
-agua(valoreRandom (Settings::Jardim::agua_min,Settings::Jardim::agua_max)),
-nutrientes(valoreRandom(Settings::Jardim::nutrientes_min,Settings::Jardim::nutrientes_max)),
+agua(valorRandom (Settings::Jardim::agua_min,Settings::Jardim::agua_max)),
+nutrientes(valorRandom(Settings::Jardim::nutrientes_min,Settings::Jardim::nutrientes_max)),
 planta(nullptr)/*, ferramenta(nullptr)*/ {}
 
 

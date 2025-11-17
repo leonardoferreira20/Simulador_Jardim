@@ -20,7 +20,7 @@ void Cacto::agir(Solo& solo){
     solo.modificaAgua (-1*solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
     if (solo.obtemNutrientes()>Settings::Cacto::absorcao_nutrientes) {
         alteraNutrientes (Settings::Cacto::absorcao_nutrientes);
-        solo.modificaNutrientes(Settings::Cacto::absorcao_nutrientes);
+        solo.modificaNutrientes(-1*Settings::Cacto::absorcao_nutrientes);
     }
 
     // Verifica se morre por excesso de água ou falta de nutrientes
