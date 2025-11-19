@@ -17,7 +17,8 @@ Interface::~Interface(){
 
 void Interface::executar(){
     string linha;
-    cout << "\nBem-vindo ao simulador de jardim!. Escreva 'ajuda' para saber os comandos disponíveis." << endl << "Escreva 'fim' para sair.\n";
+    cout << "\nBem-vindo ao simulador de jardim!. Escreva 'ajuda' para saber os comandos disponíveis." << endl
+         << "Escreva 'fim' para sair.\n";
 
     while ( ativo ){
         cout << "> ";
@@ -31,13 +32,25 @@ void Interface::processarComando(const string& linha){
     string cmd;
     iss >> cmd;
 
-    /// CASO O UTILIZADOR ESCREVA COM MAIUSCULAS, O CÓDIGO ESTÁ PREPARADO PARA CONVERTER TUDO PARA MINUSCULAS
+    // CASO O UTILIZADOR ESCREVA COM MAIUSCULAS, O CÓDIGO ESTÁ PREPARADO PARA CONVERTER TUDO PARA MINUSCULAS
     for (int i = 0; i < cmd.length(); i++)
         cmd[i] = tolower(cmd[i]);
 
-    if (jardim == nullptr && cmd != "ajuda" && cmd != "" && cmd != "fim") {
+    if (jardim == nullptr && cmd != "ajuda" && !cmd.empty() && cmd != "fim") {
         if ( cmd == "jardim" ){
-            Comando::comandoJardim(jardim, iss);
+            Jardim* novoJardim = Comando::comandoJardim(iss);
+
+            if (novoJardim == nullptr)
+                return;
+
+            if (jardim != nullptr) {
+                cout << "Já se encontra um jardim criado!\n";
+                delete novoJardim;
+                return;
+            }
+
+            jardim = novoJardim;
+            return;
         }
         else if ( cmd == "executa" ) {
             Comando::comandoRunscript(iss,*this);

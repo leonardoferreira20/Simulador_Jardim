@@ -33,12 +33,16 @@ void Jardim::imprimir() const {
 
     for ( int l = 0; l < nLinhas; l++ ){
         cout << char('A' + l) << "  ";
-
         for (int c = 0; c < nColunas; c++) {
-            grid[l][c].imprimir();
+
+            if ( jardineiro->estaDentro() && jardineiro->getLinha() == l && jardineiro->getColuna() == c) {
+                cout << "*";
+            }else {
+                grid[l][c].imprimir();
+            }
+
             cout << " ";
         }
-
         cout << endl;
     }
     cout << endl;
@@ -58,7 +62,6 @@ void Jardim::avanca(int n) {
 };
 
 bool Jardim::planta(int linha, int coluna, char tipo) {
-    // Verifica se o jardim foi criado
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
         cout << "Posição inválida (" << linha << ", " << coluna << ").\n";
         return false;
@@ -66,13 +69,11 @@ bool Jardim::planta(int linha, int coluna, char tipo) {
 
     Solo* solo = &grid[linha][coluna];
 
-    // Verifica se a célula já tem planta
     if (solo->obterPlanta() != nullptr) {
         cout << "Já existe uma planta nessa posição.\n";
         return false;
     }
 
-    // Cria a planta conforme o tipo
     Planta* novaPlanta = nullptr;
     tipo = tolower(tipo);
 
@@ -92,7 +93,6 @@ bool Jardim::planta(int linha, int coluna, char tipo) {
 }
 
 bool Jardim::colhe(int linha, int coluna){
-    // Verifica se o jardim foi criado
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
         cout << "Posição inválida (" << linha << ", " << coluna << ").\n";
         return false;
@@ -100,7 +100,6 @@ bool Jardim::colhe(int linha, int coluna){
 
     Solo* solo = &grid[linha][coluna];
 
-    // Verifica se a célula já tem planta
     if (solo->obterPlanta() != nullptr) {
         cout << "A planta " << solo->obterPlanta()->getNome() << " foi colhida da posição (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
         solo->removerPlanta();

@@ -21,5 +21,4 @@ class Interface {
         void processarComando(const string& linha);
 };
 
-
 #endif //INTERFACE_H

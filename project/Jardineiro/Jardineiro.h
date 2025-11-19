@@ -12,20 +12,42 @@ class Ferramenta;
 class Jardineiro {
     int linha;
     int coluna;
-    bool dentro;  // indica se está no jardim ou não
-    Ferramenta* naMao;
-    
-public:
-    Jardineiro() : linha(-1), coluna(-1), dentro(false) {}
-    bool estaDentro() const;
-    int getLinha() const;
-    int getColuna() const;
+    bool dentro;
 
-    // Por agora só simulamos as ações
+    Ferramenta* naMao;
+
+    int contaMov;
+    int contaEntradas;
+    int contaSaidas;
+    int contaPlantacoes;
+    int contaColheitas;
+
+public:
+    Jardineiro() : linha(-1), coluna(-1), dentro(false),
+          contaMov(0), contaEntradas(0),
+          contaPlantacoes(0), contaColheitas(0) {}
+
+    bool estaDentro() const { return dentro; };
+    int getLinha() const { return linha; };
+    int getColuna() const { return coluna; };
+
+    /// AÇÕES DO JARDINEIRO
     void entrar(int l, int c);
     void sair();
     void mover(char dir);
-    void setPosicao(int l, int c);
+
+    /// VERIFICAÇÕES DE PLANTAÇÕES E COLHEITAS
+    bool podePlantar();
+    bool podeColher();
+
+    /// REGISTO DE PLANTAÇÕES E COLHEITAS
+    void registaPlantacao();
+    void registaColheita();
+
+    /// RESETAR CONTADORES
+    void resetContadores();
+
+    /// FERRAMENTAS
     bool temFerramenta() const;
     Ferramenta* obterFerramentaNaMao() const;
 };

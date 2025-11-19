@@ -23,19 +23,19 @@ add_executable(
         Planta/Cacto/Cacto.cpp
         # PLANTA - ROSEIRA
         Planta/Roseira/Roseira.cpp
-        # PLANTA - Erva Daninha
+        # PLANTA - ERVA DANINHA
         Planta/ErvaDaninha/ErvaDaninha.cpp
-        # PLANTA - Exotica
+        # PLANTA - EXOTICA
         Planta/Exotica/Exotica.cpp
-        # Ferramenta - Exotica
+        # FERRAMENTA
         Ferramenta/Ferramenta.cpp
-        # Ferramenta - Tesoura
+        # FERRAMENTA - TESOURA
         Ferramenta/Tesoura/Tesoura.cpp
-        # Ferramenta - Regador
+        # FERRAMENTA - REGADOR
         Ferramenta/Regador/Regador.cpp
-        # Ferramenta - VaraEspecial
+        # FERRAMENTA - VARA ESPECIAL
         Ferramenta/VaraEspecial/VaraEspecial.cpp
-        # Ferramenta - Adubo
+        # FERRAMENTA - ADUBO
         Ferramenta/Adubo/Adubo.cpp
         # SETTINGS
         Settings.h

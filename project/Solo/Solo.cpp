@@ -37,9 +37,9 @@ Planta* Solo::obterPlanta() const{
 
 void Solo::imprimir() const {
     if (planta != nullptr)
-        cout << planta->getSimbolo();  // Ex: 'R' para Roseira, 'C' para Cacto
+        cout << planta->getSimbolo();
     //else if (ferramenta != nullptr)
-    //    cout << ferramenta->getSimbolo();  // Ex: 'T' para Tesoura
+    //    cout << ferramenta->getSimbolo();
     else
         cout << '.';
 }
