@@ -44,3 +44,11 @@ char Cacto::getSimbolo() const{
 string Cacto::getNome() const{
     return "Cacto";
 }
+
+Planta* Cacto::reproduzPlanta(){
+    Cacto* filho;
+    filho = new Cacto(obtemAguaP()/2,obtemNutrientesP()/2);
+    setAgua(obtemAguaP()/2);
+    setNutrientes(obtemNutrientesP()/2);
+    return filho;
+}

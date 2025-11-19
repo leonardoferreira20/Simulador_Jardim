@@ -262,7 +262,7 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
 
 void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
     string coords;
-    char tipo;
+    char tipo, extra;
     int lin, col;
 
     if ( jardim == nullptr ) {
@@ -271,6 +271,11 @@ void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
     }
 
     if ( !(iss >> coords >> tipo) ) {
+        cout << "Uso: planta <AA> <tipo>\n";
+        return;
+    }
+
+    if (iss>>extra) {
         cout << "Uso: planta <AA> <tipo>\n";
         return;
     }

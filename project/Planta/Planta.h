@@ -43,8 +43,12 @@ public:
 
     //Metodos para alterar
     void alteraAgua(int quant) {agua+=quant;};
+    void setAgua(int quant) {agua=quant;};
     void alteraNutrientes(int quant) {nutrientes+=quant;};
+    void setNutrientes(int quant) {nutrientes=quant;};
     void alteraViva(bool v) {viva=v;};
+
+    virtual Planta* reproduzPlanta() = 0;
 };
 
 #endif // PLANTA_H

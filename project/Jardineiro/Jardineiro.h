@@ -18,7 +18,6 @@ class Jardineiro {
 
     int contaMov;
     int contaEntradas;
-    int contaSaidas;
     int contaPlantacoes;
     int contaColheitas;
 

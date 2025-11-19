@@ -14,6 +14,7 @@ class Roseira: public Planta {
         void morrer(Solo& solo) override;
         char getSimbolo() const override;
         string getNome() const override;
+        Planta* reproduzPlanta() override ;
 };
 
 

@@ -10,6 +10,7 @@
 #include <iostream>
 
 using namespace std;
+int valorRandom2 (int min, int max) {return min + rand() %  (max - min + 1);}
 
 Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
     jardineiro = new Jardineiro();
@@ -48,6 +49,28 @@ void Jardim::imprimir() const {
     cout << endl;
 }
 
+Solo* Jardim::soloParaReproduzir(int linha, int col) {
+    Solo* temp;
+    int positionsAround[16];
+    int count = 0;
+    for (int i = linha-1; i <= linha+1; i++) {
+        for (int j = col-1; j <= col+1; j++) {
+            if (i==linha && j==col) continue;
+            if (!posicaoValida(i,j))continue;
+            temp = getSolo(i,j);
+            if (!temp->temPlanta()) {
+                positionsAround[count]= i;
+                positionsAround[count+8] = j;
+                count++;
+            };
+        }
+    }
+    if (count == 0) {return nullptr;}
+    count=valorRandom2(0,count-1);
+    return getSolo(positionsAround[count],positionsAround[count+8]);
+}
+
+
 void Jardim::avanca(int n) {
     for (int i = 0; i < n; i++) {
         for (int l = 0; l < nLinhas; l++) {
@@ -55,6 +78,15 @@ void Jardim::avanca(int n) {
                 Planta* planta = grid[l][c].obterPlanta();
                 if ( planta != nullptr && planta->estaViva() ) {
                     planta->agir(grid[l][c]);
+                    if (planta->estaViva()) {
+                        Solo* plantar = soloParaReproduzir(l,c);
+                        if (plantar != nullptr) {
+                            Planta* filho = planta->reproduzPlanta();
+                            if (filho != nullptr) {
+                                plantar->criarPlanta(filho);
+                            }
+                        }
+                    }
                 }
             }
         }

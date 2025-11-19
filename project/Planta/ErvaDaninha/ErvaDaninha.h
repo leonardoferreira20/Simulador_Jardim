@@ -21,6 +21,8 @@ public:
 
     //Modificar
     void aumentaInst() {instantes++;}
+
+    Planta* reproduzPlanta() override ;
 };
 
 

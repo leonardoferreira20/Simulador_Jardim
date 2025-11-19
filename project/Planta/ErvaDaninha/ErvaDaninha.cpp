@@ -43,3 +43,11 @@ char ErvaDaninha::getSimbolo() const {
 string ErvaDaninha::getNome() const{
     return "ErvaDaninha";
 }
+
+Planta* ErvaDaninha::reproduzPlanta(){
+    ErvaDaninha* filho;
+    filho = new ErvaDaninha(obtemAguaP(),obtemNutrientesP());
+    setAgua(Settings::ErvaDaninha::nova_nutrientes);
+    setNutrientes(Settings::ErvaDaninha::nova_nutrientes);
+    return filho;
+}

@@ -47,3 +47,11 @@ char Exotica::getSimbolo() const {
 string Exotica::getNome() const{
     return "Exotica";
 }
+
+Planta* Exotica::reproduzPlanta(){
+    Exotica* filho;
+    filho = new Exotica(obtemAguaP(),obtemNutrientesP());
+    alteraAgua((-1)*obtemAguaP()/2);
+    alteraNutrientes((-1)*obtemNutrientesP()/2);
+    return filho;
+}

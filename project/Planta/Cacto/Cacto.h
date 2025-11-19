@@ -16,6 +16,8 @@ public:
     char getSimbolo() const override;
     string getNome() const override;
 
+    Planta* reproduzPlanta() override ;
+
 };
 
 

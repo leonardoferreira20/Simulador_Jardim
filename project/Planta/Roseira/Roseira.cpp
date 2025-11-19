@@ -38,6 +38,8 @@ void Roseira::agir(Solo& solo) {
         obtemNutrientesP() < Settings::Roseira::morre_nutrientes_menor ||
         obtemNutrientesP() > Settings::Roseira::morre_nutrientes_maior)
     {
+        if (obtemNutrientesP()>0) solo.modificaNutrientes(obtemNutrientesP());
+        if ( obtemAguaP()>0) solo.modificaAgua(obtemAguaP());
         morrer(solo);
     }
 }
@@ -54,4 +56,13 @@ char Roseira::getSimbolo() const {
 
 string Roseira::getNome() const{
     return "Roseira";
+}
+
+Planta* Roseira::reproduzPlanta(){
+    //cout << "entra!"<<endl;
+    Roseira* filho;
+    filho = new Roseira(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100,Settings::Roseira::nova_nutrientes);
+    setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
+    setNutrientes(Settings::Roseira::original_nutrientes);
+    return filho;
 }
