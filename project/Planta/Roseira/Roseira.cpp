@@ -13,7 +13,8 @@ Roseira::Roseira(int ag, int nut):Planta(ag,nut) {
 
 }
 
-void Roseira::agir(Solo& solo) {
+void Roseira::agir(Solo& solo){
+    aumentaTempoVida();
     // Perde água e nutrientes a cada ciclo
     if (solo.obtemAgua()>=Settings::Roseira::absorcao_agua){
         solo.modificaAgua(Settings::Roseira::absorcao_agua*-1);
@@ -62,7 +63,7 @@ Planta* Roseira::reproduzPlanta(){
     //cout << "entra!"<<endl;
     Roseira* filho;
     filho = new Roseira(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100,Settings::Roseira::nova_nutrientes);
-    setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
-    setNutrientes(Settings::Roseira::original_nutrientes);
+    filho->setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
+    filho->setNutrientes(Settings::Roseira::original_nutrientes);
     return filho;
 }

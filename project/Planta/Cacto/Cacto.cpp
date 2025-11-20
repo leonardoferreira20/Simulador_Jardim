@@ -15,6 +15,7 @@ Cacto::Cacto(int ag, int nut) :Planta(ag,nut){
 }
 
 void Cacto::agir(Solo& solo){
+    aumentaTempoVida();
     // Absorve pouca água e nutrientes
     alteraAgua(solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
     solo.modificaAgua (-1*solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);

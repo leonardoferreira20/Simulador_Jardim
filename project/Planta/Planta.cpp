@@ -5,7 +5,6 @@
 #include "Planta.h"
 
 Planta::Planta(int ag, int nut) : agua(ag), nutrientes(nut), viva(true) {
-
 }
 
 

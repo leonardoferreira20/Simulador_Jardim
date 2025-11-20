@@ -8,19 +8,18 @@
 #include "../../Solo/Solo.h"
 
 
-ErvaDaninha::ErvaDaninha(int ag,int nut):Planta(ag,nut),instantes(0){
+ErvaDaninha::ErvaDaninha(int ag, int nut):Planta(ag,nut){
 }
 
 void ErvaDaninha::agir(Solo& solo) {
-    // Diminui a variavel instantes se chegar a 0 morre
-    instantes+=1;
+    aumentaTempoVida();
 
     // Absorve do solo
     solo.modificaNutrientes((-1)*Settings::ErvaDaninha::absorcao_nutrientes);
     solo.modificaAgua((-1)*Settings::ErvaDaninha::absorcao_agua);
 
     // Morre
-    if (obtemInstantes() == Settings::ErvaDaninha::morre_instantes)
+    if (obtemTempoVida() == Settings::ErvaDaninha::morre_instantes)
     {
         morrer(solo);
     }

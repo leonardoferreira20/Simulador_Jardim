@@ -17,6 +17,7 @@ Exotica::Exotica(int ag, int nut):Planta (ag, nut){
 }
 
 void Exotica::agir(Solo& solo) {
+    aumentaTempoVida();
     // Perde água e nutrientes a cada ciclo
     alteraAgua((-1)*Settings::Exotica::perda_agua);
     alteraNutrientes((-1)*Settings::Exotica::perda_nutrientes);

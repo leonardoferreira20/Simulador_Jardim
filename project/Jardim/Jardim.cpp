@@ -67,7 +67,10 @@ Solo* Jardim::soloParaReproduzir(int linha, int col) {
     }
     if (count == 0) {return nullptr;}
     count=valorRandom2(0,count-1);
-    return getSolo(positionsAround[count],positionsAround[count+8]);
+    int linhaEscolhida = positionsAround[count];
+    int colunaEscolhida = positionsAround[count+8];
+
+    return getSolo(linhaEscolhida,colunaEscolhida);
 }
 
 
@@ -76,9 +79,9 @@ void Jardim::avanca(int n) {
         for (int l = 0; l < nLinhas; l++) {
             for (int c = 0; c < nColunas; c++) {
                 Planta* planta = grid[l][c].obterPlanta();
-                if ( planta != nullptr && planta->estaViva() ) {
+                if (planta != nullptr && planta->estaViva() ) {
                     planta->agir(grid[l][c]);
-                    if (planta->estaViva()) {
+                    if (planta != nullptr && planta->obtemTempoVida() > 0) {
                         Solo* plantar = soloParaReproduzir(l,c);
                         if (plantar != nullptr) {
                             Planta* filho = planta->reproduzPlanta();

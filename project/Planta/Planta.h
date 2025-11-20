@@ -23,8 +23,11 @@ class Solo;
  */
 class Planta {
     int agua=0;
+    int tempoVida=0;
     int nutrientes=0;
     bool viva;
+
+
 public:
 
     Planta(int agua,int nut);
@@ -38,8 +41,9 @@ public:
 
     // Métodos comuns a todas as plantas
     bool estaViva() const {return viva;};
-    int obtemAguaP()const {return agua;};
-    int obtemNutrientesP()const {return nutrientes;};
+    int obtemAguaP() const {return agua;};
+    int obtemNutrientesP() const {return nutrientes;};
+    int obtemTempoVida() const {return tempoVida;};
 
     //Metodos para alterar
     void alteraAgua(int quant) {agua+=quant;};
@@ -47,6 +51,8 @@ public:
     void alteraNutrientes(int quant) {nutrientes+=quant;};
     void setNutrientes(int quant) {nutrientes=quant;};
     void alteraViva(bool v) {viva=v;};
+    void aumentaTempoVida() {tempoVida++;}
+    void setTempoVida(int quant) {tempoVida=quant;};
 
     virtual Planta* reproduzPlanta() = 0;
 };
