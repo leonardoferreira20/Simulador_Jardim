@@ -26,7 +26,7 @@ class Planta {
     int tempoVida=0;
     int nutrientes=0;
     bool viva;
-
+    bool recemNascida;
 
 public:
 
@@ -53,6 +53,9 @@ public:
     void alteraViva(bool v) {viva=v;};
     void aumentaTempoVida() {tempoVida++;}
     void setTempoVida(int quant) {tempoVida=quant;};
+
+    bool isRecemNascida() const { return recemNascida; }
+    void setRecemNascida(bool valor) { recemNascida = valor; }
 
     virtual Planta* reproduzPlanta() = 0;
 };

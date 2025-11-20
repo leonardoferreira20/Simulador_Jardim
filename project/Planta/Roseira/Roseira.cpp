@@ -60,10 +60,11 @@ string Roseira::getNome() const{
 }
 
 Planta* Roseira::reproduzPlanta(){
-    //cout << "entra!"<<endl;
     Roseira* filho;
+
     filho = new Roseira(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100,Settings::Roseira::nova_nutrientes);
     filho->setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
     filho->setNutrientes(Settings::Roseira::original_nutrientes);
+
     return filho;
 }

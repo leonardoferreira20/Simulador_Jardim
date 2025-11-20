@@ -50,51 +50,75 @@ void Jardim::imprimir() const {
 }
 
 Solo* Jardim::soloParaReproduzir(int linha, int col) {
-    Solo* temp;
-    int positionsAround[16];
+    int livresL[8];
+    int livresC[8];
     int count = 0;
-    for (int i = linha-1; i <= linha+1; i++) {
-        for (int j = col-1; j <= col+1; j++) {
-            if (i==linha && j==col) continue;
-            if (!posicaoValida(i,j))continue;
-            temp = getSolo(i,j);
-            if (!temp->temPlanta()) {
-                positionsAround[count]= i;
-                positionsAround[count+8] = j;
+    int indice, linhaEscolhida, colunaEscolhida;
+
+    for (int i = linha - 1; i <= linha + 1; i++) {
+        for (int j = col - 1; j <= col + 1; j++) {
+
+            if (i == linha && j == col)
+                continue;
+
+            if (!posicaoValida(i, j))
+                continue;
+
+            Solo* s = getSolo(i, j);
+
+            if (!s->temPlanta()) {
+                livresL[count] = i;
+                livresC[count] = j;
                 count++;
-            };
+            }
         }
     }
-    if (count == 0) {return nullptr;}
-    count=valorRandom2(0,count-1);
-    int linhaEscolhida = positionsAround[count];
-    int colunaEscolhida = positionsAround[count+8];
 
-    return getSolo(linhaEscolhida,colunaEscolhida);
+    if (count == 0)
+        return nullptr;
+
+    indice = valorRandom2(0, count - 1);
+    linhaEscolhida = livresL[indice];
+    colunaEscolhida = livresC[indice];
+
+    return getSolo(linhaEscolhida, colunaEscolhida);
 }
-
 
 void Jardim::avanca(int n) {
     for (int i = 0; i < n; i++) {
         for (int l = 0; l < nLinhas; l++) {
             for (int c = 0; c < nColunas; c++) {
                 Planta* planta = grid[l][c].obterPlanta();
+
                 if (planta != nullptr && planta->estaViva() ) {
-                    planta->agir(grid[l][c]);
-                    if (planta != nullptr && planta->obtemTempoVida() > 0) {
+                    if ( !planta->isRecemNascida() ) {
                         Solo* plantar = soloParaReproduzir(l,c);
                         if (plantar != nullptr) {
                             Planta* filho = planta->reproduzPlanta();
                             if (filho != nullptr) {
+                                filho->setRecemNascida(true);
                                 plantar->criarPlanta(filho);
                             }
                         }
                     }
+
+                    planta->agir(grid[l][c]);
                 }
             }
         }
+
+        // RESET DE TODOS OS TRUES ADICIONADOS NA REPRODUÇÃO
+        for (int l = 0; l < nLinhas; l++) {
+            for (int c = 0; c < nColunas; c++) {
+                Planta* p = grid[l][c].obterPlanta();
+                if (p != nullptr && p->isRecemNascida()) {
+                    p->setRecemNascida(false);
+                }
+            }
+        }
+
     }
-};
+}
 
 bool Jardim::planta(int linha, int coluna, char tipo) {
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
