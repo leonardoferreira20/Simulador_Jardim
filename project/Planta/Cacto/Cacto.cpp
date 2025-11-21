@@ -49,7 +49,16 @@ string Cacto::getNome() const{
 Planta* Cacto::reproduzPlanta(){
     Cacto* filho;
     filho = new Cacto(obtemAguaP()/2,obtemNutrientesP()/2);
-    setAgua(obtemAguaP()/2);
-    setNutrientes(obtemNutrientesP()/2);
+    filho->setAgua(obtemAguaP()/2);
+    filho->setNutrientes(obtemNutrientesP()/2);
+
+
     return filho;
+}
+
+bool Cacto::podeReproduzir() {
+    if (obtemNutrientesP()>Settings::Cacto::multiplica_nutrientes_maior && obtemAguaP()>Settings::Cacto::multiplica_agua_maior) {
+        return true;
+    }
+    return false;
 }

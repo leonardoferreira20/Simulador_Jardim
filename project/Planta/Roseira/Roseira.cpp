@@ -66,5 +66,15 @@ Planta* Roseira::reproduzPlanta(){
     filho->setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
     filho->setNutrientes(Settings::Roseira::original_nutrientes);
 
+    setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
+    setNutrientes(Settings::Roseira::original_nutrientes);
+
     return filho;
+}
+
+bool Roseira::podeReproduzir() {
+    if (obtemNutrientesP()>Settings::Roseira::multiplica_nutrientes_maior) {
+        return true;
+    }
+    return false;
 }

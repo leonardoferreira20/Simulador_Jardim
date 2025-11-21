@@ -49,7 +49,7 @@ void Jardim::imprimir() const {
     cout << endl;
 }
 
-Solo* Jardim::soloParaReproduzir(int linha, int col) {
+Solo* Jardim::soloParaReproduzir(int linha, int col, int ErvaDaninha) {
     int livresL[8];
     int livresC[8];
     int count = 0;
@@ -71,6 +71,13 @@ Solo* Jardim::soloParaReproduzir(int linha, int col) {
                 livresC[count] = j;
                 count++;
             }
+
+            if (s->temPlanta() && ErvaDaninha == 1) {
+                livresL[count] = i;
+                livresC[count] = j;
+                count++;
+            }
+
         }
     }
 
@@ -91,17 +98,25 @@ void Jardim::avanca(int n) {
                 Planta* planta = grid[l][c].obterPlanta();
 
                 if (planta != nullptr && planta->estaViva() ) {
-                    if ( !planta->isRecemNascida() ) {
-                        Solo* plantar = soloParaReproduzir(l,c);
+                    if ( !planta->isRecemNascida() && planta->podeReproduzir()) {
+                        Solo* plantar;
+                        if (planta->getSimbolo() != 'E') {
+                            plantar = soloParaReproduzir(l,c,0);
+                        }
+                        else {
+                            plantar = soloParaReproduzir(l,c,1);
+                        }
                         if (plantar != nullptr) {
                             Planta* filho = planta->reproduzPlanta();
                             if (filho != nullptr) {
+                                if (planta->getSimbolo() == 'E') {
+                                    plantar->removerPlanta();cout<<"morreu"<<endl;
+                                };
                                 filho->setRecemNascida(true);
                                 plantar->criarPlanta(filho);
                             }
                         }
                     }
-
                     planta->agir(grid[l][c]);
                 }
             }

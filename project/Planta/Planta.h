@@ -38,6 +38,7 @@ public:
     virtual void morrer(Solo& solo) = 0;
     virtual char getSimbolo() const = 0;
     virtual string getNome() const = 0;
+    virtual bool podeReproduzir() = 0;
 
     // Métodos comuns a todas as plantas
     bool estaViva() const {return viva;};

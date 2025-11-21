@@ -52,7 +52,18 @@ string Exotica::getNome() const{
 Planta* Exotica::reproduzPlanta(){
     Exotica* filho;
     filho = new Exotica(obtemAguaP(),obtemNutrientesP());
-    alteraAgua((-1)*obtemAguaP()/2);
-    alteraNutrientes((-1)*obtemNutrientesP()/2);
+    filho->alteraAgua((-1)*obtemAguaP()/2);
+    filho->alteraNutrientes((-1)*obtemNutrientesP()/2);
+
+    setAgua(obtemAguaP()*Settings::Exotica::original_agua_percentagem/100);
+    setNutrientes(Settings::Exotica::original_nutrientes);
+
     return filho;
+}
+
+bool Exotica::podeReproduzir() {
+    if (obtemNutrientesP()>Settings::Roseira::multiplica_nutrientes_maior) {
+        return true;
+    }
+    return false;
 }

@@ -8,14 +8,18 @@
 #include "../Planta.h"
 
 class ErvaDaninha : public Planta {
+    int instantes=0;
 public:
     explicit ErvaDaninha(int ag = Settings::ErvaDaninha::inicial_agua, int nut =Settings::ErvaDaninha::inicial_nutrientes);
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;
     string getNome() const override;
+    int getInstantes() const {return instantes;};
+    void aumentaInstantes(){instantes++;};
 
     Planta* reproduzPlanta() override ;
+    bool podeReproduzir() override;
 };
 
 

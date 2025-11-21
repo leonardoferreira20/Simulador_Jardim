@@ -44,7 +44,7 @@ class Jardim {
         Solo* getSolo(int linha, int coluna);
         Jardineiro& getJardineiro() const;
         bool posicaoValida(int linha, int coluna) const;
-        Solo* soloParaReproduzir(int lin, int col);
+        Solo* soloParaReproduzir(int lin, int col,int ErvaDaninha);
 };
 
 

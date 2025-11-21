@@ -17,6 +17,7 @@ public:
     string getNome() const override;
 
     Planta* reproduzPlanta() override ;
+    bool podeReproduzir() override;
 };
 
 

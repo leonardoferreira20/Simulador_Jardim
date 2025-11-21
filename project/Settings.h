@@ -62,14 +62,14 @@ class Settings {
         };
         class ErvaDaninha {
             public:
-            static const int inicial_agua = 5;
-            static const int inicial_nutrientes = 5;
+            static const int inicial_agua = 50;
+            static const int inicial_nutrientes = 50;
             static const int absorcao_agua = 1;
             static const int absorcao_nutrientes = 1;
             static const int morre_instantes = 60;
             static const int multiplica_nutrientes_maior = 30;
             static const int multiplica_instantes = 5;
-            static const int nova_nutrientes = 5;
+            static const int nova_nutrientes = 50;
             static const int original_nutrientes = 5;
         };
     class Exotica {

@@ -13,7 +13,7 @@ ErvaDaninha::ErvaDaninha(int ag, int nut):Planta(ag,nut){
 
 void ErvaDaninha::agir(Solo& solo) {
     aumentaTempoVida();
-
+    aumentaInstantes();
     // Absorve do solo
     solo.modificaNutrientes((-1)*Settings::ErvaDaninha::absorcao_nutrientes);
     solo.modificaAgua((-1)*Settings::ErvaDaninha::absorcao_agua);
@@ -46,7 +46,15 @@ string ErvaDaninha::getNome() const{
 Planta* ErvaDaninha::reproduzPlanta(){
     ErvaDaninha* filho;
     filho = new ErvaDaninha(obtemAguaP(),obtemNutrientesP());
-    setAgua(Settings::ErvaDaninha::nova_nutrientes);
-    setNutrientes(Settings::ErvaDaninha::nova_nutrientes);
+    filho->setAgua(Settings::ErvaDaninha::nova_nutrientes);
+    filho->setNutrientes(Settings::ErvaDaninha::nova_nutrientes);
+
     return filho;
+}
+
+bool ErvaDaninha::podeReproduzir() {
+    if (obtemNutrientesP()>Settings::ErvaDaninha::multiplica_nutrientes_maior && getInstantes()>Settings::ErvaDaninha::multiplica_instantes) {
+        return true;
+    }
+    return false;
 }
