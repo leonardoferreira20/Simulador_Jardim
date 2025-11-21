@@ -18,12 +18,13 @@ class Jardineiro {
 
     int contaMov;
     int contaEntradas;
+    int contaSaidas;
     int contaPlantacoes;
     int contaColheitas;
 
 public:
     Jardineiro() : linha(-1), coluna(-1), dentro(false),
-          contaMov(0), contaEntradas(0),
+          contaMov(0), contaEntradas(0), contaSaidas(0),
           contaPlantacoes(0), contaColheitas(0) {}
 
     bool estaDentro() const { return dentro; };

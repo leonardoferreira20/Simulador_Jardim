@@ -9,12 +9,14 @@ using namespace std;
 
 /// AÇÕES DO JARDINEIRO
 void Jardineiro::entrar(int l, int c) {
-    if (dentro) {
+    // ACHAMOS QUE FIZESSE SENTIDO TER ISTO VISTO QUE O JARDINEIRO JÁ ESTÁ DENTRO DO JARDIM
+    // MAS COMO O RELATÓRIO PEDIA OUTRA COISA OPTAMOS POR DEIXAR COMENTADO
+    /*if (dentro) {
         cout << "Erro: O jardineiro já está dentro do jardim.\n";
         return;
-    }
+    }*/
 
-    if (contaEntradas >= Settings::Jardineiro::max_entradas_saidas) {
+    if (contaEntradas >= Settings::Jardineiro::max_entradas_saidas && contaSaidas >= Settings::Jardineiro::max_entradas_saidas) {
         cout << "Erro: Limite de entradas do dia atingido! Avance para o dia seguinte.\n";
         return;
     }
@@ -35,6 +37,7 @@ void Jardineiro::sair() {
     dentro = false;
     linha = -1;
     coluna = -1;
+    contaSaidas++;
     cout << "Jardineiro saiu do jardim.\n";
 }
 
