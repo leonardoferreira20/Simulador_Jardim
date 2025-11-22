@@ -3,10 +3,20 @@
 //
 
 #include "Jardim.h"
+#include "../Jardineiro/Jardineiro.h"
+#include "../Solo/Solo.h"
+
 #include "../Planta/Cacto/Cacto.h"
 #include "../Planta/Roseira/Roseira.h"
 #include "../Planta/ErvaDaninha/ErvaDaninha.h"
 #include "../Planta/Exotica/Exotica.h"
+
+#include "../Ferramenta/Ferramenta.h"
+# include "../Ferramenta/Adubo/Adubo.h"
+# include "../Ferramenta/Regador/Regador.h"
+# include "../Ferramenta/Tesoura/Tesoura.h"
+# include "../Ferramenta/VaraEspecial/VaraEspecial.h"
+
 #include <iostream>
 
 using namespace std;
@@ -17,6 +27,9 @@ Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
     grid = new Solo*[nLinhas];
     for (int i = 0; i < nLinhas; i++)
         grid[i] = new Solo[nColunas];
+
+    for (int i = 0; i < 3; i++)
+        spawnFerramentaAleatoria();
 }
 
 Jardim::~Jardim() {
@@ -248,4 +261,57 @@ Solo* Jardim::getSolo(int linha, int coluna) {
 
 Jardineiro& Jardim::getJardineiro() const{
     return *jardineiro;
+}
+
+bool Jardim::spawnFerramentaAleatoria() {
+    int l, c, tipo;
+    Solo* solo;
+    Ferramenta* f;
+
+    do {
+        l = rand() % nLinhas;
+        c = rand() % nColunas;
+
+        // DISCUTIR SOBRE A POSSIBILIDADE DE NAO HAVER POSICOES VAZIAS (LOOP INFINITO)
+    } while ( grid[l][c].temFerramenta() );
+
+    l = rand() % nLinhas;
+    c = rand() % nColunas;
+    solo = &grid[l][c];
+
+    tipo = rand() % 4;
+
+    switch (tipo) {
+        case 0: f = new Regador(); break;
+        case 1: f = new Adubo(); break;
+        case 2: f = new Tesoura(); break;
+        case 3: f = new VaraEspecial(); break;
+    }
+
+    solo->colocarFerramenta(f);
+
+    return true;
+}
+
+void Jardim::verificarEApanharFerramenta() {
+    if (!jardineiro->estaDentro()) {
+        return;
+    }
+
+    int lin = jardineiro->getLinha();
+    int col = jardineiro->getColuna();
+
+    Solo* solo = getSolo(lin, col);
+    if (solo && solo->temFerramenta()) {
+        Ferramenta* f = solo->obterFerramenta();
+
+        cout << "O jardineiro apanhou uma " << f->getNome()
+             << " (nº " << f->getNSerie() << ")!\n";
+
+        jardineiro->adicionarFerramenta(f);  // Adiciona ao inventário
+        solo->removerFerramenta();           // Remove do solo
+
+        // Spawn nova ferramenta aleatória "por magia"
+        spawnFerramentaAleatoria();
+    }
 }

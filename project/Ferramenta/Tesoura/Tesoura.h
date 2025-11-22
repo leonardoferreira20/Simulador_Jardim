@@ -5,10 +5,18 @@
 #ifndef TESOURA_H
 #define TESOURA_H
 
+#include "../Ferramenta.h"
 
+using namespace std;
 
-class Tesoura {
+class Tesoura: public Ferramenta  {
+    public:
+        Tesoura() : Ferramenta(-1, 0) {}  // infinita
 
+        char getSimbolo() const override { return 'T'; }
+        string getNome() const override { return "Tesoura de Poda"; }
+
+        void utiliza(Solo& solo) override;
 };
 
 

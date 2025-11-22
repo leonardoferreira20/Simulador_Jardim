@@ -4,8 +4,14 @@
 
 #include "Regador.h"
 #include "../../Solo/Solo.h"
+#include "../../Jardim/Jardim.h"
 
+void Regador::utiliza(Solo& solo) {
+    if ( estaVazia() ) {
+        cout << "A ferramenta, " << getNome() << ", atingiu o limite da sua capacidade.\n";
+        return;
+    }
 
-Regador::Regador(int cap, int d): Ferramenta(cap,d) {
-
+    solo.modificaAgua(10);// VERIFICAR VALOR !!
+    reduzirCapacidade();
 }

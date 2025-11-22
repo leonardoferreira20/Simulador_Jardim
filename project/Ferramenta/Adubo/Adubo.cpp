@@ -3,8 +3,15 @@
 //
 
 #include "Adubo.h"
+#include "../../Solo/Solo.h"
+#include "../../Jardim/Jardim.h"
 
-
-    Adubo::Adubo(int cap, int d):Ferramenta(cap,d) {
-
+void Adubo::utiliza(Solo& solo) {
+    if ( estaVazia() ) {
+        cout << "A ferramenta, " << getNome() << ", atingiu o limite da sua capacidade.\n";
+        return;
     }
+
+    solo.modificaAgua(10);// VERIFICAR VALOR !!
+    reduzirCapacidade();
+}

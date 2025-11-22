@@ -4,8 +4,28 @@
 
 #include <iostream>
 #include "Jardineiro.h"
+#include "../Settings.h"
 
 using namespace std;
+
+Jardineiro::Jardineiro() : linha(-1), coluna(-1), dentro(false), contaMov(0), contaEntradas(0), contaSaidas(0),
+    contaPlantacoes(0), contaColheitas(0), mao(nullptr), capacidadeInv(10), tamanhoInv(0) {
+
+    inventario = new Ferramenta*[capacidadeInv];
+    for (int i = 0; i < capacidadeInv; i++) {
+        inventario[i] = nullptr;
+    }
+}
+
+Jardineiro::~Jardineiro() {
+    delete mao;
+    if (inventario != nullptr) {
+        for (int i = 0; i < tamanhoInv; i++) {
+            delete inventario[i];
+        }
+        delete[] inventario;
+    }
+}
 
 /// AÇÕES DO JARDINEIRO
 void Jardineiro::entrar(int l, int c) {
@@ -89,5 +109,85 @@ void Jardineiro::resetContadores() {
 
 /// FERRAMENTAS
 Ferramenta* Jardineiro::obterFerramentaNaMao() const {
-    return naMao;
+    return mao;
 };
+
+void Jardineiro::expandirInventario() {
+    int novaCapacidade = capacidadeInv * 2;
+    Ferramenta** novoInv = new Ferramenta*[novaCapacidade];
+
+    for (int i = 0; i < tamanhoInv; i++) {
+        novoInv[i] = inventario[i];
+    }
+
+    for (int i = tamanhoInv; i < novaCapacidade; i++) {
+        novoInv[i] = nullptr;
+    }
+
+    delete[] inventario;
+    inventario = novoInv;
+    capacidadeInv = novaCapacidade;
+}
+
+void Jardineiro::adicionarFerramenta(Ferramenta* f) {
+    if (f == nullptr) return;
+
+    if (tamanhoInv >= capacidadeInv) {
+        expandirInventario();
+    }
+
+    inventario[tamanhoInv] = f;
+    tamanhoInv++;
+
+    cout << "Ferramenta " << f->getNome() << " (numero " << f->getNSerie() << ") adicionada ao inventário.\n";
+}
+
+bool Jardineiro::pegarFerramenta(int numSerie) {
+    int indice = -1;
+
+    for (int i = 0; i < tamanhoInv; i++) {
+        if (inventario[i]->getNSerie() == numSerie) {
+            indice = i;
+            break;
+        }
+    }
+
+    if (indice == -1) {
+        cout << "Ferramenta com número de série " << numSerie << " não encontrada no inventário.\n";
+        return false;
+    }
+
+    if (obterFerramentaNaMao() != nullptr) {
+        adicionarFerramenta(obterFerramentaNaMao());
+    }
+
+    mao = inventario[indice];
+
+    for (int i = indice; i < tamanhoInv - 1; i++) {
+        inventario[i] = inventario[i + 1];
+    }
+    inventario[tamanhoInv - 1] = nullptr;
+    tamanhoInv--;
+
+    cout << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") agora está na mão.\n";
+    return true;
+}
+
+void Jardineiro::largarFerramenta() {
+    if (obterFerramentaNaMao() == nullptr) {
+        cout << "Não há ferramenta na mão para largar.\n";
+        return;
+    }
+
+    cout << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") guardada no inventário.\n";
+
+    adicionarFerramenta(obterFerramentaNaMao());
+    mao = nullptr;
+}
+
+Ferramenta* Jardineiro::getFerramentaInventario(int index) const {
+    if (index >= 0 && index < tamanhoInv) {
+        return inventario[index];
+    }
+    return nullptr;
+}

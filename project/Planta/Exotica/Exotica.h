@@ -6,6 +6,7 @@
 #define EXOTICA_H
 
 #include "../Planta.h"
+#include "../../Settings.h"
 
 class Exotica : public Planta {
 
@@ -18,6 +19,7 @@ public:
 
     Planta* reproduzPlanta() override ;
     bool podeReproduzir() override;
+    bool isFeia() override{return false;}
 };
 
 

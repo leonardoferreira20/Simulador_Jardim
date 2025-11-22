@@ -7,9 +7,6 @@
 #include "../../Settings.h"
 #include "../../Solo/Solo.h"
 
-#include "../../Settings.h"
-#include "../../Solo/Solo.h"
-
 using namespace std;
 
 Exotica::Exotica(int ag, int nut):Planta (ag, nut){

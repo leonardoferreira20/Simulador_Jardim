@@ -3,22 +3,15 @@
 //
 
 #include "Solo.h"
-#include <iostream>
 #include "../Planta/Planta.h"
+#include "../Ferramenta/Ferramenta.h"
+#include <iostream>
 
 int valorRandom (int min, int max) {return min + rand() %  (max - min + 1);}
 
-Solo::Solo() :
-agua(valorRandom (Settings::Jardim::agua_min,Settings::Jardim::agua_max)),
-nutrientes(valorRandom(Settings::Jardim::nutrientes_min,Settings::Jardim::nutrientes_max)),
-planta(nullptr)/*, ferramenta(nullptr)*/ {}
-
-
-/*
-Ferramenta* Solo::getFerramenta() const{
-    return ferramenta;
-}
-*/
+Solo::Solo() : agua(valorRandom (Settings::Jardim::agua_min,Settings::Jardim::agua_max)),
+               nutrientes(valorRandom(Settings::Jardim::nutrientes_min,Settings::Jardim::nutrientes_max)),
+               planta(nullptr) {}
 
 void Solo::criarPlanta(Planta* p){
     planta = p;
@@ -38,12 +31,11 @@ Planta* Solo::obterPlanta() const{
 void Solo::imprimir() const {
     if (planta != nullptr)
         cout << planta->getSimbolo();
-    //else if (ferramenta != nullptr)
-    //    cout << ferramenta->getSimbolo();
+    else if (ferramenta != nullptr)
+        cout << ferramenta->getSimbolo();
     else
         cout << '.';
 }
-
 
 void Solo::imprimirDetalhado() const {
     cout << "Água: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
@@ -64,4 +56,23 @@ void Solo::imprimirDetalhado() const {
 
 bool Solo::temPlanta() const {
     return planta != nullptr;
+}
+
+Ferramenta* Solo::obterFerramenta() {
+    return ferramenta;
+}
+
+bool Solo::temFerramenta() const {
+    return ferramenta != nullptr;
+}
+
+void Solo::colocarFerramenta(Ferramenta* f) {
+    if (ferramenta != nullptr) {
+        delete ferramenta;
+    }
+    ferramenta = f;
+}
+
+void Solo::removerFerramenta() {
+    ferramenta = nullptr;
 }

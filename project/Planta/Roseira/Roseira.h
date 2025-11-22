@@ -6,6 +6,7 @@
 #define ROSEIRA_H
 
 #include "../Planta.h"
+#include "../../Settings.h" 
 
 class Roseira: public Planta {
     public:
@@ -16,6 +17,7 @@ class Roseira: public Planta {
         string getNome() const override;
         Planta* reproduzPlanta() override ;
         bool podeReproduzir()override;
+        bool isFeia() override{return true;}
 };
 
 

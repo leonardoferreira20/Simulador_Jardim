@@ -8,16 +8,16 @@
 #include "../Ferramenta.h"
 #include "../../Settings.h"
 
-class Regador: public Ferramenta{
-public:
-    explicit Regador(int cap = Settings::Regador::capacidade, int d = Settings::Regador::dose);
+using namespace std;
 
-    void utiliza(Solo& solo) override {solo.modificaAgua(10);};
-    char getSimbolo() const override { return 'g'; }
-    string getNome() const override { return "Regador"; }
+class Regador: public Ferramenta {
+    public:
+        Regador() : Ferramenta(Settings::Regador::capacidade, Settings::Regador::dose) {}
 
-    void setDose(int x)override {Ferramenta::setDose(x);};
-    void setCapacidade (int x) override{Ferramenta::setCapacidade(x);};
+        char getSimbolo() const override { return 'G'; }
+        string getNome() const override { return "Regador"; }
+
+        void utiliza(Solo& solo) override;
 };
 
 

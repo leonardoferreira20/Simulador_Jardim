@@ -8,15 +8,16 @@
 #include "../Ferramenta.h"
 #include "../../Settings.h"
 
+using namespace std;
+
 class Adubo:public Ferramenta {
-    explicit Adubo(int cap = Settings::Adubo::capacidade, int d = Settings::Adubo::dose);
+    public:
+        Adubo() : Ferramenta(Settings::Adubo::capacidade, Settings::Adubo::dose) {}
 
-    void utiliza(Solo& solo) override {solo.modificaAgua(10);};
-    char getSimbolo() const override { return 'a'; }
-    string getNome() const override { return "Adubo"; }
+        char getSimbolo() const override { return 'A'; }
+        string getNome() const override { return "Adubo"; }
 
-    void setDose(int x)override {Ferramenta::setDose(x);};
-    void setCapacidade (int x) override{Ferramenta::setCapacidade(x);};
+        void utiliza(Solo& solo) override;
 };
 
 

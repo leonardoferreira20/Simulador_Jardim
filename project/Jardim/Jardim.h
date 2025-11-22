@@ -7,11 +7,9 @@
 
 #include <iostream>
 
-#include "../Solo/Solo.h"
-#include "../Jardineiro/Jardineiro.h"
-
 using namespace std;
 
+class Solo;
 class Jardineiro;
 
 /**
@@ -37,6 +35,7 @@ class Jardim {
 
         void imprimir () const;
         void avanca(int n);
+
         bool planta(int linha, int coluna, char tipo);
         bool colhe(int linha, int coluna);
         void listarPlantas();
@@ -45,6 +44,10 @@ class Jardim {
         Jardineiro& getJardineiro() const;
         bool posicaoValida(int linha, int coluna) const;
         Solo* soloParaReproduzir(int lin, int col,int ErvaDaninha);
+
+        // FERRAMENTAS
+        bool spawnFerramentaAleatoria();
+        void verificarEApanharFerramenta();
 };
 
 

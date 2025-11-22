@@ -6,9 +6,10 @@
 #define INTERFACE_H
 
 #include <iostream>
-#include "../Jardim/Jardim.h"
 
 using namespace std;
+
+class Jardim;
 
 class Interface {
     Jardim* jardim;

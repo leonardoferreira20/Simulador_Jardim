@@ -6,8 +6,6 @@
 #define PLANTA_H
 
 #include <iostream>
-#include "../Solo/Solo.h"
-#include "../Settings.h"
 
 using namespace std;
 
@@ -39,6 +37,7 @@ public:
     virtual char getSimbolo() const = 0;
     virtual string getNome() const = 0;
     virtual bool podeReproduzir() = 0;
+    virtual bool isFeia() = 0;
 
     // Métodos comuns a todas as plantas
     bool estaViva() const {return viva;};

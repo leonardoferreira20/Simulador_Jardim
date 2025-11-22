@@ -6,6 +6,7 @@
 #define ERVADANINHA_H
 
 #include "../Planta.h"
+#include "../../Settings.h"
 
 class ErvaDaninha : public Planta {
     int instantes=0;
@@ -20,6 +21,7 @@ public:
 
     Planta* reproduzPlanta() override ;
     bool podeReproduzir() override;
+    bool isFeia() override{return true;}
 };
 
 

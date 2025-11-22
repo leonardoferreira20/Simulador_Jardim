@@ -22,8 +22,8 @@ class Settings {
         };
         class VaraEspecial {
             public:
-                static const int capacidade = 100;
-                static const int dose = 100;
+                static const int capacidade = 1;
+                static const int dose = 1;
         };
         class Jardineiro {
             public:

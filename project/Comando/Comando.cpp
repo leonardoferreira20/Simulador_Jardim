@@ -7,9 +7,12 @@
 #include <fstream>
 #include <filesystem>
 
-#include "../Solo/Solo.h"
 #include "Comando.h"
+#include "../Solo/Solo.h"
 #include "../Interface/Interface.h"
+#include "../Jardim/Jardim.h"
+#include "../Jardineiro/Jardineiro.h"
+#include "../Planta/Planta.h"
 
 using namespace std;
 
@@ -206,6 +209,7 @@ void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
     }
 
     jardim->getJardineiro().entrar(lin, col);
+    jardim->verificarEApanharFerramenta();
     jardim->imprimir();
 }
 
@@ -257,6 +261,7 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
     }
 
     jardineiro.mover(direcao);
+    jardim->verificarEApanharFerramenta();
     jardim->imprimir();
 }
 
@@ -361,18 +366,18 @@ void Comando::comandoLargaFerramenta(Jardim* jardim) {
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
-    if ( !jardineiro.estaDentro() ) {
+    if (!jardineiro.estaDentro()) {
         cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
-    if ( jardineiro.obterFerramentaNaMao() == nullptr ) {
-        cout << "Erro: O jardineiro não nenhuma ferramenta na mão.\n" << endl;
+    if (jardineiro.obterFerramentaNaMao() == nullptr) {
+        cout << "Erro: O jardineiro não tem nenhuma ferramenta na mão.\n" << endl;
         return;
     }
 
-    cout << "O jardineiro está prestes a largar a ferramenta.\n" << endl;
-    cout << "Funcionalidade não está implementada.\n";
+    jardineiro.largarFerramenta();
+    jardim->imprimir();
 }
 
 void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss) {
@@ -395,13 +400,8 @@ void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss) {
         return;
     }
 
-    if (jardineiro.obterFerramentaNaMao() != nullptr) {
-        cout << "Erro: O jardineiro já tem uma ferramenta na mão.\n" << endl;
-        return;
-    }
-
-    cout << "Procura pela ferramenta com número de série " << nSerie << "...\n" << endl;
-    cout << "(Validação concluída — funcionalidade ainda não implementada)\n";
+    jardim->getJardineiro().pegarFerramenta(nSerie);
+    jardim->imprimir();
 }
 
 void Comando::comandoCompra(Jardim* jardim, istringstream& iss) {

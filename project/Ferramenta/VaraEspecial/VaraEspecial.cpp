@@ -3,26 +3,19 @@
 //
 
 #include "VaraEspecial.h"
+#include "../../Solo/Solo.h"
+#include "../../Jardim/Jardim.h"
 
 using namespace std;
 
-    VaraEspecial::VaraEspecial(int cap, int d):Ferramenta(cap,d) {
-
+void VaraEspecial::utiliza(Solo& solo) { // ARGUMENTO SOLO IGNORADO PROPOSITADAMENTE
+    if ( estaVazia() ) {
+        cout << "A ferramenta, " << getNome() << ", atingiu o limite da sua capacidade.\n";
+        return;
     }
 
-    void VaraEspecial::utiliza(Solo& solo) {
-        if (solo.obterPlanta()!=nullptr) {
-            Planta* p = solo.obterPlanta();
-            p->alteraNutrientes(20);
-            p->alteraAgua(20);
-        }
-    }
+    int aguaAtual = solo.obtemAgua();
+    solo.modificaAgua(100-aguaAtual);
 
-    void VaraEspecial::fazChuva(Jardim* jardim) {
-        for (int i=0;i<jardim->getNumLinhas();i++) {
-            for (int j=0;i<jardim->getNumColunas();i++) {
-                Solo* solo = jardim->getSolo(i,j);
-                utiliza(*solo);
-            }
-        }
-    }
+    reduzirCapacidade();
+}

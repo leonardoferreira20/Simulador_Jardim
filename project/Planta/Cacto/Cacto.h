@@ -5,6 +5,7 @@
 #ifndef CACTO_H
 #define CACTO_H
 
+#include "../../Settings.h"
 #include "../Planta.h"
 
 class Cacto : public Planta {
@@ -18,6 +19,7 @@ public:
 
     Planta* reproduzPlanta() override ;
     bool podeReproduzir()override;
+    bool isFeia() override{return true;}
 };
 
 

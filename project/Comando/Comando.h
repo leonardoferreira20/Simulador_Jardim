@@ -6,8 +6,9 @@
 #define COMANDO_H
 
 #include <iostream>
-#include "../Jardim/Jardim.h"
+
 class Interface;
+class Jardim;
 
 using namespace std;
 

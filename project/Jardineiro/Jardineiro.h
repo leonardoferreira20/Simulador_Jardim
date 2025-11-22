@@ -14,18 +14,22 @@ class Jardineiro {
     int coluna;
     bool dentro;
 
-    Ferramenta* naMao;
-
+    // CONTADORES
     int contaMov;
     int contaEntradas;
     int contaSaidas;
     int contaPlantacoes;
     int contaColheitas;
 
+    // FERRAMENTAS
+    Ferramenta* mao;
+    Ferramenta** inventario;
+    int capacidadeInv;
+    int tamanhoInv;
+
 public:
-    Jardineiro() : linha(-1), coluna(-1), dentro(false),
-          contaMov(0), contaEntradas(0), contaSaidas(0),
-          contaPlantacoes(0), contaColheitas(0) {}
+    Jardineiro();
+    ~Jardineiro();
 
     bool estaDentro() const { return dentro; };
     int getLinha() const { return linha; };
@@ -50,6 +54,13 @@ public:
     /// FERRAMENTAS
     bool temFerramenta() const;
     Ferramenta* obterFerramentaNaMao() const;
+    void expandirInventario();
+    void adicionarFerramenta(Ferramenta* f);
+    bool pegarFerramenta(int numSerie);
+    void largarFerramenta();
+    Ferramenta* getFerramentaInventario(int index) const;
+    /*void pegar(Ferramenta*);
+    void largar(Solo&);*/
 };
 
 #endif //JARDINEIRO_H

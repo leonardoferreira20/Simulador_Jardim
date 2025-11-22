@@ -9,11 +9,13 @@
 #include "../../Settings.h"
 
 class VaraEspecial : public Ferramenta {
-    int contador;
-public:
-    explicit VaraEspecial(int cap = Settings::VaraEspecial::capacidade, int d = Settings::VaraEspecial::dose);
-    void utiliza(Solo& solo) override;
-    void fazChuva(Jardim* Jardim);
+    public:
+        VaraEspecial() : Ferramenta(Settings::VaraEspecial::capacidade, Settings::VaraEspecial::dose) {}
+
+        char getSimbolo() const override { return 'V'; }
+        string getNome() const override { return "Vara Especial"; }
+
+        void utiliza(Solo& /*solo*/) override;
 };
 
 

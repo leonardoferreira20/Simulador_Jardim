@@ -6,35 +6,33 @@
 #define FERRAMENTA_H
 
 #include <iostream>
-#include "../Solo/Solo.h"
-#include "../Jardim/Jardim.h"
+
+using namespace std;
 
 class Solo;
 
 class Ferramenta {
-public:
-
-    Ferramenta(int cap, int d);
-    virtual ~Ferramenta() = default;
-    int getCapacidade() const {return capacidade;}
-    int getDose() const {return dose;}
-    int getNserie() const {return nserie;}
-
-    virtual void setDose(int x) {dose=x;};
-    void setNserie() {nserie+= ++contador;};
-    virtual void setCapacidade (int x) {capacidade=x;};
-    virtual void gastaCapacidade() {capacidade -= dose;};
-    // Métodos abstratos (a serem implementados pelas subclasses)
-    virtual void utiliza(Solo& solo) = 0;
-    virtual void reduzCapacidade() {capacidade -= dose;}
-    virtual char getSimbolo() const = 0;
-    virtual string getNome() const = 0;
-
-private:
     int capacidade;
-    int dose;
-    int nserie=1000;
+    int consumo;
+    int nSerie;
     static int contador;
+
+    public:
+        Ferramenta(int capacidade, int consumo);
+
+        virtual ~Ferramenta() = default;
+
+        int getCapacidade() const { return capacidade; }
+        int getConsumo() const { return consumo; }
+        int getNSerie() const { return nSerie; }
+
+        bool estaVazia() const { return capacidade <= 0; }
+
+        void reduzirCapacidade();
+
+        virtual char getSimbolo() const = 0;
+        virtual string getNome() const = 0;
+        virtual void utiliza(Solo& solo) = 0;
 };
 
 

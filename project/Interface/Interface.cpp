@@ -6,6 +6,7 @@
 #include <sstream>
 #include "Interface.h"
 #include "../Comando/Comando.h"
+#include "../Jardim/Jardim.h"
 
 using namespace std;
 
