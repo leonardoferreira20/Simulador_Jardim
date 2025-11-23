@@ -1,0 +1,8 @@
+jardim 10 10
+entra 2 2
+planta 2 2 c
+planta 2 7 r
+planta 7 2 e
+grava 123
+apaga 123
+fim

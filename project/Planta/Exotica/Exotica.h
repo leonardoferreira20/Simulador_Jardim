@@ -12,6 +12,8 @@ class Exotica : public Planta {
 
 public:
     explicit Exotica(int ag = Settings::Exotica::inicial_agua, int nut = Settings::Exotica::inicial_nutrientes);
+    Planta* clone()const override;
+
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;

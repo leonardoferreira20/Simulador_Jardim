@@ -10,7 +10,9 @@
 
 using namespace std;
 
-Interface::Interface() : jardim(nullptr), ativo(true){}
+Interface::Interface() : jardim(nullptr), ativo(true) {
+    srand(time(NULL));
+}
 
 Interface::~Interface(){
     delete jardim;

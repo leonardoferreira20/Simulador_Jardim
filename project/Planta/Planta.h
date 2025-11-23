@@ -30,6 +30,7 @@ public:
 
     Planta(int agua,int nut);
     virtual ~Planta() = default;
+    virtual Planta* clone() const = 0;
 
     // Métodos abstratos (a serem implementados pelas subclasses)
     virtual void agir(Solo& solo) = 0;

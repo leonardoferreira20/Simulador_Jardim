@@ -1,0 +1,54 @@
+//
+// Created by Leonardo Ferreira on 11/10/2025.
+//
+
+#ifndef JARDIM_H
+#define JARDIM_H
+
+#include <iostream>
+
+#include "../Solo/Solo.h"
+#include "../Jardineiro/Jardineiro.h"
+
+using namespace std;
+
+class Jardineiro;
+
+/**
+ * @class Jardim
+ *
+ * @brief Representa o ambiente principal da simulação.
+ * Esta classe contém a grelha de solo (estrutura retangular de células),
+ * o jardineiro e os métodos responsáveis por atualizar e imprimir o estado
+ * do jardim. Também processa os comandos e controla o avanço temporal da simulação.
+ */
+class Jardim {
+    int nLinhas;
+    int nColunas;
+    Solo** grid;
+    Jardineiro* jardineiro;
+
+    int valorRandom2 (int min, int max) {return min + rand() %  (max - min + 1);}
+
+    public:
+        Jardim(int lin, int col);
+        ~Jardim();
+        Jardim(const Jardim& outro);
+
+        int getNumLinhas () const { return nLinhas; }
+        int getNumColunas () const { return nColunas; }
+
+        void imprimir () const;
+        void avanca();
+        bool planta(int linha, int coluna, char tipo);
+        bool colhe(int linha, int coluna);
+        void listarPlantas();
+        void listarPlanta(int linha, int coluna);
+        Solo* getSolo(int linha, int coluna);
+        Jardineiro& getJardineiro() const;
+        bool posicaoValida(int linha, int coluna) const;
+        Solo* soloParaReproduzir(int lin, int col,int ErvaDaninha);
+};
+
+
+#endif //JARDIM_H

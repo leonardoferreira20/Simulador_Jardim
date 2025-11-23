@@ -26,16 +26,18 @@ class Jardim {
     Solo** grid;
     Jardineiro* jardineiro;
 
+    int valorRandom2 (int min, int max) {return min + rand() %  (max - min + 1);}
+
     public:
         Jardim(int lin, int col);
         ~Jardim();
+        Jardim(const Jardim& outro);
 
         int getNumLinhas () const { return nLinhas; }
         int getNumColunas () const { return nColunas; }
 
         void imprimir () const;
-        void avanca(int n);
-
+        void avanca();
         bool planta(int linha, int coluna, char tipo);
         bool colhe(int linha, int coluna);
         void listarPlantas();

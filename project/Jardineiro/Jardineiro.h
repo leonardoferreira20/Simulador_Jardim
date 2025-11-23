@@ -15,6 +15,8 @@ class Jardineiro {
     bool dentro;
 
     // CONTADORES
+    int contaReset;
+
     int contaMov;
     int contaEntradas;
     int contaSaidas;

@@ -11,6 +11,8 @@
 class Roseira: public Planta {
     public:
         explicit Roseira(int ag = Settings::Roseira::inicial_agua, int nut = Settings::Roseira::inicial_nutrientes);
+        Planta* clone() const override;
+
         void agir(Solo& solo) override;
         void morrer(Solo& solo) override;
         char getSimbolo() const override;

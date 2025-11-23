@@ -13,6 +13,10 @@ Exotica::Exotica(int ag, int nut):Planta (ag, nut){
 
 }
 
+Planta* Exotica::clone() const {
+    return new Exotica (*this);
+}
+
 void Exotica::agir(Solo& solo) {
     aumentaTempoVida();
     // Perde água e nutrientes a cada ciclo

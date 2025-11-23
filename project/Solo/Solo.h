@@ -22,6 +22,15 @@ class Solo {
 
 public:
     Solo();
+    Solo(const Solo& outro);
+    ~Solo();
+
+
+
+    //operador = vamos ver se é necessario
+    Solo& operator=(const Solo& outro);
+
+
 
     int obtemAgua() const {return agua;};
     int obtemNutrientes()const {return nutrientes;};

@@ -47,8 +47,10 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
 
     int n = 1;
     iss >> n;
-    jardim->avanca(n);
-    jardim->getJardineiro().resetContadores();
+    for (int i = 0; i < n;i++) {
+        jardim->avanca();
+        jardim->getJardineiro().resetContadores();
+    }
     jardim->imprimir();
 };
 

@@ -20,7 +20,6 @@
 #include <iostream>
 
 using namespace std;
-int valorRandom2 (int min, int max) {return min + rand() %  (max - min + 1);}
 
 Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
     jardineiro = new Jardineiro();
@@ -28,9 +27,34 @@ Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
     for (int i = 0; i < nLinhas; i++)
         grid[i] = new Solo[nColunas];
 
+
     for (int i = 0; i < 3; i++)
         spawnFerramentaAleatoria();
+
 }
+
+
+Jardim::Jardim(const Jardim& outro) {
+    nLinhas = outro.nLinhas;
+    nColunas = outro.nColunas;
+    //Criar array de ponteiros para o inicio de cada linha
+    grid = new Solo*[nLinhas];
+
+    jardineiro = outro.jardineiro;
+
+    //Criar array para cada linha
+    for (int i = 0; i < nLinhas; i++) {
+        grid[i] = new Solo[nColunas];
+    }
+
+    for (int l = 0; l < nLinhas;l++) {
+        for (int c = 0; c < nColunas; c++) {
+
+            grid [l][c] = outro.grid[l][c];
+        }
+    }
+}
+
 
 Jardim::~Jardim() {
     for (int i = 0; i < nLinhas; i++)
@@ -104,16 +128,14 @@ Solo* Jardim::soloParaReproduzir(int linha, int col, int ErvaDaninha) {
     return getSolo(linhaEscolhida, colunaEscolhida);
 }
 
-void Jardim::avanca(int n) {
-    for (int i = 0; i < n; i++) {
+void Jardim::avanca() {
         for (int l = 0; l < nLinhas; l++) {
             for (int c = 0; c < nColunas; c++) {
                 Planta* planta = grid[l][c].obterPlanta();
-
                 if (planta != nullptr && planta->estaViva() ) {
                     if ( !planta->isRecemNascida() && planta->podeReproduzir()) {
                         Solo* plantar;
-                        if (planta->getSimbolo() != 'E') {
+                        if (planta->getSimbolo() != 'E') {//Passar para deentro da planta
                             plantar = soloParaReproduzir(l,c,0);
                         }
                         else {
@@ -122,7 +144,7 @@ void Jardim::avanca(int n) {
                         if (plantar != nullptr) {
                             Planta* filho = planta->reproduzPlanta();
                             if (filho != nullptr) {
-                                if (planta->getSimbolo() == 'E') {
+                                if (planta->getSimbolo() == 'E' && plantar->temPlanta()) {
                                     plantar->removerPlanta();cout<<"morreu"<<endl;
                                 };
                                 filho->setRecemNascida(true);
@@ -145,7 +167,6 @@ void Jardim::avanca(int n) {
             }
         }
 
-    }
 }
 
 bool Jardim::planta(int linha, int coluna, char tipo) {

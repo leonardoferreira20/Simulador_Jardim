@@ -12,6 +12,8 @@ class ErvaDaninha : public Planta {
     int instantes=0;
 public:
     explicit ErvaDaninha(int ag = Settings::ErvaDaninha::inicial_agua, int nut =Settings::ErvaDaninha::inicial_nutrientes);
+    Planta* clone()const override;
+
     void agir(Solo& solo) override;
     void morrer(Solo& solo) override;
     char getSimbolo() const override;

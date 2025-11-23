@@ -9,7 +9,7 @@
 using namespace std;
 
 Jardineiro::Jardineiro() : linha(-1), coluna(-1), dentro(false), contaMov(0), contaEntradas(0), contaSaidas(0),
-    contaPlantacoes(0), contaColheitas(0), mao(nullptr), capacidadeInv(10), tamanhoInv(0) {
+    contaPlantacoes(0), contaColheitas(0), mao(nullptr), capacidadeInv(10), tamanhoInv(0), contaReset(0) {
 
     inventario = new Ferramenta*[capacidadeInv];
     for (int i = 0; i < capacidadeInv; i++) {
@@ -35,8 +35,7 @@ void Jardineiro::entrar(int l, int c) {
         cout << "Erro: O jardineiro já está dentro do jardim.\n";
         return;
     }*/
-
-    if (contaEntradas >= Settings::Jardineiro::max_entradas_saidas && contaSaidas >= Settings::Jardineiro::max_entradas_saidas) {
+    if (!dentro && contaEntradas >= Settings::Jardineiro::max_entradas_saidas && contaSaidas >= Settings::Jardineiro::max_entradas_saidas) {
         cout << "Erro: Limite de entradas do dia atingido! Avance para o dia seguinte.\n";
         return;
     }
@@ -101,10 +100,13 @@ void Jardineiro::registaColheita() {
 
 /// RESETAR CONTADORES
 void Jardineiro::resetContadores() {
-    contaMov = 0;
-    contaEntradas = 0;
-    contaPlantacoes = 0;
-    contaColheitas = 0;
+    contaReset++;
+    if (contaReset%2==0) {
+        contaMov = 0;
+        contaEntradas = 0;
+        contaPlantacoes = 0;
+        contaColheitas = 0;
+    }
 }
 
 /// FERRAMENTAS
