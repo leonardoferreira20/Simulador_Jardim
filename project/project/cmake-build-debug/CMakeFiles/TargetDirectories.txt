@@ -1,3 +1,0 @@
-C:/Users/jonhr/OneDrive/Ambiente de Trabalho/Joao Rama/ISEC/2Ano/POO/Trabalho Jardim/Simulador_Jardim/project/cmake-build-debug/CMakeFiles/project.dir
-C:/Users/jonhr/OneDrive/Ambiente de Trabalho/Joao Rama/ISEC/2Ano/POO/Trabalho Jardim/Simulador_Jardim/project/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/jonhr/OneDrive/Ambiente de Trabalho/Joao Rama/ISEC/2Ano/POO/Trabalho Jardim/Simulador_Jardim/project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
