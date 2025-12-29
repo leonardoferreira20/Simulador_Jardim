@@ -13,6 +13,10 @@
 #include "../Jardim/Jardim.h"
 #include "../Jardineiro/Jardineiro.h"
 #include "../Planta/Planta.h"
+#include "../Ferramenta/Adubo/Adubo.h"
+#include "../Ferramenta/Tesoura/Tesoura.h"
+#include "../Ferramenta/Regador/Regador.h"
+#include "../Ferramenta/VaraEspecial/VaraEspecial.h"
 
 using namespace std;
 
@@ -160,23 +164,20 @@ void Comando::comandoListarArea(Jardim* jardim) {
 
     bool encontrou = false;
 
-    cout << "Erro: Posições ocupadas no jardim:\n" << endl;
-
     for (int l = 0; l < jardim->getNumLinhas(); ++l) {
         for (int c = 0; c < jardim->getNumColunas(); ++c) {
             Solo* solo = jardim->getSolo(l, c);
             if (solo != nullptr) {
                 if ( solo->temPlanta() ) {
                     Planta* p = solo->obterPlanta();
-                    cout << "  (" << l + 1 << "," << c + 1 << ") - Planta: " << p->getSimbolo() << "\n";
+                    cout << "  (" << char('A' + l) << "," << char('A' + c) << ") - Planta: " << p->getNome() << "\n";
                     encontrou = true;
                 }
-                /*else if (solo->temFerramenta()) {
+                else if (solo->temFerramenta()) {
                     Ferramenta* f = solo->obterFerramenta();
-                    cout << "  (" << l + 1 << "," << c + 1 << ") - Ferramenta: "
-                         << f->getSimbolo() << "\n";
+                    cout << "  (" << char('A' + l) << "," << char('A' + c) << ") - Ferramenta: " << f->getNome() << "\n";
                     encontrou = true;
-                }*/
+                }
             }
         }
     }
@@ -355,9 +356,59 @@ void Comando::comandoColher(Jardim* jardim, istringstream& iss){
 };
 
 /// FERRAMENTAS
-void Comando::comandoListarFerramenta() {
-    cout << "Funcionalidade por implementar!\n";
-    cout << "Procura ferramentas!\n";
+void Comando::comandoListarFerramenta(Jardim* jardim) {
+
+    if (jardim == nullptr) {
+        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        return;
+    }
+
+    bool encontrou = false;
+
+    cout << "Ferramentas disponíveis:\n";
+
+    // Ferramentas no SOLO
+    for (int l = 0; l < jardim->getNumLinhas(); l++) {
+        for (int c = 0; c < jardim->getNumColunas(); c++) {
+
+            Solo* solo = jardim->getSolo(l, c);
+            if (solo != nullptr && solo->temFerramenta()) {
+
+                Ferramenta* f = solo->obterFerramenta();
+                cout << "  Solo ("
+                     << char('A' + l) << char('A' + c) << ") - "
+                     << f->getNome()
+                     << " [nº série: " << f->getNSerie() << "]\n";
+
+                encontrou = true;
+            }
+        }
+    }
+
+    // Ferramentas do JARDINEIRO
+    Jardineiro& j = jardim->getJardineiro();
+
+    // Ferramenta na mão
+    Ferramenta* mao = j.obterFerramentaNaMao();
+    if (mao != nullptr) {
+        cout << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << "]\n";
+        encontrou = true;
+    }
+
+    // Ferramentas no inventário
+    for (int i = 0; ; i++) {
+        Ferramenta* f = j.getFerramentaInventario(i);
+        if (f == nullptr)
+            break;
+
+        cout << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
+
+        encontrou = true;
+    }
+
+    if (!encontrou) {
+        cout << "  Nenhuma ferramenta disponível.\n";
+    }
 }
 
 void Comando::comandoLargaFerramenta(Jardim* jardim) {
@@ -407,32 +458,47 @@ void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss) {
 }
 
 void Comando::comandoCompra(Jardim* jardim, istringstream& iss) {
-    string nome;
-    if (jardim==nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+    if (jardim == nullptr) {
+        cout << "Erro: ainda não existe um jardim.\n";
         return;
     }
-    if (!(iss >> nome)) {
-        cout << "Uso: compra <c>\n" << endl;
+
+    Jardineiro& j = jardim->getJardineiro();
+
+    if (!j.estaDentro()) {
+        cout << "Erro: o jardineiro tem de estar dentro do jardim para comprar ferramentas.\n";
         return;
     }
-    if (!iss.eof()) {
-        cout << "Uso: apaga <c>\n" << endl;
+
+    char tipo;
+    if (!(iss >> tipo)) {
+        cout << "Uso: compra <g|a|t|v>\n";
         return;
     }
-    if (nome == "g") {
-        cout << "Comando por implementar. Instancia de g \n" << endl;
+
+    Ferramenta* nova = nullptr;
+
+    switch (tipo) {
+        case 'g':
+            nova = new Regador();
+        break;
+        case 'a':
+            nova = new Adubo();
+        break;
+        case 't':
+            nova = new Tesoura();
+        break;
+        case 'v':
+            nova = new VaraEspecial();
+        break;
+        default:
+            cout << "Erro: tipo de ferramenta invalido. Use g, a, t ou v.\n";
+        return;
     }
-    else if (nome == "t") {
-        cout << "Comando por implementar. Instancia de t \n" << endl;
-    }
-    else if (nome == "a") {
-        cout << "Comando por implementar. Instancia de a \n" << endl;
-    }
-    else if (nome == "z") {
-        cout << "Comando por implementar. Instancia de z \n" << endl;
-    }
-    else cout << "Erro: Apenas disponivel para compra: <g>,<a>,<t>,<z>.\n" << endl;
+
+    j.adicionarFerramenta(nova);
+
+    cout << "Ferramenta comprada com sucesso: " << nova->getNome() << " (nº serie " << nova->getNSerie() << ")\n";
 }
 
 /// FICHEIROS/MEMÓRIA

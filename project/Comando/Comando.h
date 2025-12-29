@@ -36,7 +36,7 @@ class Comando {
         static void comandoColher(Jardim* jardim, istringstream& iss);
 
         /// FERRAMENTAS
-        static void comandoListarFerramenta(); // IMPLEMENTAR
+        static void comandoListarFerramenta(Jardim* jardim);
         static void comandoLargaFerramenta(Jardim* jardim); // IMPLEMENTAR
         static void comandoPegaFerramenta(Jardim* jardim, istringstream& iss); // IMPLEMENTAR
         static void comandoCompra(Jardim* jardim, istringstream& iss); // IMPLEMENTAR

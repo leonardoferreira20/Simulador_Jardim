@@ -141,7 +141,7 @@ void Jardineiro::adicionarFerramenta(Ferramenta* f) {
     inventario[tamanhoInv] = f;
     tamanhoInv++;
 
-    cout << "Ferramenta " << f->getNome() << " (numero " << f->getNSerie() << ") adicionada ao inventário.\n";
+    cout << "Ferramenta " << f->getNome() << " (nº serie " << f->getNSerie() << ") adicionada ao inventário.\n";
 }
 
 bool Jardineiro::pegarFerramenta(int numSerie) {

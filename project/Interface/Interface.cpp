@@ -86,7 +86,7 @@ void Interface::processarComando(const string& linha){
             Comando::comandoListarInfoSolo(jardim, iss);
         }
         else if ( cmd == "lferr" ) {
-            Comando::comandoListarFerramenta();
+            Comando::comandoListarFerramenta(jardim);
         }
         else if ( cmd == "entra" ) {
             Comando::comandoEntrarJardim(jardim, iss);
