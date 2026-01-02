@@ -17,6 +17,7 @@ class Tesoura: public Ferramenta  {
         string getNome() const override { return "Tesoura de Poda"; }
 
         void utiliza(Solo& solo) override;
+        Ferramenta* clone() const override { return new Tesoura(*this); }
 };
 
 

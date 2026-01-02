@@ -16,6 +16,7 @@ Interface::Interface() : jardim(nullptr), ativo(true) {
 
 Interface::~Interface(){
     delete jardim;
+    Comando::limparGravacoes();
 }
 
 void Interface::executar(){

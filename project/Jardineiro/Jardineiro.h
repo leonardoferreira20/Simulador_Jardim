@@ -32,6 +32,8 @@ class Jardineiro {
 public:
     Jardineiro();
     ~Jardineiro();
+    Jardineiro(const Jardineiro& outro);
+    Jardineiro& operator=(const Jardineiro& outro);
 
     bool estaDentro() const { return dentro; };
     int getLinha() const { return linha; };

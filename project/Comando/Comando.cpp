@@ -1,7 +1,7 @@
 //
 // Created by Leonardo Ferreira on 11/10/2025.
 //
-
+#include <map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -19,6 +19,7 @@
 #include "../Ferramenta/VaraEspecial/VaraEspecial.h"
 
 using namespace std;
+static std::map<std::string, Jardim*> lista_gravacoes;
 
 /// CRIAR JARDIM
 Jardim* Comando::comandoJardim(istringstream& iss){
@@ -528,89 +529,75 @@ bool Comando::procuraFicheiro(string nome, string pasta){
     return false;
 }
 
-void Comando::comandoGrava(Jardim* jardim, istringstream& iss){
-    string resposta,nome;
-    string pasta = "Save";
+void Comando::comandoGrava(Jardim*& jardim, istringstream& iss) {
+    string nome;
 
     if (jardim == nullptr) {
         cout << "Nao existe jardim para gravar!\n";
         return;
     }
-    if (!(iss >> nome)) {
-        cout << "Uso: apaga <nome>\n" << endl;
+
+    if (!(iss >> nome) || !iss.eof()) {
+        cout << "Uso: grava <nome>\n";
         return;
     }
-    if (!iss.eof()) {
-        cout << "Uso: apaga <nome>\n" << endl;
+
+    // se já existir, não deixa (podes mudar para permitir overwrite, se quiseres)
+    if (lista_gravacoes.find(nome) != lista_gravacoes.end()) {
+        cout << "Ja existe uma gravacao com o nome '" << nome << "'.\n";
         return;
     }
-    if (!validaNomeficheiro(nome))
-        return;
-    if (procuraFicheiro(nome,pasta)) {
-        filesystem::path ficheiro = pasta + "/" + nome + ".txt";
-        cout << "Ficheiro existe! Quer gravar novamente?(s/n)\n" << endl;
-        cin >> resposta;
-        if (resposta == "s") {
-            cout << "Comando por implementar dentro de gravar novamente\n" << endl;
-        }else if (resposta == "n") {
-            cout << "Nao foi gravado o ficheiro!\n" << endl;
-            return;
-        }
-        else {
-            cout << "Comando errado!\n" << endl;
-            return;
-        }
-    }else {
-        if (!criaFicheiro( nome)) cout << "Erro na criacao de ficheiro!\n" << endl;
-        cout << "Cria Ficheiro! Comando por implementar na gravacao nova!\n";
-    }
+
+    // snapshot em memória (deep copy)
+    lista_gravacoes[nome] = new Jardim(*jardim);
+
+    cout << "Gravacao '" << nome << "' guardada em memoria.\n";
 }
 
-void Comando::comandoRecupera(Jardim* jardim, istringstream& iss){
+void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss) {
     string nome;
-    string pasta = "Save";
-    if (!(iss >> nome)) {
-        cout << "Uso: apaga <nome>\n";
-        return;
-    }
-    if (!iss.eof()) {
+
+    if (!(iss >> nome) || !iss.eof()) {
         cout << "Uso: recupera <nome>\n";
         return;
     }
-    if (!validaNomeficheiro(nome))
+
+    auto it = lista_gravacoes.find(nome);
+    if (it == lista_gravacoes.end()) {
+        cout << "Gravacao com nome '" << nome << "' nao existe.\n";
         return;
-    if (procuraFicheiro(nome,pasta)){
-        cout << "Gravacao existente com esse nome! Por implementar comando!" << endl;
-    }else {
-        cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
     }
+
+    // substituir o jardim atual
+    delete jardim;
+    jardim = new Jardim(*it->second);
+
+    // a cópia é eliminada (como o enunciado pede)
+    delete it->second;
+    lista_gravacoes.erase(it);
+
+    cout << "Recuperado '" << nome << "' e removido da memoria.\n";
+    jardim->imprimir();
 }
 
-void Comando::comandoApaga(istringstream& iss){
+void Comando::comandoApaga(istringstream& iss) {
     string nome;
-    string pasta = "Save";
-    if (!(iss >> nome)) {
+
+    if (!(iss >> nome) || !iss.eof()) {
         cout << "Uso: apaga <nome>\n";
         return;
     }
-    if (!iss.eof()) {
-        cout << "Uso: apaga <nome>\n";
+
+    auto it = lista_gravacoes.find(nome);
+    if (it == lista_gravacoes.end()) {
+        cout << "Gravacao com nome '" << nome << "' nao existe.\n";
         return;
     }
-    if (!validaNomeficheiro(nome)) {
-        return;
-    }
-    if (!validaNomeficheiro(pasta)) {
-        return;
-    }
-    if (procuraFicheiro(nome,pasta)) {
-        filesystem::path ficheiro = pasta + "/" + nome + ".txt";
-        if (filesystem::remove(ficheiro)) {
-            cout << "Gravacao com nome: " << nome << " apagada com sucesso!\n" << endl;
-        }
-    }else {
-        cout << "Gravacao com nome: " << nome << " nao existe!\n" << endl;
-    }
+
+    delete it->second;
+    lista_gravacoes.erase(it);
+
+    cout << "Gravacao '" << nome << "' apagada da memoria.\n";
 }
 
 /// CORRER UM SCRIPT
@@ -703,4 +690,12 @@ bool Comando::converteCoordenada(const string& s, int& linha, int& coluna) {
     coluna = C - 'A';
 
     return true;
+}
+
+
+void Comando::limparGravacoes() {
+    for (auto& par : lista_gravacoes) {
+        delete par.second;
+    }
+    lista_gravacoes.clear();
 }

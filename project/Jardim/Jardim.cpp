@@ -37,21 +37,20 @@ Jardim::Jardim(int lin, int col) : nLinhas(lin), nColunas(col) {
 Jardim::Jardim(const Jardim& outro) {
     nLinhas = outro.nLinhas;
     nColunas = outro.nColunas;
-    //Criar array de ponteiros para o inicio de cada linha
+
+    // copiar grelha
     grid = new Solo*[nLinhas];
-
-    jardineiro = outro.jardineiro;
-
-    //Criar array para cada linha
     for (int i = 0; i < nLinhas; i++) {
         grid[i] = new Solo[nColunas];
+        for (int c = 0; c < nColunas; c++) {
+            grid[i][c] = outro.grid[i][c]; // Solo::operator= (já faz deep copy de planta/ferramenta)
+        }
     }
 
-    for (int l = 0; l < nLinhas;l++) {
-        for (int c = 0; c < nColunas; c++) {
-
-            grid [l][c] = outro.grid[l][c];
-        }
+    // copia de jardineiro
+    jardineiro = nullptr;
+    if (outro.jardineiro != nullptr) {
+        jardineiro = new Jardineiro(*outro.jardineiro); // usa o teu copy ctor do Jardineiro (com clone)
     }
 }
 
@@ -60,6 +59,10 @@ Jardim::~Jardim() {
     for (int i = 0; i < nLinhas; i++)
         delete[] grid[i];
     delete[] grid;
+
+    //libertar jardineiro
+    delete jardineiro;
+    jardineiro = nullptr;
 }
 
 void Jardim::imprimir() const {

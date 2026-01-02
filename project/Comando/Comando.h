@@ -48,9 +48,9 @@ class Comando {
         /// FICHEIROS/MEMÓRIA
         static bool procuraFicheiro(string nome,string pasta); // REMOVER
         static bool criaFicheiro( string nome); // A VER
-        static void comandoGrava(Jardim* jardim, istringstream& iss); // ALTERAR
-        static void comandoRecupera(Jardim* jardim, istringstream& iss); // IMPLEMENTAR
-        static void comandoApaga(istringstream& iss); // IMPLEMENTAR
+        static void comandoGrava(Jardim*& jardim, istringstream& iss);
+        static void comandoRecupera(Jardim*& jardim, istringstream& iss);
+        static void comandoApaga(istringstream& iss);
 
         /// CORRER UM SCRIPT
         static void comandoRunscript(istringstream& iss, Interface& ui);
@@ -60,6 +60,7 @@ class Comando {
 
         /// TERMINAR O PROGRAMA
         static void comandoFim(bool& ativo);
+        static void limparGravacoes();
 };
 
 #endif //COMANDO_H

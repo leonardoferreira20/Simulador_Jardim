@@ -18,10 +18,16 @@ planta(nullptr), ferramenta(nullptr) {}
 Solo::Solo(const Solo& outro){
     agua = outro.agua;
     nutrientes = outro.nutrientes;
+    planta = nullptr;
+    ferramenta = nullptr;
 
     if (outro.planta != nullptr) {
         planta = outro.planta->clone();
     }else planta = nullptr;
+
+    if (outro.ferramenta != nullptr) {
+        ferramenta = outro.ferramenta->clone();
+    }else ferramenta = nullptr;
 }
 
 Solo& Solo::operator=(const Solo& outro) {
@@ -31,10 +37,20 @@ Solo& Solo::operator=(const Solo& outro) {
 
     agua = outro.agua;
     nutrientes = outro.nutrientes;
+
     delete planta;
+    delete ferramenta;
+
+    planta = nullptr;
+    ferramenta = nullptr;
+
     if (outro.planta != nullptr) {
         planta = outro.planta->clone();
     }else planta = nullptr;
+
+    if (outro.ferramenta != nullptr) {
+        ferramenta = outro.ferramenta->clone();
+    }else ferramenta = nullptr;
 
     return *this;
 }
@@ -47,7 +63,7 @@ Ferramenta* Solo::getFerramenta() const{
 
 Solo::~Solo() {
     delete planta;
-    //delete ferramenta;
+    delete ferramenta;
 }
 
 void Solo::criarPlanta(Planta* p){

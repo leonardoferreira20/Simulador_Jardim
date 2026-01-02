@@ -18,6 +18,7 @@ class Adubo:public Ferramenta {
         string getNome() const override { return "Adubo"; }
 
         void utiliza(Solo& solo) override;
+        Ferramenta* clone() const override { return new Adubo(*this); }
 };
 
 

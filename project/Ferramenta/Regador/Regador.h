@@ -18,6 +18,7 @@ class Regador: public Ferramenta {
         string getNome() const override { return "Regador"; }
 
         void utiliza(Solo& solo) override;
+        Ferramenta* clone() const override { return new Regador(*this); }
 };
 
 

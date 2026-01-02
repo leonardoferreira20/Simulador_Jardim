@@ -17,14 +17,85 @@ Jardineiro::Jardineiro() : linha(-1), coluna(-1), dentro(false), contaMov(0), co
     }
 }
 
+Jardineiro::Jardineiro(const Jardineiro& o)
+    : linha(o.linha),
+      coluna(o.coluna),
+      dentro(o.dentro),
+      contaReset(o.contaReset),
+      contaMov(o.contaMov),
+      contaEntradas(o.contaEntradas),
+      contaSaidas(o.contaSaidas),
+      contaPlantacoes(o.contaPlantacoes),
+      contaColheitas(o.contaColheitas),
+      mao(o.mao ? o.mao->clone() : nullptr),
+      inventario(nullptr),
+      capacidadeInv(o.capacidadeInv),
+      tamanhoInv(o.tamanhoInv) {
+
+    inventario = new Ferramenta*[capacidadeInv];
+    for (int i = 0; i < capacidadeInv; i++) inventario[i] = nullptr;
+
+    for (int i = 0; i < tamanhoInv; i++) {
+        inventario[i] = o.inventario[i] ? o.inventario[i]->clone() : nullptr;
+    }
+}
+
 Jardineiro::~Jardineiro() {
     delete mao;
+    mao = nullptr;
+
     if (inventario != nullptr) {
         for (int i = 0; i < tamanhoInv; i++) {
             delete inventario[i];
+            inventario[i] = nullptr;
         }
         delete[] inventario;
+        inventario = nullptr;
     }
+}
+
+Jardineiro& Jardineiro::operator=(const Jardineiro& o) {
+    if (this == &o) return *this;
+
+    //Limpar estado atual
+    delete mao;
+    mao = nullptr;
+
+    if (inventario != nullptr) {
+        for (int i = 0; i < tamanhoInv; i++) {
+            delete inventario[i];
+            inventario[i] = nullptr;
+        }
+        delete[] inventario;
+        inventario = nullptr;
+    }
+
+    //Copiar valores simples
+    linha = o.linha;
+    coluna = o.coluna;
+    dentro = o.dentro;
+
+    contaReset = o.contaReset;
+    contaMov = o.contaMov;
+    contaEntradas = o.contaEntradas;
+    contaSaidas = o.contaSaidas;
+    contaPlantacoes = o.contaPlantacoes;
+    contaColheitas = o.contaColheitas;
+
+    capacidadeInv = o.capacidadeInv;
+    tamanhoInv = o.tamanhoInv;
+
+    //Clonar ferramentas
+    mao = o.mao ? o.mao->clone() : nullptr;
+
+    inventario = new Ferramenta*[capacidadeInv];
+    for (int i = 0; i < capacidadeInv; i++) inventario[i] = nullptr;
+
+    for (int i = 0; i < tamanhoInv; i++) {
+        inventario[i] = o.inventario[i] ? o.inventario[i]->clone() : nullptr;
+    }
+
+    return *this;
 }
 
 /// AÇÕES DO JARDINEIRO

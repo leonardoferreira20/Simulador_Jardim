@@ -27,7 +27,6 @@ public:
 
 
 
-    //operador = vamos ver se é necessario
     Solo& operator=(const Solo& outro);
 
 

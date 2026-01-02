@@ -16,6 +16,7 @@ class VaraEspecial : public Ferramenta {
         string getNome() const override { return "Vara Especial"; }
 
         void utiliza(Solo& /*solo*/) override;
+        Ferramenta* clone() const override { return new VaraEspecial(*this); }
 };
 
 
