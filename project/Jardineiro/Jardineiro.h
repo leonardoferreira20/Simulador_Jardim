@@ -40,9 +40,9 @@ public:
     int getColuna() const { return coluna; };
 
     /// AÇÕES DO JARDINEIRO
-    void entrar(int l, int c);
-    void sair();
-    void mover(char dir);
+    string entrar(int l, int c);
+    string sair();
+    string mover(char dir);
 
     /// VERIFICAÇÕES DE PLANTAÇÕES E COLHEITAS
     bool podePlantar();
@@ -59,12 +59,10 @@ public:
     bool temFerramenta() const;
     Ferramenta* obterFerramentaNaMao() const;
     void expandirInventario();
-    void adicionarFerramenta(Ferramenta* f);
-    bool pegarFerramenta(int numSerie);
-    void largarFerramenta();
+    string adicionarFerramenta(Ferramenta* f);
+    bool pegarFerramenta(int numSerie, ostream& out);
+    string largarFerramenta();
     Ferramenta* getFerramentaInventario(int index) const;
-    /*void pegar(Ferramenta*);
-    void largar(Solo&);*/
     void forcarFora();
 };
 

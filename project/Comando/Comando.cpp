@@ -1,7 +1,7 @@
 //
 // Created by Leonardo Ferreira on 11/10/2025.
 //
-#include <map>
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -22,31 +22,31 @@ using namespace std;
 static std::map<std::string, Jardim*> lista_gravacoes;
 
 /// CRIAR JARDIM
-Jardim* Comando::comandoJardim(istringstream& iss){
+Jardim* Comando::comandoJardim(istringstream& iss, ostream& out){
     int lin, col;
 
     if (!(iss >> lin >> col)) {
-        cout << "Uso: jardim <linhas> <colunas>\n" << endl;
+        out << "Uso: jardim <linhas> <colunas>\n" << endl;
         return nullptr;
     }
 
     if ((lin <= 0 || lin >= 27) || (col <= 0 || col >= 27)) {
-        cout << "Uso: jardim <linhas> <colunas>\n" << endl;
+        out << "Uso: jardim <linhas> <colunas>\n" << endl;
         return nullptr;
     }
 
     Jardim* jardim = new Jardim(lin, col);
 
-    cout << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
+    out << "Jardim criado com " << lin << " linhas e " << col << " colunas.\n";
 
-    jardim->imprimir();
+    out << jardim->imprimir();
     return jardim;
 };
 
 /// AVANÇAR NO TEMPO
-void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
+void Comando::comandoAvanca(Jardim* jardim, istringstream& iss, ostream& out){
     if ( jardim == nullptr ){
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
@@ -56,110 +56,110 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss){
         jardim->avanca();
         jardim->getJardineiro().resetContadores();
     }
-    jardim->imprimir();
+
+    out << jardim->imprimir();
 };
 
 /// LISTAR INFORMAÇÃO SOBRE PLANTAS
-void Comando::comandoListarPlantas(Jardim* jardim) {
-
+void Comando::comandoListarPlantas(Jardim* jardim, ostream& out) {
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
-    jardim->listarPlantas();
-    jardim->imprimir();
-    cout << endl;
+    out << jardim->listarPlantas();
+    out << jardim->imprimir();
+    out << endl;
 }
 
-void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss) {
+void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss, ostream& out) {
     string coords;
     int lin, col;
 
     if ( jardim == nullptr ) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     if ( !(iss >> coords) ) {
-        cout << "Uso: lplanta <AA>\n" << endl;
+        out << "Uso: lplanta <AA>\n" << endl;
         return;
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        cout << "Erro: Coordenadas inválidas.\n" << endl;
+        out << "Erro: Coordenadas inválidas.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        cout << "Erro: Posição fora dos limites.\n" << endl;
+        out << "Erro: Posição fora dos limites.\n" << endl;
         return;
     }
 
-    jardim->listarPlanta(lin, col);
-    jardim->imprimir();
+    out << jardim->listarPlanta(lin, col);
+    out << jardim->imprimir();
 }
 
 /// LISTAR INFORMAÇÃO SOBRE O SOLO
-void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss) {
+void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss, ostream& out) {
     string coords;
     int lin, col;
     int raio = 0;
 
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     if (!(iss >> coords)) {
-        cout << "Uso: lsolo <AA> [n]\n" << endl;
+        out << "Uso: lsolo <AA> [n]\n" << endl;
         return;
     }
 
     if (!converteCoordenada(coords, lin, col)) {
-        cout << "Erro: Coordenadas inválidas.\n" << endl;
+        out << "Erro: Coordenadas inválidas.\n" << endl;
         return;
     }
 
     iss >> raio; // opcional
 
     if (!jardim->posicaoValida(lin, col)) {
-        cout << "Erro: Posição fora dos limites.\n" << endl;
+        out << "Erro: Posição fora dos limites.\n" << endl;
         return;
     }
 
     Solo* solo = jardim->getSolo(lin, col);
 
     if (solo == nullptr) {
-        cout << "Erro inesperado: solo inexistente.\n" << endl;
+        out << "Erro inesperado: solo inexistente.\n" << endl;
         return;
     }
 
-    solo->imprimirDetalhado();
+    out << solo->imprimirDetalhado();
 
     // Se houver raio, listar vizinhos
     if (raio > 0) {
-        cout << "\nVizinhos (raio " << raio << "):\n";
+        out << "\nVizinhos (raio " << raio << "):\n";
         for (int dl = -raio; dl <= raio; dl++) {
             for (int dc = -raio; dc <= raio; dc++) {
                 int nl = lin + dl;
                 int nc = col + dc;
 
                 if (jardim->posicaoValida(nl, nc)) {
-                    cout << " - ";
+                    out << " - ";
                     jardim->getSolo(nl, nc)->imprimirDetalhado();
                 }
             }
         }
     }
 
-    cout << endl;
+    out << endl;
     jardim->imprimir();
 }
 
-void Comando::comandoListarArea(Jardim* jardim) {
+void Comando::comandoListarArea(Jardim* jardim, ostream& out) {
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
@@ -171,12 +171,12 @@ void Comando::comandoListarArea(Jardim* jardim) {
             if (solo != nullptr) {
                 if ( solo->temPlanta() ) {
                     Planta* p = solo->obterPlanta();
-                    cout << "  (" << char('A' + l) << "," << char('A' + c) << ") - Planta: " << p->getNome() << "\n";
+                    out << "  (" << char('A' + l) << "," << char('A' + c) << ") - Planta: " << p->getNome() << "\n";
                     encontrou = true;
                 }
                 else if (solo->temFerramenta()) {
                     Ferramenta* f = solo->obterFerramenta();
-                    cout << "  (" << char('A' + l) << "," << char('A' + c) << ") - Ferramenta: " << f->getNome() << "\n";
+                    out << "  (" << char('A' + l) << "," << char('A' + c) << ") - Ferramenta: " << f->getNome() << "\n";
                     encontrou = true;
                 }
             }
@@ -184,65 +184,65 @@ void Comando::comandoListarArea(Jardim* jardim) {
     }
 
     if (!encontrou)
-        cout << "  Nenhuma célula ocupada.\n";
+        out << "  Nenhuma célula ocupada.\n";
 }
 
 /// AÇÕES DO JARDINEIRO
-void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss) {
+void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss, ostream& out) {
     string coords;
     int lin, col;
 
     if ( jardim == nullptr ) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     if ( !(iss >> coords) ) {
-        cout << "Uso: entra <AA>\n" << endl;
+        out << "Uso: entra <AA>\n" << endl;
         return;
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        cout << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
+        out << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        cout << "Erro: Posição fora dos limites do jardim.\n" << endl;
+        out << "Erro: Posição fora dos limites do jardim.\n" << endl;
         return;
     }
 
-    jardim->getJardineiro().entrar(lin, col);
-    jardim->verificarEApanharFerramenta();
-    jardim->imprimir();
+    out << jardim->getJardineiro().entrar(lin, col);
+    out << jardim->verificarEApanharFerramenta();
+    out << jardim->imprimir();
 }
 
-void Comando::comandoSairJardim(Jardim* jardim) {
+void Comando::comandoSairJardim(Jardim* jardim, ostream& out) {
 
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     if (!jardim->getJardineiro().estaDentro()) {
-        cout << "Erro: O jardineiro já está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro já está fora do jardim.\n" << endl;
         return;
     }
 
-    jardim->getJardineiro().sair();
-    jardim->imprimir();
+    out << jardim->getJardineiro().sair();
+    out << jardim->imprimir();
 }
 
-void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
+void Comando::comandoMoverJardim(Jardim* jardim, char direcao, ostream& out) {
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if (!jardineiro.estaDentro()) {
-        cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
@@ -255,118 +255,118 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao) {
         case 'c': lin--; break;
         case 'b': lin++; break;
         default:
-            cout << "Erro: Direção inválida.\n" << endl;
+            out << "Erro: Direção inválida.\n" << endl;
         return;
     }
 
     if (!jardim->posicaoValida(lin, col)) {
-        cout << "Erro: O jardineiro não pode sair do jardim.\n" << endl;
+        out << "Erro: O jardineiro não pode sair do jardim.\n" << endl;
         return;
     }
 
-    jardineiro.mover(direcao);
-    jardim->verificarEApanharFerramenta();
-    jardim->imprimir();
+    out << jardineiro.mover(direcao);
+    out << jardim->verificarEApanharFerramenta();
+    out << jardim->imprimir();
 }
 
-void Comando::comandoPlantar(Jardim* jardim, istringstream& iss){
+void Comando::comandoPlantar(Jardim* jardim, istringstream& iss, ostream& out){
     string coords;
     char tipo, extra;
     int lin, col;
 
     if ( jardim == nullptr ) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     if ( !(iss >> coords >> tipo) ) {
-        cout << "Uso: planta <AA> <tipo>\n";
+        out << "Uso: planta <AA> <tipo>\n";
         return;
     }
 
     if (iss>>extra) {
-        cout << "Uso: planta <AA> <tipo>\n";
+        out << "Uso: planta <AA> <tipo>\n";
         return;
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        cout << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
+        out << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if ( !jardineiro.estaDentro() ) {
-        cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        cout << "Erro: Posição fora dos limites do jardim.\n" << endl;
+        out << "Erro: Posição fora dos limites do jardim.\n" << endl;
         return;
     }
 
     if ( !jardineiro.podePlantar() ) {
-        cout << "Erro: Limite de plantações atingido!\n" << endl;
+        out << "Erro: Limite de plantações atingido!\n" << endl;
         return;
     }
 
-    jardim->planta(lin, col, tipo);
+    jardim->planta(lin, col, tipo, cout);
     jardineiro.registaPlantacao();
-    jardim->imprimir();
+    out << jardim->imprimir();
 }
 
-void Comando::comandoColher(Jardim* jardim, istringstream& iss){
+void Comando::comandoColher(Jardim* jardim, istringstream& iss, ostream& out){
     string coords;
     int lin, col;
 
     if ( jardim == nullptr ) {
-        cout << "Erro: Crie primeiro um jardim com 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
     if ( !jardineiro.estaDentro() ) {
-        cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
     if ( !(iss >> coords) ) {
-        cout << "Use: colhe <AA>\n" << endl;
+        out << "Use: colhe <AA>\n" << endl;
         return;
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        cout << "Erro: Coordenadas inválidas.\n" << endl;
+        out << "Erro: Coordenadas inválidas.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        cout << "Erro: Posição fora dos limites.\n" << endl;
+        out << "Erro: Posição fora dos limites.\n" << endl;
         return;
     }
 
     if ( !jardineiro.podeColher() ) {
-        cout << "Erro: Limite de colheitas atingido!\n" << endl;
+        out << "Erro: Limite de colheitas atingido!\n" << endl;
         return;
     }
 
-    jardim->colhe(lin, col);
+    jardim->colhe(lin, col, cout);
     jardineiro.registaColheita();
-    jardim->imprimir();
+    out << jardim->imprimir();
 };
 
 /// FERRAMENTAS
-void Comando::comandoListarFerramenta(Jardim* jardim) {
+void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
 
     if (jardim == nullptr) {
-        cout << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
+        out << "Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n";
         return;
     }
 
     bool encontrou = false;
 
-    cout << "Ferramentas disponíveis:\n";
+    out << "Ferramentas disponíveis:\n";
 
     // Ferramentas no SOLO
     for (int l = 0; l < jardim->getNumLinhas(); l++) {
@@ -376,10 +376,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim) {
             if (solo != nullptr && solo->temFerramenta()) {
 
                 Ferramenta* f = solo->obterFerramenta();
-                cout << "  Solo ("
-                     << char('A' + l) << char('A' + c) << ") - "
-                     << f->getNome()
-                     << " [nº série: " << f->getNSerie() << "]\n";
+                out << "  Solo (" << char('A' + l) << char('A' + c) << ") - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
 
                 encontrou = true;
             }
@@ -392,7 +389,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim) {
     // Ferramenta na mão
     Ferramenta* mao = j.obterFerramentaNaMao();
     if (mao != nullptr) {
-        cout << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << "]\n";
+        out << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << "]\n";
         encontrou = true;
     }
 
@@ -402,78 +399,78 @@ void Comando::comandoListarFerramenta(Jardim* jardim) {
         if (f == nullptr)
             break;
 
-        cout << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
+        out << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
 
         encontrou = true;
     }
 
     if (!encontrou) {
-        cout << "  Nenhuma ferramenta disponível.\n";
+        out << "  Nenhuma ferramenta disponível.\n";
     }
 }
 
-void Comando::comandoLargaFerramenta(Jardim* jardim) {
+void Comando::comandoLargaFerramenta(Jardim* jardim, ostream& out) {
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if (!jardineiro.estaDentro()) {
-        cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
     if (jardineiro.obterFerramentaNaMao() == nullptr) {
-        cout << "Erro: O jardineiro não tem nenhuma ferramenta na mão.\n" << endl;
+        out << "Erro: O jardineiro não tem nenhuma ferramenta na mão.\n" << endl;
         return;
     }
 
-    jardineiro.largarFerramenta();
-    jardim->imprimir();
+    out << jardineiro.largarFerramenta();
+    out << jardim->imprimir();
 }
 
-void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss) {
+void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss, ostream& out) {
     int nSerie;
 
     if (jardim == nullptr) {
-        cout << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
+        out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if ( !jardineiro.estaDentro() ) {
-        cout << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
         return;
     }
 
     if ( !(iss >> nSerie) ) {
-        cout << "Uso: pega <n>\n";
+        out << "Uso: pega <n>\n";
         return;
     }
 
-    jardim->getJardineiro().pegarFerramenta(nSerie);
-    jardim->imprimir();
+    jardim->getJardineiro().pegarFerramenta(nSerie, cout);
+    out << jardim->imprimir();
 }
 
-void Comando::comandoCompra(Jardim* jardim, istringstream& iss) {
+void Comando::comandoCompra(Jardim* jardim, istringstream& iss, ostream& out) {
     if (jardim == nullptr) {
-        cout << "Erro: ainda não existe um jardim.\n";
+        out << "Erro: ainda não existe um jardim.\n";
         return;
     }
 
     Jardineiro& j = jardim->getJardineiro();
 
     if (!j.estaDentro()) {
-        cout << "Erro: o jardineiro tem de estar dentro do jardim para comprar ferramentas.\n";
+        out << "Erro: o jardineiro tem de estar dentro do jardim para comprar ferramentas.\n";
         return;
     }
 
     char tipo;
     if (!(iss >> tipo)) {
-        cout << "Uso: compra <g|a|t|v>\n";
+        out << "Uso: compra <g|a|t|v>\n";
         return;
     }
 
@@ -493,29 +490,29 @@ void Comando::comandoCompra(Jardim* jardim, istringstream& iss) {
             nova = new VaraEspecial();
         break;
         default:
-            cout << "Erro: tipo de ferramenta invalido. Use g, a, t ou v.\n";
+            out << "Erro: tipo de ferramenta invalido. Use g, a, t ou v.\n";
         return;
     }
 
-    j.adicionarFerramenta(nova);
+    out << j.adicionarFerramenta(nova);
 
-    cout << "Ferramenta comprada com sucesso: " << nova->getNome() << " (nº serie " << nova->getNSerie() << ")\n";
+    out << "Ferramenta comprada com sucesso: " << nova->getNome() << " (nº serie " << nova->getNSerie() << ")\n";
 }
 
 /// FICHEIROS/MEMÓRIA
-bool Comando::criaFicheiro( string nome) {
+bool Comando::criaFicheiro( string nome, ostream& out) {
     filesystem::path ficheiro = "Save/" + nome + ".txt";
-    ofstream out(ficheiro);
-    if (!out) {
-        cout << "Erro ao criar o ficheiro: " << ficheiro << "\n" << endl;
+    ofstream outFile(ficheiro);
+    if (!outFile) {
+        out << "Erro ao criar o ficheiro: " << ficheiro << "\n" << endl;
         return false;
     }
     return true;
 }
 
-bool Comando::validaNomeficheiro(string nome) {
+bool Comando::validaNomeficheiro(string nome, ostream& out) {
     if ((nome.find('.') != string::npos) || (nome.find('/')!= string::npos)) {
-        cout << "Nome invalido de ficheiro: " << nome << "\n" << endl;
+        out << "Nome invalido de ficheiro: " << nome << "\n" << endl;
         return false;
     }
     return true;
@@ -529,42 +526,42 @@ bool Comando::procuraFicheiro(string nome, string pasta){
     return false;
 }
 
-void Comando::comandoGrava(Jardim*& jardim, istringstream& iss) {
+void Comando::comandoGrava(Jardim*& jardim, istringstream& iss, ostream& out) {
     string nome;
 
     if (jardim == nullptr) {
-        cout << "Nao existe jardim para gravar!\n";
+        out << "Nao existe jardim para gravar!\n";
         return;
     }
 
     if (!(iss >> nome) || !iss.eof()) {
-        cout << "Uso: grava <nome>\n";
+        out << "Uso: grava <nome>\n";
         return;
     }
 
     // se já existir, não deixa (podes mudar para permitir overwrite, se quiseres)
     if (lista_gravacoes.find(nome) != lista_gravacoes.end()) {
-        cout << "Ja existe uma gravacao com o nome '" << nome << "'.\n";
+        out << "Ja existe uma gravacao com o nome '" << nome << "'.\n";
         return;
     }
 
     // snapshot em memória (deep copy)
     lista_gravacoes[nome] = new Jardim(*jardim);
 
-    cout << "Gravacao '" << nome << "' guardada em memoria.\n";
+    out << "Gravacao '" << nome << "' guardada em memoria.\n";
 }
 
-void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss) {
+void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss, ostream& out){
     string nome;
 
     if (!(iss >> nome) || !iss.eof()) {
-        cout << "Uso: recupera <nome>\n";
+        out << "Uso: recupera <nome>\n";
         return;
     }
 
     auto it = lista_gravacoes.find(nome);
     if (it == lista_gravacoes.end()) {
-        cout << "Gravacao com nome '" << nome << "' nao existe.\n";
+        out << "Gravacao com nome '" << nome << "' nao existe.\n";
         return;
     }
 
@@ -577,11 +574,11 @@ void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss) {
     delete it->second;
     lista_gravacoes.erase(it);
 
-    cout << "Recuperado '" << nome << "' e removido da memoria.\n";
+    out << "Recuperado '" << nome << "' e removido da memoria.\n";
     jardim->imprimir();
 }
 
-void Comando::comandoApaga(istringstream& iss) {
+void Comando::comandoApaga(istringstream& iss, ostream& out){
     string nome;
 
     if (!(iss >> nome) || !iss.eof()) {
@@ -602,43 +599,43 @@ void Comando::comandoApaga(istringstream& iss) {
 }
 
 /// CORRER UM SCRIPT
-void Comando::comandoRunscript(istringstream& iss, Interface& ui) {
+void Comando::comandoRunscript(istringstream& iss, Interface& ui, ostream& out) {
     string nome, linha;
     string pasta = "Script";
     if (!(iss >> nome)) {
-        cout << "Uso: executa <ficheiro>\n";
+        out << "Uso: executa <ficheiro>\n";
         return;
     }
     if (!iss.eof()) {
-        cout << "Uso: executa <ficheiro>\n";
+        out << "Uso: executa <ficheiro>\n";
         return;
     }
-    if (!validaNomeficheiro(nome)) {
+    if (!validaNomeficheiro(nome, out)) {
         return;
     }
     if (procuraFicheiro(nome,pasta)){
-        cout << "Ficheiro com nome: " << nome << " existe!\n" << endl;
+        out << "Ficheiro com nome: " << nome << " existe!\n" << endl;
     }else {
-        cout << "Ficheiro com nome: " << nome << " nao existe!\n" << endl;
+        out << "Ficheiro com nome: " << nome << " nao existe!\n" << endl;
         return;
     }
     filesystem::path ficheiro = pasta + "/" + nome + ".txt";
 
     ifstream abre(ficheiro);
     if (!abre) {
-        cout << "Erro a abrir ficheiro!";
+        out << "Erro a abrir ficheiro!";
         return;
     }
     while (getline(abre, linha)) {
         if (linha.empty()) continue;
-        cout << "> " << linha << endl; //simula o > da Interface para mostrar o comando que estamos a usar
-        ui.processarComando(linha);
+        out << "> " << linha << endl; //simula o > da Interface para mostrar o comando que estamos a usar
+        ui.processarComando(linha, cout);
     }
 }
 
 /// AJUDA
-void Comando::comandoAjuda(){
-    cout << "Comandos disponíveis:\n"
+void Comando::comandoAjuda(ostream& out){
+    out << "Comandos disponíveis:\n"
          << " Criação jardim:\n"
          << "   > jardim <linhas> <colunas>         - Cria um novo jardim\n"
          << " Gestão do Tempo:\n"
@@ -669,9 +666,9 @@ void Comando::comandoAjuda(){
 };
 
 /// TERMINAR O PROGRAMA
-void Comando::comandoFim(bool& ativo){
+void Comando::comandoFim(bool& ativo, ostream& out){
     ativo = false;
-    cout << "A terminar o simulador...\n";
+    out << "A terminar o simulador...\n";
 }
 
 /// CONVERTER CARACTERS PARA NÚMEROS

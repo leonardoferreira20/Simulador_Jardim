@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <sstream>
 #include "Jardineiro.h"
 #include "../Settings.h"
 
@@ -99,7 +100,8 @@ Jardineiro& Jardineiro::operator=(const Jardineiro& o) {
 }
 
 /// AÇÕES DO JARDINEIRO
-void Jardineiro::entrar(int l, int c) {
+string Jardineiro::entrar(int l, int c) {
+    ostringstream oss;
     // ACHAMOS QUE FIZESSE SENTIDO TER ISTO VISTO QUE O JARDINEIRO JÁ ESTÁ DENTRO DO JARDIM
     // MAS COMO O RELATÓRIO PEDIA OUTRA COISA OPTAMOS POR DEIXAR COMENTADO
     /*if (dentro) {
@@ -107,34 +109,38 @@ void Jardineiro::entrar(int l, int c) {
         return;
     }*/
     if (!dentro && contaEntradas >= Settings::Jardineiro::max_entradas_saidas && contaSaidas >= Settings::Jardineiro::max_entradas_saidas) {
-        cout << "Erro: Limite de entradas do dia atingido! Avance para o dia seguinte.\n";
-        return;
+        oss << "Erro: Limite de entradas do dia atingido! Avance para o dia seguinte.\n";
+        return oss.str();
     }
 
     linha = l;
     coluna = c;
     dentro = true;
     contaEntradas++;
-    cout << "Jardineiro entrou em (" << char('A' +l) << "," << char('A' + c) << ")\n";
+    oss << "Jardineiro entrou em (" << char('A' +l) << "," << char('A' + c) << ")\n";
+    return oss.str();
 }
 
-void Jardineiro::sair() {
+string Jardineiro::sair() {
+    ostringstream oss;
     if (!dentro) {
-        cout << "Erro: O jardineiro já está fora do jardim.\n";
-        return;
+        oss << "Erro: O jardineiro já está fora do jardim.\n";
+        return oss.str();
     }
 
     dentro = false;
     linha = -1;
     coluna = -1;
     contaSaidas++;
-    cout << "Jardineiro saiu do jardim.\n";
+    oss << "Jardineiro saiu do jardim.\n";
+    return  oss.str();
 }
 
-void Jardineiro::mover(char dir) {
+string Jardineiro::mover(char dir) {
+    ostringstream oss;
     if (contaMov >= Settings::Jardineiro::max_movimentos) {
-        cout << "Erro: Limite de movimentos atingido!\n";
-        return;
+        oss << "Erro: Limite de movimentos atingido!\n";
+        return oss.str();
     }
 
     switch (dir) {
@@ -143,12 +149,13 @@ void Jardineiro::mover(char dir) {
         case 'c': linha--;  break;
         case 'b': linha++;  break;
         default:
-            cout << "Erro: Direcao invalida!\n";
-        return;
+            oss << "Erro: Direcao invalida!\n";
+        return oss.str();
     }
 
     contaMov++;
-    cout << "Jardineiro moveu-se para (" << char('A' + linha) << "," << char('A'+ coluna) << ") - <" << Settings::Jardineiro::max_movimentos - contaMov << " movimentos restantes>\n";
+    oss << "Jardineiro moveu-se para (" << char('A' + linha) << "," << char('A'+ coluna) << ") - <" << Settings::Jardineiro::max_movimentos - contaMov << " movimentos restantes>\n";
+    return oss.str();
 }
 
 /// VERIFICAÇÕES DE PLANTAÇÕES E COLHEITAS
@@ -202,8 +209,10 @@ void Jardineiro::expandirInventario() {
     capacidadeInv = novaCapacidade;
 }
 
-void Jardineiro::adicionarFerramenta(Ferramenta* f) {
-    if (f == nullptr) return;
+string Jardineiro::adicionarFerramenta(Ferramenta* f) {
+    ostringstream oss;
+
+    if (f == nullptr) return oss.str();
 
     if (tamanhoInv >= capacidadeInv) {
         expandirInventario();
@@ -212,10 +221,11 @@ void Jardineiro::adicionarFerramenta(Ferramenta* f) {
     inventario[tamanhoInv] = f;
     tamanhoInv++;
 
-    cout << "Ferramenta " << f->getNome() << " (nº serie " << f->getNSerie() << ") adicionada ao inventário.\n";
+    oss << "Ferramenta " << f->getNome() << " (nº serie " << f->getNSerie() << ") adicionada ao inventário.\n";
+    return oss.str();
 }
 
-bool Jardineiro::pegarFerramenta(int numSerie) {
+bool Jardineiro::pegarFerramenta(int numSerie, ostream& out) {
     int indice = -1;
 
     for (int i = 0; i < tamanhoInv; i++) {
@@ -226,12 +236,12 @@ bool Jardineiro::pegarFerramenta(int numSerie) {
     }
 
     if (indice == -1) {
-        cout << "Ferramenta com número de série " << numSerie << " não encontrada no inventário.\n";
+        out << "Ferramenta com número de série " << numSerie << " não encontrada no inventário.\n";
         return false;
     }
 
     if (obterFerramentaNaMao() != nullptr) {
-        adicionarFerramenta(obterFerramentaNaMao());
+        out << adicionarFerramenta(obterFerramentaNaMao());
     }
 
     mao = inventario[indice];
@@ -242,20 +252,22 @@ bool Jardineiro::pegarFerramenta(int numSerie) {
     inventario[tamanhoInv - 1] = nullptr;
     tamanhoInv--;
 
-    cout << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") agora está na mão.\n";
+    out << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") agora está na mão.\n";
     return true;
 }
 
-void Jardineiro::largarFerramenta() {
+string Jardineiro::largarFerramenta() {
+    ostringstream oss;
     if (obterFerramentaNaMao() == nullptr) {
-        cout << "Não há ferramenta na mão para largar.\n";
-        return;
+        oss << "Não há ferramenta na mão para largar.\n";
+        return oss.str();
     }
 
-    cout << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") guardada no inventário.\n";
+    oss << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") guardada no inventário.\n";
 
-    adicionarFerramenta(obterFerramentaNaMao());
+    oss << adicionarFerramenta(obterFerramentaNaMao());
     mao = nullptr;
+    return oss.str();
 }
 
 Ferramenta* Jardineiro::getFerramentaInventario(int index) const {

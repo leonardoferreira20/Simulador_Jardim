@@ -31,14 +31,14 @@ void Cacto::agir(Solo& solo){
     // Verifica se morre por excesso de água ou falta de nutrientes
     if ( solo.obtemAgua() > Settings::Cacto::morre_agua_solo_maior ||
          solo.obtemNutrientes() < Settings::Cacto::morre_nutrientes_solo_menor ) {
-        morrer(solo);
+        morrer(solo, cout);
+
     }
 }
 
-void Cacto::morrer(Solo& solo){
+void Cacto::morrer(Solo& solo, ostream& out){
     alteraViva (false);
-    cout << "Morreu um cacto.\n";
-
+    out << "Morreu um " << getNome() << endl;
     solo.removerPlanta();
 }
 

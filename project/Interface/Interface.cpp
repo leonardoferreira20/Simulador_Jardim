@@ -27,11 +27,11 @@ void Interface::executar(){
     while ( ativo ){
         cout << "> ";
         getline(cin, linha);
-        processarComando(linha);
+        processarComando(linha, cout);
     }
 };
 
-void Interface::processarComando(const string& linha){
+void Interface::processarComando(const string& linha, ostream& out){
     istringstream iss(linha);
     string cmd;
     iss >> cmd;
@@ -42,91 +42,89 @@ void Interface::processarComando(const string& linha){
 
     if (jardim == nullptr && cmd != "ajuda" && !cmd.empty() && cmd != "fim") {
         if ( cmd == "jardim" ){
-            Jardim* novoJardim = Comando::comandoJardim(iss);
+            Jardim* novoJardim = Comando::comandoJardim(iss, cout);
 
             if (novoJardim == nullptr)
                 return;
 
             if (jardim != nullptr) {
-                cout << "Já se encontra um jardim criado!\n";
+                out << "Já se encontra um jardim criado!\n";
                 delete novoJardim;
                 return;
             }
 
             jardim = novoJardim;
-            return;
         }
         else if ( cmd == "executa" ) {
-            Comando::comandoRunscript(iss,*this);
+            Comando::comandoRunscript(iss, *this, cout);
         }
         else {
-            cout << "Comando invalido! Jardim nao iniciado!\n" << "Comandos disponiveis: \n-> jardim <linhas> <colunas> \n-> ajuda\n";
+            out << "Comando invalido! Jardim nao iniciado!\n" << "Comandos disponiveis: \n-> jardim <linhas> <colunas> \n-> ajuda\n";
         }
     }
     else {
         if ( cmd == "avanca" ){
-            Comando::comandoAvanca(jardim, iss);
-            cout << endl;
+            Comando::comandoAvanca(jardim, iss, cout);
         }
         else if ( cmd == "planta" ) {
-            Comando::comandoPlantar(jardim, iss);
+            Comando::comandoPlantar(jardim, iss, cout);
         }
         else if ( cmd == "colhe" ) {
-            Comando::comandoColher(jardim, iss);
+            Comando::comandoColher(jardim, iss, cout);
         }
         else if ( cmd == "lplantas" ) {
-            Comando::comandoListarPlantas(jardim);
+            Comando::comandoListarPlantas(jardim, cout);
         }
         else if ( cmd == "lplanta" ) {
-            Comando::comandoListarPlanta(jardim, iss);
+            Comando::comandoListarPlanta(jardim, iss, cout);
         }
         else if ( cmd == "larea" ) {
-            Comando::comandoListarArea(jardim);
+            Comando::comandoListarArea(jardim, cout);
         }
         else if ( cmd == "lsolo" ) {
-            Comando::comandoListarInfoSolo(jardim, iss);
+            Comando::comandoListarInfoSolo(jardim, iss, cout);
         }
         else if ( cmd == "lferr" ) {
-            Comando::comandoListarFerramenta(jardim);
+            Comando::comandoListarFerramenta(jardim, cout);
         }
         else if ( cmd == "entra" ) {
-            Comando::comandoEntrarJardim(jardim, iss);
+            Comando::comandoEntrarJardim(jardim, iss, cout);
         }
         else if (cmd == "sai") {
-            Comando::comandoSairJardim(jardim);
+            Comando::comandoSairJardim(jardim, cout);
         }
         else if (cmd == "e" || cmd == "d" || cmd == "c" || cmd == "b") {
-            Comando::comandoMoverJardim(jardim, cmd[0]);
+            Comando::comandoMoverJardim(jardim, cmd[0], cout);
         }
         else if ( cmd == "larga" ) {
-            Comando::comandoLargaFerramenta(jardim);
+            Comando::comandoLargaFerramenta(jardim, cout);
         }
         else if ( cmd == "pega" ) {
-            Comando::comandoPegaFerramenta(jardim, iss);
+            Comando::comandoPegaFerramenta(jardim, iss, cout);
         }
         else if ( cmd == "compra" ){
-            Comando::comandoCompra(jardim, iss);
+            Comando::comandoCompra(jardim, iss, cout);
         }
         else if ( cmd == "grava" ){
-            Comando::comandoGrava(jardim, iss);
+            Comando::comandoGrava(jardim, iss, cout);
         }
         else if ( cmd == "recupera" ){
-            Comando::comandoRecupera(jardim, iss);
+            Comando::comandoRecupera(jardim, iss, cout);
         }
         else if ( cmd == "apaga" ){
-            Comando::comandoApaga(iss);
+            Comando::comandoApaga(iss, cout);
         }
         else if ( cmd == "ajuda" ){
-            Comando::comandoAjuda();
+            Comando::comandoAjuda(cout);
         }
         else if ( cmd == "fim" ){
-            Comando::comandoFim(ativo);
+            Comando::comandoFim(ativo, cout);
         }
         else if ( cmd == "" ){
             return;
         }
         else {
-            cout << "Comando invalido!\n" << endl;
+            out << "Comando invalido!\n" << endl;
         }
     }
 }

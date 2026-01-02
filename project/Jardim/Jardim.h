@@ -36,12 +36,12 @@ class Jardim {
         int getNumLinhas () const { return nLinhas; }
         int getNumColunas () const { return nColunas; }
 
-        void imprimir () const;
+        string imprimir () const;
         void avanca();
-        bool planta(int linha, int coluna, char tipo);
-        bool colhe(int linha, int coluna);
-        void listarPlantas();
-        void listarPlanta(int linha, int coluna);
+        bool planta(int linha, int coluna, char tipo, ostream& out);
+        bool colhe(int linha, int coluna, ostream& out);
+        string listarPlantas();
+        string listarPlanta(int linha, int coluna);
         Solo* getSolo(int linha, int coluna);
         Jardineiro& getJardineiro() const;
         bool posicaoValida(int linha, int coluna) const;
@@ -49,7 +49,7 @@ class Jardim {
 
         // FERRAMENTAS
         bool spawnFerramentaAleatoria();
-        void verificarEApanharFerramenta();
+        string verificarEApanharFerramenta();
 };
 
 

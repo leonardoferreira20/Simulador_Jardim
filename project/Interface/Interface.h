@@ -19,7 +19,7 @@ class Interface {
         Interface();
         ~Interface();
         void executar();
-        void processarComando(const string& linha);
+        void processarComando(const string& linha, ostream& out);
 };
 
 #endif //INTERFACE_H

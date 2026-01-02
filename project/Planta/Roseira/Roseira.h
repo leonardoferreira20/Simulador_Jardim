@@ -14,7 +14,7 @@ class Roseira: public Planta {
         Planta* clone() const override;
 
         void agir(Solo& solo) override;
-        void morrer(Solo& solo) override;
+        void morrer(Solo& solo, ostream& out) override;
         char getSimbolo() const override;
         string getNome() const override;
         Planta* reproduzPlanta() override ;

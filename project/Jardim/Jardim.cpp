@@ -18,6 +18,7 @@
 # include "../Ferramenta/VaraEspecial/VaraEspecial.h"
 
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -65,28 +66,40 @@ Jardim::~Jardim() {
     jardineiro = nullptr;
 }
 
-void Jardim::imprimir() const {
-    cout << endl << "   ";
-    for( int c = 0; c < nColunas; c++ ) {
-        cout << char('A' + c) << " ";
-    }
-    cout << endl;
+string Jardim::imprimir() const {
+    ostringstream oss;
 
-    for ( int l = 0; l < nLinhas; l++ ){
-        cout << char('A' + l) << "  ";
+    oss << "\n   ";
+    for (int c = 0; c < nColunas; c++) {
+        oss << char('A' + c) << " ";
+    }
+    oss << "\n";
+
+    for (int l = 0; l < nLinhas; l++) {
+        oss << char('A' + l) << "  ";
+
         for (int c = 0; c < nColunas; c++) {
 
-            if ( jardineiro->estaDentro() && jardineiro->getLinha() == l && jardineiro->getColuna() == c) {
-                cout << "*";
-            }else {
-                grid[l][c].imprimir();
+            char simbolo;
+
+            if (jardineiro->estaDentro() &&
+                jardineiro->getLinha() == l &&
+                jardineiro->getColuna() == c) {
+
+                simbolo = '*';
+            }
+            else {
+                simbolo = grid[l][c].getSimbolo();
             }
 
-            cout << " ";
+            oss << simbolo << " ";
         }
-        cout << endl;
+
+        oss << "\n";
     }
-    cout << endl;
+
+    oss << "\n";
+    return oss.str();
 }
 
 Solo* Jardim::soloParaReproduzir(int linha, int col, int ErvaDaninha) {
@@ -132,56 +145,55 @@ Solo* Jardim::soloParaReproduzir(int linha, int col, int ErvaDaninha) {
 }
 
 void Jardim::avanca() {
-        for (int l = 0; l < nLinhas; l++) {
-            for (int c = 0; c < nColunas; c++) {
-                Planta* planta = grid[l][c].obterPlanta();
-                if (planta != nullptr && planta->estaViva() ) {
-                    if ( !planta->isRecemNascida() && planta->podeReproduzir()) {
-                        Solo* plantar;
-                        if (planta->getSimbolo() != 'E') {//Passar para deentro da planta
-                            plantar = soloParaReproduzir(l,c,0);
-                        }
-                        else {
-                            plantar = soloParaReproduzir(l,c,1);
-                        }
-                        if (plantar != nullptr) {
-                            Planta* filho = planta->reproduzPlanta();
-                            if (filho != nullptr) {
-                                if (planta->getSimbolo() == 'E' && plantar->temPlanta()) {
-                                    plantar->removerPlanta();cout<<"morreu"<<endl;
-                                };
-                                filho->setRecemNascida(true);
-                                plantar->criarPlanta(filho);
+    for (int l = 0; l < nLinhas; l++) {
+        for (int c = 0; c < nColunas; c++) {
+            Planta* planta = grid[l][c].obterPlanta();
+            if (planta != nullptr && planta->estaViva() ) {
+                if ( !planta->isRecemNascida() && planta->podeReproduzir()) {
+                    Solo* plantar;
+                    if (planta->getSimbolo() != 'E') {//Passar para deentro da planta
+                        plantar = soloParaReproduzir(l,c,0);
+                    }
+                    else {
+                        plantar = soloParaReproduzir(l,c,1);
+                    }
+                    if (plantar != nullptr) {
+                        Planta* filho = planta->reproduzPlanta();
+                        if (filho != nullptr) {
+                            if (planta->getSimbolo() == 'E' && plantar->temPlanta()) {
+                                plantar->removerPlanta();
                             }
+                            filho->setRecemNascida(true);
+                            plantar->criarPlanta(filho);
                         }
                     }
-                    planta->agir(grid[l][c]);
                 }
+                planta->agir(grid[l][c]);
             }
         }
+    }
 
-        // RESET DE TODOS OS TRUES ADICIONADOS NA REPRODUÇÃO
-        for (int l = 0; l < nLinhas; l++) {
-            for (int c = 0; c < nColunas; c++) {
-                Planta* p = grid[l][c].obterPlanta();
-                if (p != nullptr && p->isRecemNascida()) {
-                    p->setRecemNascida(false);
-                }
+    // RESET DE TODOS OS TRUES ADICIONADOS NA REPRODUÇÃO
+    for (int l = 0; l < nLinhas; l++) {
+        for (int c = 0; c < nColunas; c++) {
+            Planta* p = grid[l][c].obterPlanta();
+            if (p != nullptr && p->isRecemNascida()) {
+                p->setRecemNascida(false);
             }
         }
-
+    }
 }
 
-bool Jardim::planta(int linha, int coluna, char tipo) {
+bool Jardim::planta(int linha, int coluna, char tipo, ostream& out) {
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
-        cout << "Posição inválida (" << linha << ", " << coluna << ").\n";
+        out << "Posição inválida (" << linha << ", " << coluna << ").\n";
         return false;
     }
 
     Solo* solo = &grid[linha][coluna];
 
     if (solo->obterPlanta() != nullptr) {
-        cout << "Já existe uma planta nessa posição.\n";
+        out << "Já existe uma planta nessa posição.\n";
         return false;
     }
 
@@ -194,43 +206,44 @@ bool Jardim::planta(int linha, int coluna, char tipo) {
         case 'e': novaPlanta = new ErvaDaninha(); break;
         case 'x': novaPlanta = new Exotica(); break;
         default:
-            cout << "Tipo de planta desconhecido.\n";
+            out << "Tipo de planta desconhecido.\n";
         return false;
     }
 
     solo->criarPlanta(novaPlanta);
-    cout << "Planta " << novaPlanta->getNome() << " plantada em (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
+    out << "Planta " << novaPlanta->getNome() << " plantada em (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
     return true;
 }
 
-bool Jardim::colhe(int linha, int coluna){
+bool Jardim::colhe(int linha, int coluna, ostream& out){
     if (linha < 0 || linha >= nLinhas || coluna < 0 || coluna >= nColunas) {
-        cout << "Posição inválida (" << linha << ", " << coluna << ").\n";
+        out << "Posição inválida (" << linha << ", " << coluna << ").\n";
         return false;
     }
 
     Solo* solo = &grid[linha][coluna];
 
     if (solo->obterPlanta() != nullptr) {
-        cout << "A planta " << solo->obterPlanta()->getNome() << " foi colhida da posição (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
+        out << "A planta " << solo->obterPlanta()->getNome() << " foi colhida da posição (" << char('A' + linha) << ", " << char('A' + coluna) << ").\n";
         solo->removerPlanta();
         return false;
     }
     return true;
 }
 
-void Jardim::listarPlantas() {
+string Jardim::listarPlantas() {
     bool encontrou = false;
+    ostringstream oss;
 
-    cout << "--------------------------- Lista de plantas no jardim --------------------------- \n";
-    cout << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
+    oss << "--------------------------- Lista de plantas no jardim --------------------------- \n";
+    oss << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
 
     for (int l = 0; l < nLinhas; l++) {
         for (int c = 0; c < nColunas; c++) {
             Planta* planta = grid[l][c].obterPlanta();
             if (planta != nullptr) {
                 encontrou = true;
-                cout << "\t\t| "
+                oss << "\t\t| "
                      << "\t" << planta->getNome()
                      << "\t| "
                      << "\t (" << char('a' + l) << ", " << char('a' + c) << ")"
@@ -242,23 +255,25 @@ void Jardim::listarPlantas() {
             }
         }
     }
-    cout << "---------------------------------------------------------------------------------- \n";
+    oss << "---------------------------------------------------------------------------------- \n";
 
     if ( !encontrou ) {
-        cout << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
+        oss << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
     }
+    return oss.str();
 };
 
-void Jardim::listarPlanta(int linha, int coluna) {
+string Jardim::listarPlanta(int linha, int coluna) {
+    ostringstream oss;
     bool encontrou = false;
 
-    cout << "--------------------------- Lista de plantas no jardim --------------------------- \n";
-    cout << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
+    oss << "--------------------------- Lista de plantas no jardim --------------------------- \n";
+    oss << "\t\t| " << "\t TIPO " << "\t| " << "\t POSIÇÃO " << "\t| " << "\tAGUA " << "\t| " << "\t  NUTRIENTES " << "\t| " << endl;
 
     Planta* planta = grid[linha][coluna].obterPlanta();
     if (planta != nullptr) {
         encontrou = true;
-        cout << "\t\t| "
+        oss << "\t\t| "
              << "\t" << planta->getNome()
              << "\t| "
              << "\t (" << char('a' + linha) << ", " << char('a' + coluna) << ")"
@@ -268,11 +283,12 @@ void Jardim::listarPlanta(int linha, int coluna) {
              << "\t\t " << planta->obtemNutrientesP()
              << "\t\t\t|\n";
     }
-    cout << "---------------------------------------------------------------------------------- \n";
+    oss << "---------------------------------------------------------------------------------- \n";
 
     if ( !encontrou ) {
-        cout << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
+        oss << "Não existem plantas no jardim!\n" << "Experimente plantar primeiro utilizando o comando - > planta <linha> <coluna> <tipo>\n" << endl;
     }
+    return oss.str();
 };
 
 bool Jardim::posicaoValida(int linha, int coluna) const {
@@ -317,9 +333,11 @@ bool Jardim::spawnFerramentaAleatoria() {
     return true;
 }
 
-void Jardim::verificarEApanharFerramenta() {
+string Jardim::verificarEApanharFerramenta() {
+    ostringstream oss;
+
     if (!jardineiro->estaDentro()) {
-        return;
+        return oss.str();
     }
 
     int lin = jardineiro->getLinha();
@@ -329,8 +347,7 @@ void Jardim::verificarEApanharFerramenta() {
     if (solo && solo->temFerramenta()) {
         Ferramenta* f = solo->obterFerramenta();
 
-        cout << "O jardineiro apanhou uma " << f->getNome()
-             << " (nº " << f->getNSerie() << ")!\n";
+        oss << "O jardineiro apanhou uma " << f->getNome() << " (nº " << f->getNSerie() << ")!\n";
 
         jardineiro->adicionarFerramenta(f);  // Adiciona ao inventário
         solo->removerFerramenta();           // Remove do solo
@@ -338,6 +355,8 @@ void Jardim::verificarEApanharFerramenta() {
         // Spawn nova ferramenta aleatória "por magia"
         spawnFerramentaAleatoria();
     }
+
+    return oss.str();
 }
 
 void Jardineiro::forcarFora() {

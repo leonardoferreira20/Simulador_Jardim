@@ -26,7 +26,7 @@ void ErvaDaninha::agir(Solo& solo) {
     // Morre
     if (obtemTempoVida() == Settings::ErvaDaninha::morre_instantes)
     {
-        morrer(solo);
+        morrer(solo, cout);
     }
     //Multiplicação
     if (obtemNutrientesP() > Settings::ErvaDaninha::multiplica_nutrientes_maior) {
@@ -34,9 +34,9 @@ void ErvaDaninha::agir(Solo& solo) {
     }
 }
 
-void ErvaDaninha::morrer(Solo& solo) {
+void ErvaDaninha::morrer(Solo& solo, ostream& out) {
     alteraViva(false);
-    cout << "Uma ErvaDaninha murchou.\n";
+    out << "Uma " << getNome() << " murchou.\n";
     solo.removerPlanta();
 }
 

@@ -6,6 +6,7 @@
 #include "../Planta/Planta.h"
 #include "../Ferramenta/Ferramenta.h"
 #include <iostream>
+#include <sstream>
 
 int valorRandom (int min, int max) {return min + rand() %  (max - min + 1);}
 
@@ -81,30 +82,31 @@ Planta* Solo::obterPlanta() const{
     return planta;
 }
 
-void Solo::imprimir() const {
+char Solo::getSimbolo() const {
     if (planta != nullptr)
-        cout << planta->getSimbolo();
-    else if (ferramenta != nullptr)
-        cout << ferramenta->getSimbolo();
-    else
-        cout << '.';
+        return planta->getSimbolo();
+    if (ferramenta != nullptr)
+        return ferramenta->getSimbolo();
+    return '.';
 }
 
-void Solo::imprimirDetalhado() const {
-    cout << "Água: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
+string Solo::imprimirDetalhado() const {
+    ostringstream oss;
+    oss << "Água: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
 
     if (planta != nullptr) {
-        cout << planta->getSimbolo();
+        oss << planta->getSimbolo();
 
         if (planta->estaViva())
-            cout << " (viva)";
+            oss << " (viva)";
         else
-            cout << " (morta)";
+            oss << " (morta)";
     } else {
-        cout << "Nenhuma";
+        oss << "Nenhuma";
     }
 
-    cout << endl;
+    oss << endl;
+    return oss.str();
 }
 
 bool Solo::temPlanta() const {

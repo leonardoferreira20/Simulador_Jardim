@@ -46,13 +46,13 @@ void Roseira::agir(Solo& solo){
     {
         if (obtemNutrientesP()>0) solo.modificaNutrientes(obtemNutrientesP());
         if ( obtemAguaP()>0) solo.modificaAgua(obtemAguaP());
-        morrer(solo);
+        morrer(solo, cout);
     }
 }
 
-void Roseira::morrer(Solo& solo) {
+void Roseira::morrer(Solo& solo, ostream& out) {
     alteraViva (false);
-    cout << "Uma roseira murchou.\n";
+    cout << "Uma " << getNome() << " << murchou.\n";
     solo.removerPlanta();
 }
 

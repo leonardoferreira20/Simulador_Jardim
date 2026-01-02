@@ -29,12 +29,10 @@ public:
 
     Solo& operator=(const Solo& outro);
 
-
-
     int obtemAgua() const {return agua;};
     int obtemNutrientes()const {return nutrientes;};
 
-    void imprimir () const;
+    char getSimbolo() const;
     void modificaAgua (int q){agua += q;}
     void modificaNutrientes (int q){nutrientes += q;}
     void encherAgua (){ agua = Settings::Jardim::agua_max; }
@@ -43,7 +41,7 @@ public:
     Planta* obterPlanta() const;
     void criarPlanta(Planta* p);
     void removerPlanta();
-    void imprimirDetalhado() const;
+    string imprimirDetalhado() const;
     bool temPlanta() const;
 
     // FERRAMENTAS

@@ -32,13 +32,13 @@ void Exotica::agir(Solo& solo) {
         obtemNutrientesP() < Settings::Exotica::morre_nutrientes_menor ||
         obtemNutrientesP() > Settings::Exotica::morre_nutrientes_maior)
     {
-        morrer(solo);
+        morrer(solo, cout);
     }
 }
 
-void Exotica::morrer(Solo& solo) {
+void Exotica::morrer(Solo& solo, ostream& out) {
     alteraViva(false);
-    cout << "Uma Exotica murchou.\n";
+    out << "Uma " << getNome() << " murchou.\n";
     solo.removerPlanta();
 }
 

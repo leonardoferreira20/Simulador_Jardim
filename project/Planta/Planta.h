@@ -34,7 +34,7 @@ public:
 
     // Métodos abstratos (a serem implementados pelas subclasses)
     virtual void agir(Solo& solo) = 0;
-    virtual void morrer(Solo& solo) = 0;
+    virtual void morrer(Solo& solo, ostream& out) = 0;
     virtual char getSimbolo() const = 0;
     virtual string getNome() const = 0;
     virtual bool podeReproduzir() = 0;
