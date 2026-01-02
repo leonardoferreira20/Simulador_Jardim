@@ -6,6 +6,7 @@
 #include <sstream>
 #include <fstream>
 #include <filesystem>
+#include <map>
 
 #include "Comando.h"
 #include "../Solo/Solo.h"
@@ -165,7 +166,7 @@ void Comando::comandoListarArea(Jardim* jardim, ostream& out) {
 
     bool encontrou = false;
 
-    for (int l = 0; l < jardim->getNumLinhas(); ++l) {
+    for (int l = 0; l <  jardim->getNumLinhas(); ++l) {
         for (int c = 0; c < jardim->getNumColunas(); ++c) {
             Solo* solo = jardim->getSolo(l, c);
             if (solo != nullptr) {
@@ -575,7 +576,7 @@ void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss, ostream& out)
     lista_gravacoes.erase(it);
 
     out << "Recuperado '" << nome << "' e removido da memoria.\n";
-    jardim->imprimir();
+    out << jardim->imprimir();
 }
 
 void Comando::comandoApaga(istringstream& iss, ostream& out){
