@@ -339,3 +339,10 @@ void Jardim::verificarEApanharFerramenta() {
         spawnFerramentaAleatoria();
     }
 }
+
+void Jardineiro::forcarFora() {
+    // Não mexe nos contadores e não imprime nada
+    dentro = false;
+    linha = -1;
+    coluna = -1;
+}

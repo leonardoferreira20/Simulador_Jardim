@@ -65,6 +65,7 @@ public:
     Ferramenta* getFerramentaInventario(int index) const;
     /*void pegar(Ferramenta*);
     void largar(Solo&);*/
+    void forcarFora();
 };
 
 #endif //JARDINEIRO_H

@@ -571,6 +571,7 @@ void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss) {
     // substituir o jardim atual
     delete jardim;
     jardim = new Jardim(*it->second);
+    jardim->getJardineiro().forcarFora();
 
     // a cópia é eliminada (como o enunciado pede)
     delete it->second;
