@@ -2,67 +2,110 @@
 // Created by Leonardo Ferreira on 25/10/2025.
 //
 
-
 #include "Cacto.h"
-#include "../../Settings.h"
 #include "../../Solo/Solo.h"
 #include <iostream>
 
 using namespace std;
 
-Cacto::Cacto(int ag, int nut) :Planta(ag,nut){
-
+Cacto::Cacto(int ag, int nut)
+    : Planta(ag, nut), contaAguaAlta(0), contaNutZero(0), nutrientesAbsorvidos(0) {
 }
 
 Planta* Cacto::clone() const {
     return new Cacto(*this);
 }
 
-void Cacto::agir(Solo& solo){
+void Cacto::agir(Solo& solo) {
     aumentaTempoVida();
-    // Absorve pouca água e nutrientes
-    alteraAgua(solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
-    solo.modificaAgua (-1*solo.obtemAgua()*Settings::Cacto::absorcao_agua_percentagem / 100);
-    if (solo.obtemNutrientes()>Settings::Cacto::absorcao_nutrientes) {
-        alteraNutrientes (Settings::Cacto::absorcao_nutrientes);
-        solo.modificaNutrientes(-1*Settings::Cacto::absorcao_nutrientes);
+
+    // --- absorve 25% da agua do solo (arredondamento inteiro) ---
+    int aguaSolo = solo.obtemAgua();
+    int qtdAgua = aguaSolo * Settings::Cacto::absorcao_agua_percentagem / 100;
+
+    if (qtdAgua > 0) {
+        solo.modificaAgua(-qtdAgua);
+        alteraAgua(qtdAgua);
     }
 
-    // Verifica se morre por excesso de água ou falta de nutrientes
-    if ( solo.obtemAgua() > Settings::Cacto::morre_agua_solo_maior ||
-         solo.obtemNutrientes() < Settings::Cacto::morre_nutrientes_solo_menor ) {
-        morrer(solo, cout);
+    // --- absorve até 5 nutrientes do solo ---
+    int nutSolo = solo.obtemNutrientes();
+    int qtdNut = 0;
 
+    if (nutSolo >= Settings::Cacto::absorcao_nutrientes) {
+        qtdNut = Settings::Cacto::absorcao_nutrientes;
+    } else if (nutSolo > 0) {
+        qtdNut = nutSolo;
+    }
+
+    if (qtdNut > 0) {
+        solo.modificaNutrientes(-qtdNut);
+        alteraNutrientes(qtdNut);
+        nutrientesAbsorvidos += qtdNut;
+    }
+
+    // --- condições de morte (consecutivas) ---
+    if (solo.obtemAgua() > Settings::Cacto::morre_agua_solo_maior) {
+        contaAguaAlta++;
+    } else {
+        contaAguaAlta = 0;
+    }
+
+    if (solo.obtemNutrientes() == 0) {
+        contaNutZero++;
+    } else {
+        contaNutZero = 0;
+    }
+
+    // morre se agua > 100 durante 3 instantes seguidos
+    // ou se nutrientes == 0 durante mais do que 3 instantes seguidos (4)
+    if (contaAguaAlta >= 3 || contaNutZero > 3) {
+        morrer(solo, cout);
     }
 }
 
-void Cacto::morrer(Solo& solo, ostream& out){
-    alteraViva (false);
+void Cacto::morrer(Solo& solo, ostream& out) {
+    alteraViva(false);
+
+    // Ao morrer deixa no solo todos os nutrientes que absorveu durante a vida (a agua nao)
+    if (nutrientesAbsorvidos > 0) {
+        solo.modificaNutrientes(nutrientesAbsorvidos);
+    }
+
     out << "Morreu um " << getNome() << endl;
     solo.removerPlanta();
 }
 
-char Cacto::getSimbolo() const{
-    return 'C';
+char Cacto::getSimbolo() const {
+    return 'c'; // no enunciado é 'c'
 }
 
-string Cacto::getNome() const{
+string Cacto::getNome() const {
     return "Cacto";
 }
 
-Planta* Cacto::reproduzPlanta(){
-    Cacto* filho;
-    filho = new Cacto(obtemAguaP()/2,obtemNutrientesP()/2);
-    filho->setAgua(obtemAguaP()/2);
-    filho->setNutrientes(obtemNutrientesP()/2);
-
-
-    return filho;
-}
-
 bool Cacto::podeReproduzir() {
-    if (obtemNutrientesP()>Settings::Cacto::multiplica_nutrientes_maior && obtemAguaP()>Settings::Cacto::multiplica_agua_maior) {
+    // multiplica se nutr > 100 e agua > 50
+    if (obtemNutrientesP() > Settings::Cacto::multiplica_nutrientes_maior &&
+        obtemAguaP() > Settings::Cacto::multiplica_agua_maior) {
         return true;
     }
     return false;
+}
+
+Planta* Cacto::reproduzPlanta() {
+    int aguaTotal = obtemAguaP();
+    int nutTotal  = obtemNutrientesP();
+
+    int aguaFilho = aguaTotal / 2;
+    int nutFilho  = nutTotal / 2;
+
+    int aguaOriginal = aguaTotal - aguaFilho;
+    int nutOriginal  = nutTotal - nutFilho;
+
+    setAgua(aguaOriginal);
+    setNutrientes(nutOriginal);
+
+    Cacto* filho = new Cacto(aguaFilho, nutFilho);
+    return filho;
 }
