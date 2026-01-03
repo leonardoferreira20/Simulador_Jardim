@@ -61,6 +61,7 @@ public:
     void expandirInventario();
     string adicionarFerramenta(Ferramenta* f);
     bool pegarFerramenta(int numSerie, ostream& out);
+    void removerFerramentaVazia();
     string largarFerramenta();
     Ferramenta* getFerramentaInventario(int index) const;
     void forcarFora();

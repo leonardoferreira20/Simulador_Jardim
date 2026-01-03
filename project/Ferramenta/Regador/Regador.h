@@ -16,8 +16,7 @@ class Regador: public Ferramenta {
 
         char getSimbolo() const override { return 'G'; }
         string getNome() const override { return "Regador"; }
-
-        void utiliza(Solo& solo) override;
+        void utiliza(Solo& solo, ostream& out) override;
         Ferramenta* clone() const override { return new Regador(*this); }
 };
 

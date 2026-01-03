@@ -54,7 +54,7 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss, ostream& out){
     int n = 1;
     iss >> n;
     for (int i = 0; i < n;i++) {
-        jardim->avanca();
+        jardim->avanca(cout);
         jardim->getJardineiro().resetContadores();
     }
 
@@ -377,7 +377,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
             if (solo != nullptr && solo->temFerramenta()) {
 
                 Ferramenta* f = solo->obterFerramenta();
-                out << "  Solo (" << char('A' + l) << char('A' + c) << ") - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
+                out << "  Solo (" << char('A' + l) << char('A' + c) << ") - " << f->getNome() << " [nº série: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
 
                 encontrou = true;
             }
@@ -390,7 +390,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
     // Ferramenta na mão
     Ferramenta* mao = j.obterFerramentaNaMao();
     if (mao != nullptr) {
-        out << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << "]\n";
+        out << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << ", capacidade: " << mao->getCapacidade() << "]\n";
         encontrou = true;
     }
 
@@ -400,7 +400,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
         if (f == nullptr)
             break;
 
-        out << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << "]\n";
+        out << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
 
         encontrou = true;
     }
@@ -635,8 +635,9 @@ void Comando::comandoRunscript(istringstream& iss, Interface& ui, ostream& out) 
 }
 
 /// AJUDA
-void Comando::comandoAjuda(ostream& out){
-    out << "Comandos disponíveis:\n"
+string const Comando::comandoAjuda() {
+    ostringstream oss;
+    oss << "Comandos disponíveis:\n"
          << " Criação jardim:\n"
          << "   > jardim <linhas> <colunas>         - Cria um novo jardim\n"
          << " Gestão do Tempo:\n"
@@ -664,6 +665,7 @@ void Comando::comandoAjuda(ostream& out){
          << "   > apaga <nome_ficheiro>.txt         - Apaga o ficheiro guardado com o nome indicado\n"
          << " Terminar:\n"
          << "   > fim                               - Termina o programa\n";
+    return oss.str();
 };
 
 /// TERMINAR O PROGRAMA

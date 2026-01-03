@@ -32,7 +32,7 @@ class Ferramenta {
 
         virtual char getSimbolo() const = 0;
         virtual string getNome() const = 0;
-        virtual void utiliza(Solo& solo) = 0;
+        virtual void utiliza(Solo& solo, ostream& out) = 0;
         virtual Ferramenta* clone() const = 0;
 };
 

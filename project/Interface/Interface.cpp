@@ -115,7 +115,7 @@ void Interface::processarComando(const string& linha, ostream& out){
             Comando::comandoApaga(iss, cout);
         }
         else if ( cmd == "ajuda" ){
-            Comando::comandoAjuda(cout);
+            out << Comando::comandoAjuda();
         }
         else if ( cmd == "fim" ){
             Comando::comandoFim(ativo, cout);

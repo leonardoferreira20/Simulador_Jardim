@@ -256,6 +256,14 @@ bool Jardineiro::pegarFerramenta(int numSerie, ostream& out) {
     return true;
 }
 
+void Jardineiro::removerFerramentaVazia() {
+    // Remove e destrói a ferramenta que está na mão (quando fica vazia)
+    if (mao != nullptr) {
+        delete mao;
+        mao = nullptr;
+    }
+}
+
 string Jardineiro::largarFerramenta() {
     ostringstream oss;
     if (obterFerramentaNaMao() == nullptr) {

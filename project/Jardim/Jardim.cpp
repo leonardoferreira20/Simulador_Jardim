@@ -144,7 +144,21 @@ Solo* Jardim::soloParaReproduzir(int linha, int col, int ErvaDaninha) {
     return getSolo(linhaEscolhida, colunaEscolhida);
 }
 
-void Jardim::avanca() {
+void Jardim::avanca(ostream& out) {
+    if (jardineiro->estaDentro() && jardineiro->obterFerramentaNaMao() != nullptr) {
+        Ferramenta* ferr = jardineiro->obterFerramentaNaMao();
+        int linJard = jardineiro->getLinha();
+        int colJard = jardineiro->getColuna();
+
+        ferr->utiliza(grid[linJard][colJard], cout);
+
+        if (ferr->estaVazia()) {
+            out << ferr->getNome() << " ficou vazia e foi descartada!\n";
+
+            jardineiro->removerFerramentaVazia();
+        }
+    }
+
     for (int l = 0; l < nLinhas; l++) {
         for (int c = 0; c < nColunas; c++) {
             Planta* planta = grid[l][c].obterPlanta();

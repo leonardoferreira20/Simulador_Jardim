@@ -5,13 +5,13 @@
 #include "Adubo.h"
 #include "../../Solo/Solo.h"
 #include "../../Jardim/Jardim.h"
+#include "../../Settings.h"
 
-void Adubo::utiliza(Solo& solo) {
-    if ( estaVazia() ) {
-        cout << "A ferramenta, " << getNome() << ", atingiu o limite da sua capacidade.\n";
-        return;
+void Adubo::utiliza(Solo& solo, ostream& out) {
+    if ( !estaVazia() ) {
+        solo.modificaNutrientes(getConsumo()); // +10 nutrientes no solo
+        reduzirCapacidade();                      // -10 do adubo
+
+        out << "Adubo usado: +" << getConsumo() << " nutrientes no solo (adubo: " << getCapacidade() << "/" << Settings::Adubo::capacidade << ")\n";
     }
-
-    solo.modificaAgua(10);// VERIFICAR VALOR !!
-    reduzirCapacidade();
 }

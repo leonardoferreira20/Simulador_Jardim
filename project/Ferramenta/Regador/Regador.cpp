@@ -6,12 +6,11 @@
 #include "../../Solo/Solo.h"
 #include "../../Jardim/Jardim.h"
 
-void Regador::utiliza(Solo& solo) {
-    if ( estaVazia() ) {
-        cout << "A ferramenta, " << getNome() << ", atingiu o limite da sua capacidade.\n";
-        return;
-    }
+void Regador::utiliza(Solo& solo, ostream& out) {
+    if ( !estaVazia() ) {
+        solo.modificaAgua(getConsumo());  // +10 água no solo
+        reduzirCapacidade();                // -10 do regador
 
-    solo.modificaAgua(10);// VERIFICAR VALOR !!
-    reduzirCapacidade();
+        out << "Regador usado: +" << getConsumo() << " água no solo (regador: " << getCapacidade() << "/" << Settings::Regador::capacidade << ")\n";
+    }
 }

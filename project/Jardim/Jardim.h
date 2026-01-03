@@ -37,7 +37,7 @@ class Jardim {
         int getNumColunas () const { return nColunas; }
 
         string imprimir () const;
-        void avanca();
+        void avanca(ostream& out);
         bool planta(int linha, int coluna, char tipo, ostream& out);
         bool colhe(int linha, int coluna, ostream& out);
         string listarPlantas();

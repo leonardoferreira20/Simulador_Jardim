@@ -11,12 +11,11 @@ using namespace std;
 
 class Tesoura: public Ferramenta  {
     public:
-        Tesoura() : Ferramenta(-1, 0) {}  // infinita
+        Tesoura() : Ferramenta(999999999, 0) {}  // infinita
 
         char getSimbolo() const override { return 'T'; }
         string getNome() const override { return "Tesoura de Poda"; }
-
-        void utiliza(Solo& solo) override;
+        void utiliza(Solo& solo, ostream& out) override;
         Ferramenta* clone() const override { return new Tesoura(*this); }
 };
 

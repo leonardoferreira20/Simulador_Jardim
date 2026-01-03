@@ -14,8 +14,7 @@ class VaraEspecial : public Ferramenta {
 
         char getSimbolo() const override { return 'V'; }
         string getNome() const override { return "Vara Especial"; }
-
-        void utiliza(Solo& /*solo*/) override;
+        void utiliza(Solo& solo, ostream& out) override;
         Ferramenta* clone() const override { return new VaraEspecial(*this); }
 };
 

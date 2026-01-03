@@ -56,7 +56,7 @@ class Comando {
     static void comandoRunscript(istringstream& iss, Interface& ui, ostream& out);
 
     /// AJUDA
-    static void comandoAjuda(ostream& out);
+    static string const comandoAjuda() ;
 
     /// TERMINAR O PROGRAMA
     static void comandoFim(bool& ativo, ostream& out);

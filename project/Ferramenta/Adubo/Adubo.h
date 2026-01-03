@@ -16,8 +16,7 @@ class Adubo:public Ferramenta {
 
         char getSimbolo() const override { return 'A'; }
         string getNome() const override { return "Adubo"; }
-
-        void utiliza(Solo& solo) override;
+        void utiliza(Solo& solo, ostream& out) override;
         Ferramenta* clone() const override { return new Adubo(*this); }
 };
 
