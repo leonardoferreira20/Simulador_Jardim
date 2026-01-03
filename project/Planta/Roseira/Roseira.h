@@ -22,6 +22,4 @@ class Roseira: public Planta {
         bool isFeia() override{return true;}
 };
 
-
-
 #endif //ROSEIRA_H

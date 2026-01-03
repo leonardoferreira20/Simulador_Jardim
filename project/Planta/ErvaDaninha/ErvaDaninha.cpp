@@ -2,14 +2,14 @@
 // Created by jonhr on 31/10/2025.
 //
 
+#include <iostream>
 #include "ErvaDaninha.h"
-
 #include "../../Settings.h"
 #include "../../Solo/Solo.h"
 
+using namespace std;
 
-ErvaDaninha::ErvaDaninha(int ag, int nut):Planta(ag,nut){
-
+ErvaDaninha::ErvaDaninha(int ag, int nut) : Planta(ag, nut), ultimaReproducao(0) {
 }
 
 Planta* ErvaDaninha::clone() const {
@@ -18,19 +18,28 @@ Planta* ErvaDaninha::clone() const {
 
 void ErvaDaninha::agir(Solo& solo) {
     aumentaTempoVida();
-    aumentaInstantes();
-    // Absorve do solo
-    solo.modificaNutrientes((-1)*Settings::ErvaDaninha::absorcao_nutrientes);
-    solo.modificaAgua((-1)*Settings::ErvaDaninha::absorcao_agua);
 
-    // Morre
-    if (obtemTempoVida() == Settings::ErvaDaninha::morre_instantes)
-    {
-        morrer(solo, cout);
+    // Absorve água (igual ao teu estilo da Roseira)
+    if (solo.obtemAgua() >= Settings::ErvaDaninha::absorcao_agua) {
+        solo.modificaAgua(Settings::ErvaDaninha::absorcao_agua * -1);
+        alteraAgua(Settings::ErvaDaninha::absorcao_agua);
+    } else if (solo.obtemAgua() > 0) {
+        alteraAgua(solo.obtemAgua());
+        solo.modificaAgua(solo.obtemAgua() * -1);
     }
-    //Multiplicação
-    if (obtemNutrientesP() > Settings::ErvaDaninha::multiplica_nutrientes_maior) {
 
+    // Absorve nutrientes (igual ao teu estilo da Roseira)
+    if (solo.obtemNutrientes() >= Settings::ErvaDaninha::absorcao_nutrientes) {
+        solo.modificaNutrientes(Settings::ErvaDaninha::absorcao_nutrientes * -1);
+        alteraNutrientes(Settings::ErvaDaninha::absorcao_nutrientes);
+    } else if (solo.obtemNutrientes() > 0) {
+        alteraNutrientes(solo.obtemNutrientes());
+        solo.modificaNutrientes(solo.obtemNutrientes() * -1);
+    }
+
+    // Morre aos 60 instantes (usa >= para não falhar)
+    if (obtemTempoVida() >= Settings::ErvaDaninha::morre_instantes) {
+        morrer(solo, cout);
     }
 }
 
@@ -44,22 +53,25 @@ char ErvaDaninha::getSimbolo() const {
     return 'E';
 }
 
-string ErvaDaninha::getNome() const{
+string ErvaDaninha::getNome() const {
     return "ErvaDaninha";
 }
 
-Planta* ErvaDaninha::reproduzPlanta(){
-    ErvaDaninha* filho;
-    filho = new ErvaDaninha(obtemAguaP(),obtemNutrientesP());
-    filho->setAgua(Settings::ErvaDaninha::nova_nutrientes);
-    filho->setNutrientes(Settings::ErvaDaninha::nova_nutrientes);
-
-    return filho;
-}
-
 bool ErvaDaninha::podeReproduzir() {
-    if (obtemNutrientesP()>Settings::ErvaDaninha::multiplica_nutrientes_maior && getInstantes()>Settings::ErvaDaninha::multiplica_instantes) {
+    // >30 nutrientes e passaram 5 instantes desde a última reprodução
+    if (obtemNutrientesP() > Settings::ErvaDaninha::multiplica_nutrientes_maior &&
+        (obtemTempoVida() - ultimaReproducao) >= Settings::ErvaDaninha::multiplica_instantes) {
         return true;
     }
     return false;
+}
+
+Planta* ErvaDaninha::reproduzPlanta() {
+    // Ao reproduzir, “marca” a última reprodução AQUI (sem mexer na Planta.h)
+    ultimaReproducao = obtemTempoVida();
+
+    // Filho nasce com os valores iniciais (5/5)
+    ErvaDaninha* filho = new ErvaDaninha(Settings::ErvaDaninha::inicial_agua,
+                                         Settings::ErvaDaninha::inicial_nutrientes);
+    return filho;
 }

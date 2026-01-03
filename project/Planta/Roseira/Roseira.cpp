@@ -52,7 +52,7 @@ void Roseira::agir(Solo& solo){
 
 void Roseira::morrer(Solo& solo, ostream& out) {
     alteraViva (false);
-    cout << "Uma " << getNome() << " << murchou.\n";
+    out << "Uma " << getNome() << " murchou.\n";
     solo.removerPlanta();
 }
 
@@ -64,15 +64,18 @@ string Roseira::getNome() const{
     return "Roseira";
 }
 
-Planta* Roseira::reproduzPlanta(){
-    Roseira* filho;
+Planta* Roseira::reproduzPlanta() {
+    int filhoAgua = obtemAguaP() * Settings::Roseira::nova_agua_percentagem / 100;
+    int paiAgua   = obtemAguaP() - filhoAgua;
 
-    filho = new Roseira(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100,Settings::Roseira::nova_nutrientes);
-    filho->setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
-    filho->setNutrientes(Settings::Roseira::original_nutrientes);
-
-    setAgua(obtemAguaP()*Settings::Roseira::original_agua_percentagem/100);
+    // Pai
+    setAgua(paiAgua);
     setNutrientes(Settings::Roseira::original_nutrientes);
+
+    // Filho
+    Roseira* filho = new Roseira(filhoAgua, Settings::Roseira::nova_nutrientes);
+    filho->setAgua(filhoAgua);
+    filho->setNutrientes(Settings::Roseira::nova_nutrientes);
 
     return filho;
 }

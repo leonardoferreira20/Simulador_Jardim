@@ -630,7 +630,7 @@ void Comando::comandoRunscript(istringstream& iss, Interface& ui, ostream& out) 
     while (getline(abre, linha)) {
         if (linha.empty()) continue;
         out << "> " << linha << endl; //simula o > da Interface para mostrar o comando que estamos a usar
-        ui.processarComando(linha, cout);
+        ui.processarComando(linha, out);
     }
 }
 

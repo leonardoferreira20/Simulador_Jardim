@@ -150,11 +150,10 @@ void Jardim::avanca(ostream& out) {
         int linJard = jardineiro->getLinha();
         int colJard = jardineiro->getColuna();
 
-        ferr->utiliza(grid[linJard][colJard], cout);
+        ferr->utiliza(grid[linJard][colJard], out);
 
         if (ferr->estaVazia()) {
             out << ferr->getNome() << " ficou vazia e foi descartada!\n";
-
             jardineiro->removerFerramentaVazia();
         }
     }
@@ -162,32 +161,15 @@ void Jardim::avanca(ostream& out) {
     for (int l = 0; l < nLinhas; l++) {
         for (int c = 0; c < nColunas; c++) {
             Planta* planta = grid[l][c].obterPlanta();
-            if (planta != nullptr && planta->estaViva() ) {
-                if ( !planta->isRecemNascida() && planta->podeReproduzir()) {
-                    Solo* plantar;
-                    if (planta->getSimbolo() != 'E') {//Passar para deentro da planta
-                        plantar = soloParaReproduzir(l,c,0);
-                    }
-                    else {
-                        plantar = soloParaReproduzir(l,c,1);
-                    }
-                    if (plantar != nullptr) {
-                        Planta* filho = planta->reproduzPlanta();
-                        if (filho != nullptr) {
-                            if (planta->getSimbolo() == 'E' && plantar->temPlanta()) {
-                                plantar->removerPlanta();
-                            }
-                            filho->setRecemNascida(true);
-                            plantar->criarPlanta(filho);
-                        }
-                    }
-                }
+            if (planta != nullptr && planta->estaViva()) {
+                if (!planta->isRecemNascida())
+                    planta->tentaReproduzir(*this, l, c);
+
                 planta->agir(grid[l][c]);
             }
         }
     }
 
-    // RESET DE TODOS OS TRUES ADICIONADOS NA REPRODUÇÃO
     for (int l = 0; l < nLinhas; l++) {
         for (int c = 0; c < nColunas; c++) {
             Planta* p = grid[l][c].obterPlanta();
@@ -329,8 +311,6 @@ bool Jardim::spawnFerramentaAleatoria() {
         // DISCUTIR SOBRE A POSSIBILIDADE DE NAO HAVER POSICOES VAZIAS (LOOP INFINITO)
     } while ( grid[l][c].temFerramenta() );
 
-    l = rand() % nLinhas;
-    c = rand() % nColunas;
     solo = &grid[l][c];
 
     tipo = rand() % 4;

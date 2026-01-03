@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+class Jardim;
 using namespace std;
 
 class Solo;
@@ -59,6 +60,8 @@ public:
     void setRecemNascida(bool valor) { recemNascida = valor; }
 
     virtual Planta* reproduzPlanta() = 0;
+    virtual void tentaReproduzir(Jardim& jardim, int linha, int coluna);
+    virtual bool reproduzEmSoloOcupado() const { return false; }
 };
 
 #endif // PLANTA_H

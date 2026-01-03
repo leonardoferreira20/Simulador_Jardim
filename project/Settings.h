@@ -20,11 +20,6 @@ class Settings {
                 static const int capacidade = 100;
                 static const int dose = 10;
         };
-        class VaraEspecial {
-            public:
-                static const int capacidade = 1;
-                static const int dose = 1;
-        };
         class Jardineiro {
             public:
                 static const int max_movimentos = 10;
@@ -40,8 +35,8 @@ class Settings {
                 static const int morre_agua_solo_instantes = 3;
                 static const int morre_nutrientes_solo_menor = 1;
                 static const int morre_nutrientes_solo_instantes = 3;
-                static const int multiplica_nutrientes_maior = 100;
-                static const int multiplica_agua_maior = 50;
+                static const int multiplica_nutrientes_maior = 12;
+                static const int multiplica_agua_maior = 15;
         };
         class Roseira {
             public:
@@ -54,7 +49,7 @@ class Settings {
                 static const int morre_agua_menor = 1;
                 static const int morre_nutrientes_menor = 1;
                 static const int morre_nutrientes_maior = 199;
-                static const int multiplica_nutrientes_maior = 100;
+                static const int multiplica_nutrientes_maior = 20;
                 static const int nova_nutrientes = 25;
                 static const int nova_agua_percentagem = 50;
                 static const int original_nutrientes = 100;
@@ -62,33 +57,28 @@ class Settings {
         };
         class ErvaDaninha {
             public:
-            static const int inicial_agua = 50;
-            static const int inicial_nutrientes = 50;
+            static const int inicial_agua = 5;
+            static const int inicial_nutrientes = 5;
             static const int absorcao_agua = 1;
             static const int absorcao_nutrientes = 1;
             static const int morre_instantes = 60;
             static const int multiplica_nutrientes_maior = 30;
             static const int multiplica_instantes = 5;
-            static const int nova_nutrientes = 50;
+            static const int nova_nutrientes = 5;
             static const int original_nutrientes = 5;
         };
     class Exotica {
-    public:
-        static const int inicial_agua = 25;
-        static const int inicial_nutrientes = 25;
-        static const int perda_agua = 4;
-        static const int perda_nutrientes = 4;
-        static const int absorcao_agua = 5;
-        static const int absorcao_nutrientes = 8;
-        static const int morre_agua_menor = 1;
-        static const int morre_nutrientes_menor = 1;
-        static const int morre_nutrientes_maior = 199;
-        static const int multiplica_nutrientes_maior = 100;
-        static const int nova_nutrientes = 25;
-        static const int nova_agua_percentagem = 50;
-        static const int original_nutrientes = 100;
-        static const int original_agua_percentagem = 50;
-    };
+        public:
+            static const int inicial_agua = 25;
+            static const int inicial_nutrientes = 25;
+            static const int fertiliza_nutrientes = 13;
+            static const int fertiliza_agua = 12;
+        };
+    class VaraEspecial {
+        public:
+            static const int capacidade = 1;
+            static const int dose = 1;
+        };
 };
 
 #endif //SETTINGS_SETTINGS_H
