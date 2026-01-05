@@ -35,12 +35,12 @@ class Settings {
                 static const int morre_agua_solo_instantes = 3;
                 static const int morre_nutrientes_solo_menor = 1;
                 static const int morre_nutrientes_solo_instantes = 3;
-                static const int multiplica_nutrientes_maior = 12;
-                static const int multiplica_agua_maior = 15;
+                static const int multiplica_nutrientes_maior = 100;
+                static const int multiplica_agua_maior = 50;
         };
         class Roseira {
             public:
-                static const int inicial_agua = 5;
+                static const int inicial_agua = 25;
                 static const int inicial_nutrientes = 25;
                 static const int perda_agua = 4;
                 static const int perda_nutrientes = 4;
@@ -49,7 +49,7 @@ class Settings {
                 static const int morre_agua_menor = 1;
                 static const int morre_nutrientes_menor = 1;
                 static const int morre_nutrientes_maior = 199;
-                static const int multiplica_nutrientes_maior = 20;
+                static const int multiplica_nutrientes_maior = 100;
                 static const int nova_nutrientes = 25;
                 static const int nova_agua_percentagem = 50;
                 static const int original_nutrientes = 100;

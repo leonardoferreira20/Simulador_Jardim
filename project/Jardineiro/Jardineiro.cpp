@@ -124,7 +124,7 @@ string Jardineiro::entrar(int l, int c) {
 string Jardineiro::sair() {
     ostringstream oss;
     if (!dentro) {
-        oss << "Erro: O jardineiro já está fora do jardim.\n";
+        oss << "Erro: O jardineiro ja esta fora do jardim.\n";
         return oss.str();
     }
 
@@ -221,7 +221,7 @@ string Jardineiro::adicionarFerramenta(Ferramenta* f) {
     inventario[tamanhoInv] = f;
     tamanhoInv++;
 
-    oss << "Ferramenta " << f->getNome() << " (nº serie " << f->getNSerie() << ") adicionada ao inventário.\n";
+    oss << "Ferramenta " << f->getNome() << " (numero serie " << f->getNSerie() << ") adicionada ao inventario.\n";
     return oss.str();
 }
 
@@ -236,7 +236,7 @@ bool Jardineiro::pegarFerramenta(int numSerie, ostream& out) {
     }
 
     if (indice == -1) {
-        out << "Ferramenta com número de série " << numSerie << " não encontrada no inventário.\n";
+        out << "Ferramenta com numero de serie " << numSerie << " nao encontrada no inventario.\n";
         return false;
     }
 
@@ -252,7 +252,7 @@ bool Jardineiro::pegarFerramenta(int numSerie, ostream& out) {
     inventario[tamanhoInv - 1] = nullptr;
     tamanhoInv--;
 
-    out << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") agora está na mão.\n";
+    out << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") agora esta na mao.\n";
     return true;
 }
 
@@ -267,11 +267,11 @@ void Jardineiro::removerFerramentaVazia() {
 string Jardineiro::largarFerramenta() {
     ostringstream oss;
     if (obterFerramentaNaMao() == nullptr) {
-        oss << "Não há ferramenta na mão para largar.\n";
+        oss << "Nao ha ferramenta na mao para largar.\n";
         return oss.str();
     }
 
-    oss << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") guardada no inventário.\n";
+    oss << "Ferramenta " << obterFerramentaNaMao()->getNome() << " (numero " << obterFerramentaNaMao()->getNSerie() << ") guardada no inventario.\n";
 
     oss << adicionarFerramenta(obterFerramentaNaMao());
     mao = nullptr;

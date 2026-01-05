@@ -92,7 +92,7 @@ char Solo::getSimbolo() const {
 
 string Solo::imprimirDetalhado() const {
     ostringstream oss;
-    oss << "Água: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
+    oss << "Agua: " << agua << " | Nutrientes: " << nutrientes << " | Planta: ";
 
     if (planta != nullptr) {
         oss << planta->getSimbolo();

@@ -19,7 +19,7 @@ Planta* ErvaDaninha::clone() const {
 void ErvaDaninha::agir(Solo& solo) {
     aumentaTempoVida();
 
-    // Absorve água (igual ao teu estilo da Roseira)
+    // Absorve água
     if (solo.obtemAgua() >= Settings::ErvaDaninha::absorcao_agua) {
         solo.modificaAgua(Settings::ErvaDaninha::absorcao_agua * -1);
         alteraAgua(Settings::ErvaDaninha::absorcao_agua);
@@ -28,7 +28,7 @@ void ErvaDaninha::agir(Solo& solo) {
         solo.modificaAgua(solo.obtemAgua() * -1);
     }
 
-    // Absorve nutrientes (igual ao teu estilo da Roseira)
+    // Absorve nutrientes
     if (solo.obtemNutrientes() >= Settings::ErvaDaninha::absorcao_nutrientes) {
         solo.modificaNutrientes(Settings::ErvaDaninha::absorcao_nutrientes * -1);
         alteraNutrientes(Settings::ErvaDaninha::absorcao_nutrientes);
@@ -67,10 +67,10 @@ bool ErvaDaninha::podeReproduzir() {
 }
 
 Planta* ErvaDaninha::reproduzPlanta() {
-    // Ao reproduzir, “marca” a última reprodução AQUI (sem mexer na Planta.h)
+    // última reprodução aqui
     ultimaReproducao = obtemTempoVida();
 
-    // Filho nasce com os valores iniciais (5/5)
+    // Filho nasce com os valores iniciais
     ErvaDaninha* filho = new ErvaDaninha(Settings::ErvaDaninha::inicial_agua,
                                          Settings::ErvaDaninha::inicial_nutrientes);
     return filho;

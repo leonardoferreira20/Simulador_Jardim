@@ -44,14 +44,14 @@ Jardim::Jardim(const Jardim& outro) {
     for (int i = 0; i < nLinhas; i++) {
         grid[i] = new Solo[nColunas];
         for (int c = 0; c < nColunas; c++) {
-            grid[i][c] = outro.grid[i][c]; // Solo::operator= (já faz deep copy de planta/ferramenta)
+            grid[i][c] = outro.grid[i][c];
         }
     }
 
     // copia de jardineiro
     jardineiro = nullptr;
     if (outro.jardineiro != nullptr) {
-        jardineiro = new Jardineiro(*outro.jardineiro); // usa o teu copy ctor do Jardineiro (com clone)
+        jardineiro = new Jardineiro(*outro.jardineiro);
     }
 }
 

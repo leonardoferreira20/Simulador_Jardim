@@ -19,7 +19,7 @@ Planta* Cacto::clone() const {
 void Cacto::agir(Solo& solo) {
     aumentaTempoVida();
 
-    // --- absorve 25% da agua do solo (arredondamento inteiro) ---
+    //
     int aguaSolo = solo.obtemAgua();
     int qtdAgua = aguaSolo * Settings::Cacto::absorcao_agua_percentagem / 100;
 
@@ -28,7 +28,7 @@ void Cacto::agir(Solo& solo) {
         alteraAgua(qtdAgua);
     }
 
-    // --- absorve até 5 nutrientes do solo ---
+    //
     int nutSolo = solo.obtemNutrientes();
     int qtdNut = 0;
 
@@ -44,7 +44,7 @@ void Cacto::agir(Solo& solo) {
         nutrientesAbsorvidos += qtdNut;
     }
 
-    // --- condições de morte (consecutivas) ---
+    // -
     if (solo.obtemAgua() > Settings::Cacto::morre_agua_solo_maior) {
         contaAguaAlta++;
     } else {
@@ -58,7 +58,7 @@ void Cacto::agir(Solo& solo) {
     }
 
     // morre se agua > 100 durante 3 instantes seguidos
-    // ou se nutrientes == 0 durante mais do que 3 instantes seguidos (4)
+    // ou se nutrientes == 0 durante mais do que 3 instantes seguidos
     if (contaAguaAlta >= 3 || contaNutZero > 3) {
         morrer(solo, cout);
     }
@@ -77,7 +77,7 @@ void Cacto::morrer(Solo& solo, ostream& out) {
 }
 
 char Cacto::getSimbolo() const {
-    return 'c'; // no enunciado é 'c'
+    return 'C';
 }
 
 string Cacto::getNome() const {

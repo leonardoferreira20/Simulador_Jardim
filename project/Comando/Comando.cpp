@@ -61,7 +61,7 @@ void Comando::comandoAvanca(Jardim* jardim, istringstream& iss, ostream& out){
     out << jardim->imprimir();
 };
 
-/// LISTAR INFORMAÇÃO SOBRE PLANTAS
+/// LISTAR INFORMAÇaO SOBRE PLANTAS
 void Comando::comandoListarPlantas(Jardim* jardim, ostream& out) {
     if (jardim == nullptr) {
         out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
@@ -88,12 +88,12 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss, ostream& o
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        out << "Erro: Coordenadas inválidas.\n" << endl;
+        out << "Erro: Coordenadas invalidas.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        out << "Erro: Posição fora dos limites.\n" << endl;
+        out << "Erro: Posicao fora dos limites.\n" << endl;
         return;
     }
 
@@ -101,11 +101,12 @@ void Comando::comandoListarPlanta(Jardim* jardim, istringstream& iss, ostream& o
     out << jardim->imprimir();
 }
 
-/// LISTAR INFORMAÇÃO SOBRE O SOLO
+/// LISTAR INFORMAÇaO SOBRE O SOLO
 void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss, ostream& out) {
     string coords;
     int lin, col;
-    int raio = 0;
+    int raio = 1;              // por defeito mostra vizinhos imediatos
+    bool temRaio = false;
 
     if (jardim == nullptr) {
         out << "Erro: Crie primeiro um jardim com o comando 'jardim <linhas> <colunas>'.\n" << endl;
@@ -122,7 +123,13 @@ void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss, ostream&
         return;
     }
 
-    iss >> raio; // opcional
+    if (iss >> raio) {         // opcional
+        temRaio = true;
+        if (raio < 1) raio = 1;
+    } else {
+        // se não foi fornecido n, mantém raio = 1 (vizinhos imediatos)
+        temRaio = false;
+    }
 
     if (!jardim->posicaoValida(lin, col)) {
         out << "Erro: Posição fora dos limites.\n" << endl;
@@ -130,32 +137,36 @@ void Comando::comandoListarInfoSolo(Jardim* jardim, istringstream& iss, ostream&
     }
 
     Solo* solo = jardim->getSolo(lin, col);
-
     if (solo == nullptr) {
         out << "Erro inesperado: solo inexistente.\n" << endl;
         return;
     }
 
+    // Solo principal
+    out << "Solo " << char('A' + lin) << char('A' + col) << ":\n";
     out << solo->imprimirDetalhado();
 
-    // Se houver raio, listar vizinhos
-    if (raio > 0) {
-        out << "\nVizinhos (raio " << raio << "):\n";
-        for (int dl = -raio; dl <= raio; dl++) {
-            for (int dc = -raio; dc <= raio; dc++) {
-                int nl = lin + dl;
-                int nc = col + dc;
+    //Vizinhos
+    out << "\nVizinhos (raio " << raio << "):\n";
 
-                if (jardim->posicaoValida(nl, nc)) {
-                    out << " - ";
-                    jardim->getSolo(nl, nc)->imprimirDetalhado();
-                }
-            }
+    for (int dl = -raio; dl <= raio; dl++) {
+        for (int dc = -raio; dc <= raio; dc++) {
+
+            if (dl == 0 && dc == 0) continue;
+
+            int nl = lin + dl;
+            int nc = col + dc;
+
+            if (!jardim->posicaoValida(nl, nc))
+                continue;
+
+            out << " - " << char('A' + nl) << char('A' + nc) << ": ";
+            out << jardim->getSolo(nl, nc)->imprimirDetalhado();
         }
     }
 
     out << endl;
-    jardim->imprimir();
+    out << jardim->imprimir();
 }
 
 void Comando::comandoListarArea(Jardim* jardim, ostream& out) {
@@ -185,10 +196,10 @@ void Comando::comandoListarArea(Jardim* jardim, ostream& out) {
     }
 
     if (!encontrou)
-        out << "  Nenhuma célula ocupada.\n";
+        out << "  Nenhuma celula ocupada.\n";
 }
 
-/// AÇÕES DO JARDINEIRO
+/// AÇoES DO JARDINEIRO
 void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss, ostream& out) {
     string coords;
     int lin, col;
@@ -204,12 +215,12 @@ void Comando::comandoEntrarJardim(Jardim* jardim, istringstream& iss, ostream& o
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        out << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
+        out << "Erro: Coordenadas invalidas. Use formato <AA>.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        out << "Erro: Posição fora dos limites do jardim.\n" << endl;
+        out << "Erro: Posicao fora dos limites do jardim.\n" << endl;
         return;
     }
 
@@ -226,7 +237,7 @@ void Comando::comandoSairJardim(Jardim* jardim, ostream& out) {
     }
 
     if (!jardim->getJardineiro().estaDentro()) {
-        out << "Erro: O jardineiro já está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro ja esta fora do jardim.\n" << endl;
         return;
     }
 
@@ -243,7 +254,7 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao, ostream& out) {
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if (!jardineiro.estaDentro()) {
-        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro esta fora do jardim.\n" << endl;
         return;
     }
 
@@ -256,12 +267,12 @@ void Comando::comandoMoverJardim(Jardim* jardim, char direcao, ostream& out) {
         case 'c': lin--; break;
         case 'b': lin++; break;
         default:
-            out << "Erro: Direção inválida.\n" << endl;
+            out << "Erro: Direcao invalida.\n" << endl;
         return;
     }
 
     if (!jardim->posicaoValida(lin, col)) {
-        out << "Erro: O jardineiro não pode sair do jardim.\n" << endl;
+        out << "Erro: O jardineiro nao pode sair do jardim.\n" << endl;
         return;
     }
 
@@ -291,24 +302,24 @@ void Comando::comandoPlantar(Jardim* jardim, istringstream& iss, ostream& out){
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        out << "Erro: Coordenadas inválidas. Use formato <AA>.\n" << endl;
+        out << "Erro: Coordenadas invalidas. Use formato <AA>.\n" << endl;
         return;
     }
 
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if ( !jardineiro.estaDentro() ) {
-        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro esta fora do jardim.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        out << "Erro: Posição fora dos limites do jardim.\n" << endl;
+        out << "Erro: Posicao fora dos limites do jardim.\n" << endl;
         return;
     }
 
     if ( !jardineiro.podePlantar() ) {
-        out << "Erro: Limite de plantações atingido!\n" << endl;
+        out << "Erro: Limite de plantacoes atingido!\n" << endl;
         return;
     }
 
@@ -328,7 +339,7 @@ void Comando::comandoColher(Jardim* jardim, istringstream& iss, ostream& out){
 
     Jardineiro& jardineiro = jardim->getJardineiro();
     if ( !jardineiro.estaDentro() ) {
-        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro esta fora do jardim.\n" << endl;
         return;
     }
 
@@ -338,12 +349,12 @@ void Comando::comandoColher(Jardim* jardim, istringstream& iss, ostream& out){
     }
 
     if ( !converteCoordenada(coords, lin, col) ) {
-        out << "Erro: Coordenadas inválidas.\n" << endl;
+        out << "Erro: Coordenadas invalidas.\n" << endl;
         return;
     }
 
     if ( !jardim->posicaoValida(lin, col) ) {
-        out << "Erro: Posição fora dos limites.\n" << endl;
+        out << "Erro: Posicao fora dos limites.\n" << endl;
         return;
     }
 
@@ -367,7 +378,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
 
     bool encontrou = false;
 
-    out << "Ferramentas disponíveis:\n";
+    out << "Ferramentas disponiveis:\n";
 
     // Ferramentas no SOLO
     for (int l = 0; l < jardim->getNumLinhas(); l++) {
@@ -377,7 +388,7 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
             if (solo != nullptr && solo->temFerramenta()) {
 
                 Ferramenta* f = solo->obterFerramenta();
-                out << "  Solo (" << char('A' + l) << char('A' + c) << ") - " << f->getNome() << " [nº série: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
+                out << "  Solo (" << char('A' + l) << char('A' + c) << ") - " << f->getNome() << " [nº serie: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
 
                 encontrou = true;
             }
@@ -387,26 +398,26 @@ void Comando::comandoListarFerramenta(Jardim* jardim, ostream& out) {
     // Ferramentas do JARDINEIRO
     Jardineiro& j = jardim->getJardineiro();
 
-    // Ferramenta na mão
+    // Ferramenta na mao
     Ferramenta* mao = j.obterFerramentaNaMao();
     if (mao != nullptr) {
-        out << "  Jardineiro (na mão) - " << mao->getNome() << " [nº série: " << mao->getNSerie() << ", capacidade: " << mao->getCapacidade() << "]\n";
+        out << "  Jardineiro (na mao) - " << mao->getNome() << " [nº serie: " << mao->getNSerie() << ", capacidade: " << mao->getCapacidade() << "]\n";
         encontrou = true;
     }
 
-    // Ferramentas no inventário
+    // Ferramentas no inventario
     for (int i = 0; ; i++) {
         Ferramenta* f = j.getFerramentaInventario(i);
         if (f == nullptr)
             break;
 
-        out << "  Jardineiro (inventário) - " << f->getNome() << " [nº série: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
+        out << "  Jardineiro (inventario) - " << f->getNome() << " [nº serie: " << f->getNSerie() << ", capacidade: " << f->getCapacidade() << "]\n";
 
         encontrou = true;
     }
 
     if (!encontrou) {
-        out << "  Nenhuma ferramenta disponível.\n";
+        out << "  Nenhuma ferramenta disponivel.\n";
     }
 }
 
@@ -419,12 +430,12 @@ void Comando::comandoLargaFerramenta(Jardim* jardim, ostream& out) {
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if (!jardineiro.estaDentro()) {
-        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro esta fora do jardim.\n" << endl;
         return;
     }
 
     if (jardineiro.obterFerramentaNaMao() == nullptr) {
-        out << "Erro: O jardineiro não tem nenhuma ferramenta na mão.\n" << endl;
+        out << "Erro: O jardineiro nao tem nenhuma ferramenta na mao.\n" << endl;
         return;
     }
 
@@ -443,7 +454,7 @@ void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss, ostream&
     Jardineiro& jardineiro = jardim->getJardineiro();
 
     if ( !jardineiro.estaDentro() ) {
-        out << "Erro: O jardineiro está fora do jardim.\n" << endl;
+        out << "Erro: O jardineiro esta fora do jardim.\n" << endl;
         return;
     }
 
@@ -458,7 +469,7 @@ void Comando::comandoPegaFerramenta(Jardim* jardim, istringstream& iss, ostream&
 
 void Comando::comandoCompra(Jardim* jardim, istringstream& iss, ostream& out) {
     if (jardim == nullptr) {
-        out << "Erro: ainda não existe um jardim.\n";
+        out << "Erro: ainda nao existe um jardim.\n";
         return;
     }
 
@@ -540,13 +551,12 @@ void Comando::comandoGrava(Jardim*& jardim, istringstream& iss, ostream& out) {
         return;
     }
 
-    // se já existir, não deixa (podes mudar para permitir overwrite, se quiseres)
+    // se ja existir, nao deixa (sem overwrite)
     if (lista_gravacoes.find(nome) != lista_gravacoes.end()) {
         out << "Ja existe uma gravacao com o nome '" << nome << "'.\n";
         return;
     }
 
-    // snapshot em memória (deep copy)
     lista_gravacoes[nome] = new Jardim(*jardim);
 
     out << "Gravacao '" << nome << "' guardada em memoria.\n";
@@ -571,7 +581,7 @@ void Comando::comandoRecupera(Jardim*& jardim, istringstream& iss, ostream& out)
     jardim = new Jardim(*it->second);
     jardim->getJardineiro().forcarFora();
 
-    // a cópia é eliminada (como o enunciado pede)
+    // a cópia e eliminada (como o enunciado pede)
     delete it->second;
     lista_gravacoes.erase(it);
 
@@ -637,27 +647,27 @@ void Comando::comandoRunscript(istringstream& iss, Interface& ui, ostream& out) 
 /// AJUDA
 string const Comando::comandoAjuda() {
     ostringstream oss;
-    oss << "Comandos disponíveis:\n"
-         << " Criação jardim:\n"
+    oss << "Comandos disponiveis:\n"
+         << " Criacao jardim:\n"
          << "   > jardim <linhas> <colunas>         - Cria um novo jardim\n"
-         << " Gestão do Tempo:\n"
-         << "   > avanca [n]                        - Avança o tempo\n"
+         << " Gestao do Tempo:\n"
+         << "   > avanca [n]                        - Avanca o tempo\n"
          << " Listagens:\n"
          << "   > lplantas                          - Lista todas as plantas existentes no jardim\n"
-         << "   > lplanta <linha> <coluna>          - Mostra informações detalhadas sobre a planta na posição indicada\n"
-         << "   > larea                             - Mostra todas as posições ocupadas (plantas e ferramentas) no jardim\n"
-         << "   > lsolo <linha> <coluna> [n]        - Mostra a informação do solo na posição indicada (e nas posições vizinhas, se n for fornecido)\n"
-         << "   > lferr                             - Lista todas as ferramentas disponíveis (no solo e no inventário do jardineiro)\n"
-         << " Movimento e posição do jardineiro:\n"
-         << "   > entra <linha> <coluna>            - Coloca o jardineiro dentro do jardim na posição indicada\n"
+         << "   > lplanta <linha> <coluna>          - Mostra informacoes detalhadas sobre a planta na posicao indicada\n"
+         << "   > larea                             - Mostra todas as posicoes ocupadas (plantas e ferramentas) no jardim\n"
+         << "   > lsolo <linha> <coluna> [n]        - Mostra a informacao do solo na posicao indicada (e nas posicoes vizinhas, se n for fornecido)\n"
+         << "   > lferr                             - Lista todas as ferramentas disponiveis (no solo e no inventario do jardineiro)\n"
+         << " Movimento e posicao do jardineiro:\n"
+         << "   > entra <linha> <coluna>            - Coloca o jardineiro dentro do jardim na posicao indicada\n"
          << "   > sai                               - Faz o jardineiro sair do jardim\n"
-         << "   > e, d, c, b                        - Movem o jardineiro uma célula: esquerda, direita, cima, baixo (respetivamente)\n"
-         << "   Ações de jardinagem:\n"
-         << "       > planta <linha> <coluna> <tipo> - Planta uma nova planta do tipo indicado na posição especificada (c, r, e, x)\n"
-         << "       > colhe <linha> <coluna>         - Colhe (remove) a planta na posição indicada\n"
+         << "   > e, d, c, b                        - Movem o jardineiro uma celula: esquerda, direita, cima, baixo (respetivamente)\n"
+         << "   Acoes de jardinagem:\n"
+         << "       > planta <linha> <coluna> <tipo> - Planta uma nova planta do tipo indicado na posicao especificada (c, r, e, x)\n"
+         << "       > colhe <linha> <coluna>         - Colhe (remove) a planta na posicao indicada\n"
          << "   Ferramentas:\n"
-         << "       > larga                         - Larga a ferramenta que o jardineiro tem atualmente na mão.\n"
-         << "       > pega <n>                      - Pega na ferramenta com número de série n (se estiver na célula ou inventário).\n"
+         << "       > larga                         - Larga a ferramenta que o jardineiro tem atualmente na mao.\n"
+         << "       > pega <n>                      - Pega na ferramenta com numero de serie n (se estiver na celula ou inventario).\n"
          << "       > compra <c>                    - Compra uma nova ferramenta do tipo c (ex.: g, a, t, z).\n"
          << " Ficheiros:\n"
          << "   > grava <nome_ficheiro>.txt         - Grava o ficheiro com o nome indicado\n"
@@ -674,7 +684,7 @@ void Comando::comandoFim(bool& ativo, ostream& out){
     out << "A terminar o simulador...\n";
 }
 
-/// CONVERTER CARACTERS PARA NÚMEROS
+/// CONVERTER CARACTERS PARA NuMEROS
 bool Comando::converteCoordenada(const string& s, int& linha, int& coluna) {
 
     if (s.length() != 2)

@@ -11,6 +11,6 @@ void Regador::utiliza(Solo& solo, ostream& out) {
         solo.modificaAgua(getConsumo());  // +10 água no solo
         reduzirCapacidade();                // -10 do regador
 
-        out << "Regador usado: +" << getConsumo() << " água no solo (regador: " << getCapacidade() << "/" << Settings::Regador::capacidade << ")\n";
+        out << "Regador usado: +" << getConsumo() << " agua no solo (regador: " << getCapacidade() << "/" << Settings::Regador::capacidade << ")\n";
     }
 }
